@@ -4,10 +4,6 @@ from numpy import sin, cos, arctan2, arcsin
 
 def label_loader(image_id, labels):
     pose = np.array(labels[image_id]['pose'])
-    pitch = pose[0]
-    yaw = pose[1]
-    roll = pose[2]
-    print(pitch, yaw, roll)
     Exp_Para = np.array(labels[image_id]['Exp_Para']).T
     Shape_Para = np.array(labels[image_id]['Shape_Para']).T
     pt2d = np.array(labels[image_id]['pt2d']).T
@@ -45,13 +41,13 @@ def eulerAngles_to_RotationMatrix(theta) :
 
 def label_3DDm_to_pose(label):
     parameters_3DMM = label_to_3DMM(label)
-    pose_3DDM = parameters_3DMM[0:12]
+    pose_3DDM = parameters_3DMM[:, 0:12]
     T = pose_3DDM.reshape((3, 4))
     R = T[:, 0:3]
     return rotationMatrix_to_EulerAngles(R)
 
 def label_to_3DMM(label):
-    return label[0]
+    return label[0, 0]
 
 def rotationMatrix_to_EulerAngles(R):
     ''' compute three Euler angles from a Rotation Matrix. 
@@ -80,4 +76,4 @@ def label_3DDm_to_pt2d(label):
     return pt2d
 
 def label_to_pt2d(label):
-    return label[1]
+    return label[0, 1]
