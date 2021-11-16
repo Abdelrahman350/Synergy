@@ -25,8 +25,8 @@ validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], 
      batch_size=5, input_shape=(64, 64, 3), shuffle=False)
 
 # print(labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'])
-#300W-LP/300W_LP/AFW/AFW_134212_1_2
-image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_3989161_1_0')
+#300W-LP/300W_LP/AFW/AFW_134212_1_2 #300W-LP/300W_LP/AFW/AFW_3989161_1_0
+image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
 
 def _get_suffix(filename):
     """a.jpg -> jpg"""
@@ -105,7 +105,7 @@ f, R, t, alpha_exp, alpha_Shape = pose_3DMM_to_fPt(label)
 
 # vertex = f*R @ (u_base +\
 #      w_shp_base @ alpha_Shape.T + w_exp_base @ alpha_exp.T).reshape(3, -1, order='F') + t
-vertex = f*(u_base).reshape(3, -1, order='F') + t
+vertex = f*R@(u_base).reshape(3, -1, order='F') + t
 
 # print('-----------------------------------------------')
 # print(vertex.shape)

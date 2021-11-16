@@ -23,8 +23,8 @@ validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], 
      batch_size=5, input_shape=(64, 64, 3), shuffle=False)
 
 # print(labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'])
-#300W-LP/300W_LP/AFW/AFW_134212_1_2
-image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_3989161_1_0')
+#300W-LP/300W_LP/AFW/AFW_134212_1_2 #300W-LP/300W_LP/AFW/AFW_3989161_1_0
+image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
 
 # model1 = MMFA()
 # print(model1.summary())
