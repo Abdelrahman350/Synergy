@@ -4,11 +4,11 @@ from numpy import sin, cos, arctan2, arcsin
 
 def label_loader(image_id, labels):
     pose = np.array(labels[image_id]['pose'])
-    Exp_Para = np.array(labels[image_id]['Exp_Para']).T
-    Shape_Para = np.array(labels[image_id]['Shape_Para']).T
-    pt2d = np.array(labels[image_id]['pt2d']).T
     pose_3DMM = pose_to_3DMM(pose)
-    parameters_3DMM = np.concatenate((pose_3DMM, Exp_Para, Shape_Para), axis=1)
+    alpha_exp = np.array(labels[image_id]['Exp_Para']).T
+    alpha_Shape = np.array(labels[image_id]['Shape_Para']).T
+    pt2d = np.array(labels[image_id]['pt2d']).T
+    parameters_3DMM = np.concatenate((pose_3DMM, alpha_exp, alpha_Shape), axis=1)
     return parameters_3DMM, pt2d
 
 def pose_to_3DMM(pose):
@@ -77,3 +77,15 @@ def label_3DDm_to_pt2d(label):
 
 def label_to_pt2d(label):
     return label[0, 1]
+
+def pose_3DMM_to_fPt(label):
+    parameters_3DMM = label_to_3DMM(label)
+    pose_3DDM = parameters_3DMM[:, 0:12]
+    T = pose_3DDM.reshape((3, 4))
+    R = T[:, 0:3]
+    t = np.expand_dims(T[:, -1], -1)
+    f = t[-1].copy()
+    t[-1] = 0
+    alpha_exp = parameters_3DMM[:, 12:22]
+    alpha_Shape = parameters_3DMM[:, 22:]
+    return f, R, t, alpha_exp, alpha_Shape

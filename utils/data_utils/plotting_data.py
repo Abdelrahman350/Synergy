@@ -36,7 +36,7 @@ def draw_axis(image_original, pitch, yaw, roll, tdx=None, tdy=None, size = 100):
 def draw_landmarks(image_original, pt2d):
     image = image_original.copy()
     for point in pt2d:
-        cv2.circle(image, (round(int(point[0])), round(int(point[1]))), 1, (0, 0, 1), -1)
+        cv2.circle(image, (round(int(point[0])), round(int(point[1]))), 2, (0, 0, 1), -1)
     return image
 
 def plot_pose_image(image, label):
