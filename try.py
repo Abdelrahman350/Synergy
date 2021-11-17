@@ -72,21 +72,6 @@ def get_transform_matrix(s, angles, t, height):
     :param t: [3]
     :return: 4x4 transmatrix
     """
-    # x, y, z = angles[0], angles[1], angles[2]
-
-    # Rx = np.array([[1, 0, 0],
-    #                [0, cos(x), sin(x)],
-    #                [0, -sin(x), cos(x)]])
-
-    # Ry = np.array([[cos(y), 0, -sin(y)],
-    #                [0, 1, 0],
-    #                [sin(y), 0, cos(y)]])
-                   
-    # Rz = np.array([[cos(z), sin(z), 0],
-    #                [-sin(z), cos(z), 0],
-    #                [0, 0, 1]])
-    # # rotate
-    # R = Rx.dot(Ry).dot(Rz)
     R = eulerAngles_to_RotationMatrix(angles)
     R = R.astype(np.float32)
     T = np.zeros((4, 4))

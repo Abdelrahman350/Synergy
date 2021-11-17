@@ -8,7 +8,13 @@ class PCA(Layer):
         self.pca_dir = pca_dir
     
     def build(self):
-        
+        self.w_shp = self.parsing_npy('w_shp_sim.npy')
+        self.w_exp = self.parsing_npy('w_exp_sim.npy')
+        self.w_tex = self.parsing_npy('w_tex_sim.npy')
 
     def forward(self):
         pass
+
+    def parsing_npy(self, file):
+        npy_file = tf.io.read_file(self.pca_dir+file)
+        return tf.io.decode_raw(npy_file, tf.float16)
