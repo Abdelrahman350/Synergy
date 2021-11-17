@@ -21,22 +21,20 @@ def pose_to_3DMM(pose):
     return pose_3DDM
 
 # Calculates Rotation Matrix given euler angles.
-def eulerAngles_to_RotationMatrix(theta) :
-    R_x = np.array([[1,         0,                   0        ],
-                    [0,         cos(theta[0]), -sin(theta[0]) ],
-                    [0,         sin(theta[0]),  cos(theta[0]) ]
-                    ])
+def eulerAngles_to_RotationMatrix(theta):
+    x, y, z = theta[0], theta[1], theta[2]
+    Rx = np.array([[1,       0,      0],
+                   [0,  cos(x), sin(x)],
+                   [0, -sin(x), cos(x)]])
 
-    R_y = np.array([[cos(theta[1]),    0,      sin(theta[1])  ],
-                    [0,                1,      0              ],
-                    [-sin(theta[1]),   0,      cos(theta[1])  ]
-                    ])
-
-    R_z = np.array([[cos(theta[2]),   -sin(theta[2]),     0],
-                    [sin(theta[2]),    cos(theta[2]),     0],
-                    [0,                     0,            1]
-                    ])
-    R = np.dot(R_z, np.dot(R_y, R_x))
+    Ry = np.array([[cos(y), 0, -sin(y)],
+                   [     0, 1,       0],
+                   [sin(y), 0,  cos(y)]])
+                   
+    Rz = np.array([[cos(z) , sin(z), 0],
+                   [-sin(z), cos(z), 0],
+                   [0      ,      0, 1]])
+    R = Rx.dot(Ry).dot(Rz)
     return R
 
 def label_3DDm_to_pose(label):

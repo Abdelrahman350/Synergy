@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 #labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
 from utils.data_utils.plotting_data import *
-from data_generator.preprocessing_labels import label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt
+from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt
 from data_generator import data_generator
 from model.encoder import MMFA
 from model.decoder import Landmarks_to_3DMM
@@ -72,21 +72,22 @@ def get_transform_matrix(s, angles, t, height):
     :param t: [3]
     :return: 4x4 transmatrix
     """
-    x, y, z = angles[0], angles[1], angles[2]
+    # x, y, z = angles[0], angles[1], angles[2]
 
-    Rx = np.array([[1, 0, 0],
-                   [0, cos(x), sin(x)],
-                   [0, -sin(x), cos(x)]])
+    # Rx = np.array([[1, 0, 0],
+    #                [0, cos(x), sin(x)],
+    #                [0, -sin(x), cos(x)]])
 
-    Ry = np.array([[cos(y), 0, -sin(y)],
-                   [0, 1, 0],
-                   [sin(y), 0, cos(y)]])
+    # Ry = np.array([[cos(y), 0, -sin(y)],
+    #                [0, 1, 0],
+    #                [sin(y), 0, cos(y)]])
                    
-    Rz = np.array([[cos(z), sin(z), 0],
-                   [-sin(z), cos(z), 0],
-                   [0, 0, 1]])
-    # rotate
-    R = Rx.dot(Ry).dot(Rz)
+    # Rz = np.array([[cos(z), sin(z), 0],
+    #                [-sin(z), cos(z), 0],
+    #                [0, 0, 1]])
+    # # rotate
+    # R = Rx.dot(Ry).dot(Rz)
+    R = eulerAngles_to_RotationMatrix(angles)
     R = R.astype(np.float32)
     T = np.zeros((4, 4))
     T[0:3, 0:3] = R
