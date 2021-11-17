@@ -50,22 +50,61 @@ keypoints = _load(osp.join(d, 'keypoints_sim.npy'))
 
 def draw_landmarks_(image_original, pt2d):
     image = image_original.copy()
-    X, y, _ = image.shape
     for point in pt2d:
-        cv2.circle(image, (X-int(round(point[0])), y-int(round(point[1]))), 2, (0, 0, 1), -1)
+        cv2.circle(image, (int(round(point[0])), int(round(point[1]))), 2, (0, 0, 1), -1)
     return image
 
 def plot_landmarks_try(image, pts):
-    pt2d = pts.T
-    image = draw_landmarks_(image, pt2d)
+    image = draw_landmarks_(image, pts)
     cv2.imwrite(f"output_landmarks_try.jpg", image*255)
     # import matplotlib.pyplot as plt
     # fig = plt.figure(figsize = (10, 7))
     # plt.imshow(image)
     # plt.xlabel("0")
     # plt.ylabel("1")
-    # plt.scatter(pt2d[:, 0], pt2d[:, 1], color = "red")
+    # plt.scatter(pts[:, 0], pts[:, 1], color = "red")
     # plt.savefig('foo.png')
+
+def get_transform_matrix(s, angles, t, height):
+    """
+    :param s: scale
+    :param angles: [3] rad
+    :param t: [3]
+    :return: 4x4 transmatrix
+    """
+    x, y, z = angles[0], angles[1], angles[2]
+
+    Rx = np.array([[1, 0, 0],
+                   [0, cos(x), sin(x)],
+                   [0, -sin(x), cos(x)]])
+
+    Ry = np.array([[cos(y), 0, -sin(y)],
+                   [0, 1, 0],
+                   [sin(y), 0, cos(y)]])
+                   
+    Rz = np.array([[cos(z), sin(z), 0],
+                   [-sin(z), cos(z), 0],
+                   [0, 0, 1]])
+    # rotate
+    R = Rx.dot(Ry).dot(Rz)
+    R = R.astype(np.float32)
+    T = np.zeros((4, 4))
+    T[0:3, 0:3] = R
+    T[3, 3] = 1.
+    # scale
+    S = np.diagflat([s, s, s, 1.])
+    T = S.dot(T)
+    # offset move
+    M = np.diagflat([1., 1., 1., 1.])
+    M[0:3, 3] = t.astype(np.float32)
+    T = M.dot(T)
+    # revert height
+    # x[:,1]=height-x[:,1]
+    H = np.diagflat([1., 1., 1., 1.])
+    H[1, 1] = -1.0
+    H[1, 3] = height
+    T = H.dot(T)
+    return T.astype(np.float32)
 
 # PCA basis for shape, expression, texture
 w_shp = _load(osp.join(d, 'w_shp_sim.npy'))
@@ -97,7 +136,6 @@ w_exp_base = w_exp[keypoints]
 
 # print('-----------------------------------------------')
 #label = label * param_std + param_mean
-f, R, t, alpha_exp, alpha_Shape = pose_3DMM_to_fPt(label)
 
 # print(t.shape)
 # print("alpha_exp.shape: ", alpha_exp.shape)
@@ -105,7 +143,6 @@ f, R, t, alpha_exp, alpha_Shape = pose_3DMM_to_fPt(label)
 
 # vertex = f*R @ (u_base +\
 #      w_shp_base @ alpha_Shape.T + w_exp_base @ alpha_exp.T).reshape(3, -1, order='F') + t
-vertex = f*R@(u_base).reshape(3, -1, order='F') + t
 
 # print('-----------------------------------------------')
 # print(vertex.shape)
@@ -113,4 +150,28 @@ vertex = f*R@(u_base).reshape(3, -1, order='F') + t
 # print(vertex.T)
 # print()
 # print(label_to_pt2d(label))
-plot_landmarks_try(image, vertex)
+
+# vertex = u_base +\
+#      w_shp_base @ alpha_Shape.T + w_exp_base @ alpha_exp.T
+import scipy.io as sio
+
+bfm_info = sio.loadmat('../../Datasets/300W-LP/300W_LP/AFW/AFW_134212_1_2.mat')
+
+[height, _, _] = image.shape
+pose_para = bfm_info['Pose_Para'].T.astype(np.float32)
+shape_para = bfm_info['Shape_Para'][0:40].astype(np.float32)
+exp_para = bfm_info['Exp_Para'][0:10].astype(np.float32)
+
+vertices = u_base + w_shp_base.dot(shape_para) + w_exp_base.dot(exp_para)
+vertices = np.reshape(vertices, [int(3), int(len(vertices) / 3)], 'F').T
+
+s = pose_para[-1, 0]
+angles = pose_para[:3, 0]
+t = pose_para[3:6, 0]
+
+T_bfm = get_transform_matrix(s, angles, t, height)
+temp_ones_vec = np.ones((len(vertices), 1))
+homo_vertices = np.concatenate((vertices, temp_ones_vec), axis=-1)
+image_vertices = homo_vertices.dot(T_bfm.T)[:, 0:3]
+
+plot_landmarks_try(image, image_vertices)
