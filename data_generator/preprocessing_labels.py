@@ -61,7 +61,7 @@ def rotationMatrix_to_EulerAngles(R):
         roll = arctan2(R[0, 1]/cos(yaw), R[0, 0]/cos(yaw))
     else:  # Gimbal lock
         roll = 0  # can be anything
-        if R[2, 0] == -1:
+        if R[0, 2] == -1:
             yaw = np.pi / 2
             pitch = roll + arctan2(R[1, 0], R[2, 0])
         else:

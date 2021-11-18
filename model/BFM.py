@@ -28,7 +28,9 @@ class PCA(Layer):
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints])
 
     def call(self, pose_para, alpha_exp, alpha_shp):
-        vertices = self.u_base + tf.matmul(self.w_exp_base, alpha_exp) + tf.matmul(self.w_shp_base, alpha_shp)
+        vertices = self.u_base + tf.matmul(self.w_exp_base, alpha_exp) +\
+             tf.matmul(self.w_shp_base, alpha_shp)
+        vertices = gittf.reshape(vertices, (int(len(vertices)/3), 3))
         return vertices
 
     def parsing_npy(self, file):

@@ -10,6 +10,7 @@ from model.encoder import MMFA
 from model.decoder import Landmarks_to_3DMM
 import json
 import tensorflow as tf
+tf.compat.v1.enable_eager_execution()
 
 json_file_path = "../../Datasets/partition_LP.json"
 with open(json_file_path, 'r') as j:
@@ -150,9 +151,19 @@ pose_para = bfm_info['Pose_Para'].T.astype(np.float32)
 shape_para = bfm_info['Shape_Para'][0:40].astype(np.float32)
 exp_para = bfm_info['Exp_Para'][0:10].astype(np.float32)
 
-vertices = u_base + w_shp_base.dot(shape_para) + w_exp_base.dot(exp_para)
-vertices = np.reshape(vertices, [int(3), int(len(vertices) / 3)], 'F').T
-
+#vertices = u_base + w_shp_base.dot(shape_para) + w_exp_base.dot(exp_para)
+pca = PCA()
+pca.build()
+vertices_tf = pca.call(pose_para, exp_para, shape_para)
+vertices = tf.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
+vertices = tf.make_ndarray(vertices)
+print(vertices.shape)
+# vertices = np.reshape(vertices, [int(3), int(len(vertices) / 3)], 'F').T
+# print('_____________________________________________')
+# print(vertices[0:5])
+# print()
+# print(tf.transpose(tf.reshape(vertices_tf, (int(len(vertices_tf)/3), 3)))[0:5])
+# print('_____________________________________________')
 s = pose_para[-1, 0]
 angles = pose_para[:3, 0]
 print('True angles: ', angles)
