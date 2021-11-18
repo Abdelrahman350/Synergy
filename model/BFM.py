@@ -27,8 +27,9 @@ class PCA(Layer):
         self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints])
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints])
 
-    def forward(self, pose_para, alpha_exp, alpha_shp):
-        pass
+    def call(self, pose_para, alpha_exp, alpha_shp):
+        vertices = self.u_base + tf.matmul(self.w_exp_base, alpha_exp) + tf.matmul(self.w_shp_base, alpha_shp)
+        return vertices
 
     def parsing_npy(self, file):
         return np.load(self.pca_dir+file)
