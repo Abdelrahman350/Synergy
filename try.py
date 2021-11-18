@@ -1,4 +1,5 @@
 import os.path as osp
+from model.BFM import PCA
 import numpy as np
 import pickle
 #labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
@@ -161,3 +162,7 @@ homo_vertices = np.concatenate((vertices, temp_ones_vec), axis=-1)
 image_vertices = homo_vertices.dot(T_bfm.T)[:, 0:3]
 
 plot_landmarks_try(image, image_vertices)
+
+pca = PCA()
+pca.build()
+print(pca.w_exp)

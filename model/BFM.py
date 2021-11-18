@@ -1,11 +1,15 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Layer
+import numpy as np
 
 class PCA(Layer):
     def __init__(self, num_landmarks=68, pca_dir = '3dmm_data/'):
         super(PCA, self).__init__()
         self.num_landmarks = num_landmarks
         self.pca_dir = pca_dir
+        self.w_shp = 0
+        self.w_exp = 0
+        self.w_tex = 0
     
     def build(self):
         self.w_shp = self.parsing_npy('w_shp_sim.npy')
@@ -16,5 +20,5 @@ class PCA(Layer):
         pass
 
     def parsing_npy(self, file):
-        npy_file = tf.io.read_file(self.pca_dir+file)
-        return tf.io.decode_raw(npy_file, tf.float16)
+        npy_array = np.load(self.pca_dir+file)
+        return tf.convert_to_tensor(npy_array, dtype=tf.float32)
