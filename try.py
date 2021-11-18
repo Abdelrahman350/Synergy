@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 #labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
 from utils.data_utils.plotting_data import *
-from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt
+from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt, rotationMatrix_to_EulerAngles
 from data_generator import data_generator
 from model.encoder import MMFA
 from model.decoder import Landmarks_to_3DMM
@@ -58,13 +58,13 @@ def draw_landmarks_(image_original, pt2d):
 def plot_landmarks_try(image, pts):
     image = draw_landmarks_(image, pts)
     cv2.imwrite(f"output_landmarks_try.jpg", image*255)
-    # import matplotlib.pyplot as plt
-    # fig = plt.figure(figsize = (10, 7))
-    # plt.imshow(image)
-    # plt.xlabel("0")
-    # plt.ylabel("1")
-    # plt.scatter(pts[:, 0], pts[:, 1], color = "red")
-    # plt.savefig('foo.png')
+    import matplotlib.pyplot as plt
+    fig = plt.figure(figsize = (10, 7))
+    plt.imshow(image)
+    plt.xlabel("0")
+    plt.ylabel("1")
+    plt.scatter(pts[:, 0], pts[:, 1], color = "red", linewidths=0.1)
+    plt.savefig('foo.png')
 
 def get_transform_matrix(s, angles, t, height):
     """
@@ -74,6 +74,7 @@ def get_transform_matrix(s, angles, t, height):
     :return: 4x4 transmatrix
     """
     R = eulerAngles_to_RotationMatrix(angles)
+    print('inv_angles: ', rotationMatrix_to_EulerAngles(R))
     R = R.astype(np.float32)
     T = np.zeros((4, 4))
     T[0:3, 0:3] = R
@@ -154,6 +155,8 @@ vertices = np.reshape(vertices, [int(3), int(len(vertices) / 3)], 'F').T
 
 s = pose_para[-1, 0]
 angles = pose_para[:3, 0]
+print('True angles: ', angles)
+print('true_inv: ', label_3DDm_to_pose(label))
 t = pose_para[3:6, 0]
 
 T_bfm = get_transform_matrix(s, angles, t, height)
@@ -165,4 +168,4 @@ plot_landmarks_try(image, image_vertices)
 
 pca = PCA()
 pca.build()
-print(pca.w_exp)
+#print(pca.call(pose_para, exp_para, shape_para))

@@ -55,18 +55,18 @@ def rotationMatrix_to_EulerAngles(R):
     Returns:
         pitch, yaw, roll
     '''
-    if R[2, 0] != 1 and R[2, 0] != -1:
-        yaw = -arcsin(R[2, 0])
-        pitch = arctan2(R[2, 1]/cos(yaw), R[2, 2]/cos(yaw))
-        roll = arctan2(R[1, 0]/cos(yaw), R[0, 0]/cos(yaw))
+    if R[0, 2] != 1 and R[0, 2] != -1:
+        yaw = -arcsin(R[0, 2])
+        pitch = arctan2(R[1, 2]/cos(yaw), R[2, 2]/cos(yaw))
+        roll = arctan2(R[0, 1]/cos(yaw), R[0, 0]/cos(yaw))
     else:  # Gimbal lock
         roll = 0  # can be anything
         if R[2, 0] == -1:
             yaw = np.pi / 2
-            pitch = roll + arctan2(R[0, 1], R[0, 2])
+            pitch = roll + arctan2(R[1, 0], R[2, 0])
         else:
             yaw = -np.pi / 2
-            pitch = -roll + arctan2(-R[0, 1], -R[0, 2])
+            pitch = -roll + arctan2(-R[1, 0], -R[2, 0])
     return pitch, yaw, roll
 
 def label_3DDm_to_pt2d(label):
