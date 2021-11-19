@@ -155,7 +155,7 @@ exp_para = bfm_info['Exp_Para'][0:10].astype(np.float32)
 pca = PCA(height=height)
 pca.build()
 vertices_tf = pca.call(pose_para, exp_para, shape_para)
-vertices = tf.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
+vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
 print(vertices.shape)
 # vertices = np.reshape(vertices, [int(3), int(len(vertices) / 3)], 'F').T

@@ -50,7 +50,7 @@ class PCA(Layer):
         return pickle.load(open(self.pca_dir+file, 'rb'))
     
     def convert_npy_to_tensor(self, npy_array):
-        return tf.convert_to_tensor(npy_array, dtype=tf.float32)
+        return tf.Variable(npy_array, dtype=tf.float32, trainable=False)
     
     def transform_matrix(self, s, angles, t, height):
         """
