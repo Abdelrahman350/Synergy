@@ -1,5 +1,7 @@
 import os.path as osp
-from model.BFM import PCA
+from model.synergy import create_synergy
+from model.backbone import create_MobileNetV2
+from model.morhaple_face_model import PCA
 import numpy as np
 import pickle
 #labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
@@ -177,3 +179,5 @@ t = pose_para[3:6, 0]
 
 plot_landmarks_try(image, vertices)
 
+model = create_synergy((224, 224, 3))
+print(model.summary())
