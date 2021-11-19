@@ -170,10 +170,10 @@ print('True angles: ', angles)
 print('true_inv: ', label_3DDm_to_pose(label))
 t = pose_para[3:6, 0]
 
-T_bfm = get_transform_matrix(s, angles, t, height)
-temp_ones_vec = np.ones((len(vertices), 1))
-homo_vertices = np.concatenate((vertices, temp_ones_vec), axis=-1)
-image_vertices = homo_vertices.dot(T_bfm.T)[:, 0:3]
+# T_bfm = get_transform_matrix(s, angles, t, height)
+# temp_ones_vec = np.ones((len(vertices), 1))
+# homo_vertices = np.concatenate((vertices, temp_ones_vec), axis=-1)
+# image_vertices = homo_vertices.dot(T_bfm.T)[:, 0:3]
 
-plot_landmarks_try(image, image_vertices)
+plot_landmarks_try(image, vertices)
 
