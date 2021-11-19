@@ -152,7 +152,7 @@ shape_para = bfm_info['Shape_Para'][0:40].astype(np.float32)
 exp_para = bfm_info['Exp_Para'][0:10].astype(np.float32)
 
 #vertices = u_base + w_shp_base.dot(shape_para) + w_exp_base.dot(exp_para)
-pca = PCA()
+pca = PCA(height=height)
 pca.build()
 vertices_tf = pca.call(pose_para, exp_para, shape_para)
 vertices = tf.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
@@ -177,6 +177,3 @@ image_vertices = homo_vertices.dot(T_bfm.T)[:, 0:3]
 
 plot_landmarks_try(image, image_vertices)
 
-pca = PCA()
-pca.build()
-#print(pca.call(pose_para, exp_para, shape_para))
