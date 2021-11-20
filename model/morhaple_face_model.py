@@ -14,7 +14,6 @@ class PCA(Layer):
         self.w_exp_base = 0
         self.w_shp_base = 0
     
-    def build(self):
         w_exp = self.parsing_npy('w_exp_sim.npy')
         w_shp = self.parsing_npy('w_shp_sim.npy')
         w_tex = self.parsing_npy('w_tex_sim.npy')
