@@ -76,7 +76,7 @@ def label_3DDm_to_pt2d(label):
 def label_to_pt2d(label):
     return label[0, 1]
 
-def pose_3DMM_to_fRt(label):
+def pose_3DMM_to_sRt(label):
     parameters_3DMM = label_to_3DMM(label)
     pose_3DDM = parameters_3DMM[:, 0:12]
     T = pose_3DDM.reshape((3, 4))

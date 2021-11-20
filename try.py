@@ -6,7 +6,7 @@ import numpy as np
 import pickle
 #labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
 from utils.data_utils.plotting_data import *
-from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt, pose_to_3DMM, rotationMatrix_to_EulerAngles
+from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_sRt, pose_to_3DMM, rotationMatrix_to_EulerAngles
 from data_generator import data_generator
 from model.encoder import MMFA
 from model.decoder import Landmarks_to_3DMM
@@ -158,7 +158,7 @@ R = eulerAngles_to_RotationMatrix(pose_para[0:3])
 print("R_true = ", R)
 pca = PCA(height=height)
 print(pose_3dmm.shape, exp_para.shape, shape_para.shape)
-vertices_tf = pca.call(pose_para, exp_para, shape_para)
+vertices_tf = pca.call(pose_3dmm, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
 print(vertices.shape)
