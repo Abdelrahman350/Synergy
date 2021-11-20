@@ -15,9 +15,9 @@ def pose_to_3DMM(pose):
     R = eulerAngles_to_RotationMatrix(pose[:3])
     t = np.expand_dims([*pose[3:5], 0], -1)
     T = np.concatenate((R, t), axis=1)
-    f = pose[-1]
+    s = pose[-1]
     pose_3DDM = T.reshape((1, -1))
-    pose_3DDM[0, -1] = f
+    pose_3DDM[0, -1] = s
     return pose_3DDM
 
 # Calculates Rotation Matrix given euler angles.
