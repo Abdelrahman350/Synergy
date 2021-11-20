@@ -6,7 +6,7 @@ import numpy as np
 import pickle
 #labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
 from utils.data_utils.plotting_data import *
-from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt, rotationMatrix_to_EulerAngles
+from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, label_3DDm_to_pose, label_3DDm_to_pt2d, label_to_pt2d, pose_3DMM_to_fPt, pose_to_3DMM, rotationMatrix_to_EulerAngles
 from data_generator import data_generator
 from model.encoder import MMFA
 from model.decoder import Landmarks_to_3DMM
@@ -149,13 +149,14 @@ import scipy.io as sio
 bfm_info = sio.loadmat('../../Datasets/300W-LP/300W_LP/AFW/AFW_134212_1_2.mat')
 
 [height, _, _] = image.shape
-pose_para = bfm_info['Pose_Para'].T.astype(np.float32)
-shape_para = bfm_info['Shape_Para'][0:40].astype(np.float32)
-exp_para = bfm_info['Exp_Para'][0:10].astype(np.float32)
+pose_para = np.ravel(bfm_info['Pose_Para'])
+pose_3dmm = np.ravel(pose_to_3DMM(pose_para))
+shape_para = np.ravel(bfm_info['Shape_Para'][0:40])
+exp_para = np.ravel(bfm_info['Exp_Para'][0:10])
 
-#vertices = u_base + w_shp_base.dot(shape_para) + w_exp_base.dot(exp_para)
+
 pca = PCA(height=height)
-print(pose_para.shape, exp_para.shape, shape_para.shape)
+print(pose_3dmm.shape, exp_para.shape, shape_para.shape)
 vertices_tf = pca.call(pose_para, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
@@ -166,11 +167,11 @@ print(vertices.shape)
 # print()
 # print(tf.transpose(tf.reshape(vertices_tf, (int(len(vertices_tf)/3), 3)))[0:5])
 # print('_____________________________________________')
-s = pose_para[-1, 0]
-angles = pose_para[:3, 0]
+s = pose_para[-1]
+angles = pose_para[:3]
 print('True angles: ', angles)
 print('true_inv: ', label_3DDm_to_pose(label))
-t = pose_para[3:6, 0]
+t = pose_para[3:6]
 
 # T_bfm = get_transform_matrix(s, angles, t, height)
 # temp_ones_vec = np.ones((len(vertices), 1))

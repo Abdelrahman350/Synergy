@@ -29,15 +29,22 @@ class PCA(Layer):
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints])
 
     def call(self, pose_para, alpha_exp, alpha_shp):
+        alpha_exp = tf.expand_dims(alpha_exp, -1)
+        alpha_shp = tf.expand_dims(alpha_shp, -1)
+
+        alpha_exp = tf.cast(alpha_exp, tf.float32)
+        alpha_shp = tf.cast(alpha_shp, tf.float32)
+        print(pose_para.dtype)
+        print(alpha_exp.dtype)
+        print(alpha_shp.dtype)
         vertices = self.u_base + tf.matmul(self.w_exp_base, alpha_exp) +\
              tf.matmul(self.w_shp_base, alpha_shp)
         vertices = tf.reshape(vertices, (int(len(vertices)/3), 3))
-        s = pose_para[-1, 0]
-        angles = pose_para[:3, 0]
-        t = pose_para[3:6, 0]
 
-        T_bfm = self.transform_matrix(s, angles, t, self.height)
+        T_bfm = self.transform_matrix(pose_para, self.height)
         temp_ones_vec = tf.ones((len(vertices), 1))
+        print(vertices.dtype)
+        print(temp_ones_vec.dtype)
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1)
         image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm))[:, 0:3]
         return image_vertices
@@ -51,13 +58,14 @@ class PCA(Layer):
     def convert_npy_to_tensor(self, npy_array):
         return tf.Variable(npy_array, dtype=tf.float32, trainable=False)
     
-    def transform_matrix(self, s, angles, t, height):
+    def transform_matrix(self, pose_para, height):
         """
-        :param s: scale
-        :param angles: [3] rad
-        :param t: [3]
+        :pose_para : [7] pitch, yaw, roll, tx, ty, tz, scale
         :return: 4x4 transmatrix
         """
+        s = pose_para[-1]
+        angles = pose_para[:3]
+        t = pose_para[3:6]
         R = self.eulerAngles_to_RotationMatrix(angles)
         R = tf.cast(R, tf.float32)
         T = tf.Variable(tf.zeros((4, 4)))
