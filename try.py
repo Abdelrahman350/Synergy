@@ -154,7 +154,8 @@ pose_3dmm = np.ravel(pose_to_3DMM(pose_para))
 shape_para = np.ravel(bfm_info['Shape_Para'][0:40])
 exp_para = np.ravel(bfm_info['Exp_Para'][0:10])
 
-
+R = eulerAngles_to_RotationMatrix(pose_para[0:3])
+print("R_true = ", R)
 pca = PCA(height=height)
 print(pose_3dmm.shape, exp_para.shape, shape_para.shape)
 vertices_tf = pca.call(pose_para, exp_para, shape_para)

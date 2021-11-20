@@ -100,3 +100,12 @@ class PCA(Layer):
                           [0         ,         0, 1]], trainable=False)
         R = tf.matmul(Rx, tf.matmul(Ry, Rz))
         return R
+    
+    def pose_to_3DMM(self, pose):
+        R = eulerAngles_to_RotationMatrix(pose[:3])
+        t = np.expand_dims([*pose[3:5], 0], -1)
+        T = np.concatenate((R, t), axis=1)
+        f = pose[-1]
+        pose_3DDM = T.reshape((1, -1))
+        pose_3DDM[0, -1] = f
+        return pose_3DDM

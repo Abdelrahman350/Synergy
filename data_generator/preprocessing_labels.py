@@ -76,14 +76,14 @@ def label_3DDm_to_pt2d(label):
 def label_to_pt2d(label):
     return label[0, 1]
 
-def pose_3DMM_to_fPt(label):
+def pose_3DMM_to_fRt(label):
     parameters_3DMM = label_to_3DMM(label)
     pose_3DDM = parameters_3DMM[:, 0:12]
     T = pose_3DDM.reshape((3, 4))
     R = T[:, 0:3]
     t = np.expand_dims(T[:, -1], -1)
-    f = t[-1].copy()
+    s = t[-1].copy()
     t[-1] = 0
     alpha_exp = parameters_3DMM[:, 12:22]
     alpha_Shape = parameters_3DMM[:, 22:]
-    return f, R, t, alpha_exp, alpha_Shape
+    return s, R, t, alpha_exp, alpha_Shape
