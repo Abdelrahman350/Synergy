@@ -5,7 +5,7 @@ from model.encoder import MMFA
 from model.decoder import Landmarks_to_3DMM
 import tensorflow as tf
 from tensorflow.keras import Model
-from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout 
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout, Flatten
 
 # Landmarks_to_3DMM()
 # PCA()
@@ -14,14 +14,14 @@ from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropou
 def create_synergy(input_shape, classes=62):
     inputs = Input(shape=input_shape)
     X = create_MobileNetV2(input_shape=input_shape, classes=classes)(inputs)
+    X_flattened = Flatten(name='Flatten')(X)
     Z = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
-    X_p = Dropout(0.2)(X)
-    pose = Dense(name='pose', units=12)(X_p)
-    X_exp = Dropout(0.2)(X)
-    expression = Dense(name='expression', units=10)(X_exp)
-    X_shape = Dropout(0.2)(X)
-    shape = Dense(name='shape', units=40)(X_shape)
+    X_p = Dropout(0.2)(X_flattened)
+    pose_para = Dense(name='pose_para', units=12)(X_p)
+    X_exp = Dropout(0.2)(X_flattened)
+    alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
+    X_shape = Dropout(0.2)(X_flattened)
+    alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
 
-
-    model = Model(inputs=[inputs], outputs=[Z, pose, expression, shape], name='Synergy')
+    model = Model(inputs=[inputs], outputs=[Z, pose_para, alpha_exp, alpha_shp], name='Synergy')
     return model
