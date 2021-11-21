@@ -1,7 +1,7 @@
 from os import name
 from model.backbone import create_MobileNetV2
 from model.morhaple_face_model import PCA
-from model.encoder import MMFA
+from model.encoder import MultiAttribute_FeatureAggregation
 from model.decoder import Landmarks_to_3DMM
 import tensorflow as tf
 from tensorflow.keras import Model
@@ -29,9 +29,8 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     Z = tf.expand_dims(Z, 1)
     alpha_exp = tf.expand_dims(alpha_exp, 1)
     alpha_shp = tf.expand_dims(alpha_shp, 1)
-    print(Lc, Z, alpha_exp, alpha_shp)
-    MMFA_model = MMFA(num_points=num_points)
-    Lr = MMFA_model(Lc, Z, alpha_exp, alpha_shp)
+    print(Lc.shape)
+    Lr = MultiAttribute_FeatureAggregation(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
     pose_3DMM, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
          num_points=num_points)(Lr)
     model = Model(inputs=[inputs], outputs=[pose_3DMM, Lc, Lr, alpha_exp, alpha_shp], name='Synergy')
