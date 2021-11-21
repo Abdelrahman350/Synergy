@@ -38,16 +38,12 @@ class PCA(Layer):
 
         vertices = self.u_base + tf.matmul(self.w_exp_base, alpha_exp) +\
              tf.matmul(self.w_shp_base, alpha_shp)
-        vertices = tf.reshape(vertices, (self.num_landmarks, 3))
+        vertices = tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3))
         T_bfm = self.transform_matrix(pose_3DMM, self.height)
-        temp_ones_vec = tf.ones((vertices.shape[0], 1))
+        temp_ones_vec = tf.ones((tf.shape(vertices)[0], tf.shape(vertices)[1], 1))
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1)
-        image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm))[:, 0:3]
-        print("OUTPUT = ", image_vertices.shape)
+        image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm))[:, :, 0:3]
         return image_vertices
-    
-    def compute_output_shape(self, input_shape):
-        return tf.TensorShape([None, self.num_landmarks, 3])
 
     def parsing_npy(self, file):
         return np.load(self.pca_dir+file)
