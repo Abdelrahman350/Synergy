@@ -26,7 +26,14 @@ validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], 
 #300W-LP/300W_LP/AFW/AFW_134212_1_2 #300W-LP/300W_LP/AFW/AFW_3989161_1_0
 image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
 
-model1 = MMFA()
+#model1 = MMFA()
+# Define Sequential model with 3 layers
+model1 = tf.keras.Sequential(
+    [
+        MMFA()
+    ]
+)
+model1.build((68, 3))
 print(model1.summary())
 tf.keras.utils.plot_model(model1, "encoder.png")
 

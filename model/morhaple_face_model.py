@@ -36,8 +36,8 @@ class PCA(Layer):
         alpha_exp = tf.cast(alpha_exp, tf.float32)
         alpha_shp = tf.cast(alpha_shp, tf.float32)
 
-        vertices = self.u_base + tf.matmul(self.w_exp_base, alpha_exp) +\
-             tf.matmul(self.w_shp_base, alpha_shp)
+        vertices = tf.add(self.u_base, tf.add(tf.matmul(self.w_exp_base, alpha_exp),\
+             tf.matmul(self.w_shp_base, alpha_shp)))
         vertices = tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3))
         T_bfm = self.transform_matrix(pose_3DMM, self.height)
         temp_ones_vec = tf.ones((tf.shape(vertices)[0], tf.shape(vertices)[1], 1))
