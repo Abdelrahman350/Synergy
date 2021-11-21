@@ -4,12 +4,12 @@ from tensorflow.keras.layers import ReLU, MaxPool1D, concatenate
 from tensorflow.keras import Model
 
 def MMFA(num_points=68):
-    # Z, alpha_sh, alpha_exp, Lc
+    # Z, alpha_shp, alpha_exp, Lc
     # Define input layers
     Lc = Input(shape=(68, 3), name='Landmarks')
     Z = Input(shape=(1, 1280), name='Z')
     alpha_exp = Input(shape=(1, 10), name='alpha_exp')
-    alpha_sh = Input(shape=(1, 40), name='alpha_sh')
+    alpha_shp = Input(shape=(1, 40), name='alpha_shp')
 
     # First hidden layer
     conv1 = Conv1D(filters=64, kernel_size=1, name='Conv1D_1')(Lc)
@@ -43,7 +43,7 @@ def MMFA(num_points=68):
     global_features = MaxPool1D(pool_size=num_points, name='MaxPool1D')(relu5)
     
     # Aggregate point features and global features
-    concate = concatenate([global_features, Z, alpha_sh, alpha_exp], name='Concate_Global_Features')
+    concate = concatenate([global_features, Z, alpha_exp, alpha_shp], name='Concate_Global_Features')
     concate_repeat = tf.tile(concate, (1, num_points, 1), name='Repeat_Global_Features')
     aggregate = concatenate([point_features, concate_repeat])
     
@@ -67,5 +67,5 @@ def MMFA(num_points=68):
     bn9 = BatchNormalization(name='BatchNormalization_9')(conv9)
     Lr = ReLU(name='Lr')(bn9)
 
-    model = Model(inputs=[Lc, Z, alpha_sh, alpha_exp], outputs=[Lr], name='MFFA')
+    model = Model(inputs=[Lc, Z, alpha_exp, alpha_shp], outputs=[Lr], name='MFFA')
     return model

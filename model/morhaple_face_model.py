@@ -5,8 +5,8 @@ import numpy as np
 import pickle
 
 class PCA(Layer):
-    def __init__(self, height, num_landmarks=68, pca_dir = '3dmm_data/'):
-        super(PCA, self).__init__()
+    def __init__(self, height, num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
+        super(PCA, self).__init__(**kwargs)
         self.num_landmarks = num_landmarks
         self.pca_dir = pca_dir
         self.height = height
@@ -59,45 +59,23 @@ class PCA(Layer):
         :return: 4x4 transmatrix
         """
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        print("ssss = ", s)
-        T = tf.Variable(tf.zeros((4, 4)))
+        T = tf.Variable(lambda: tf.zeros((4, 4)))
         T = T[0:3, 0:3].assign(R)
         T = T[3, 3].assign(1.0)
         # scale
         S = tf.linalg.diag([s, s, s, 1.0])
         T = tf.matmul(S, T)
         # offset move
-        M = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]))
-        print("__________________")
-        print("M = ", M)
+        M = tf.Variable(lambda: tf.linalg.diag([1.0, 1.0, 1.0, 1.0]))
         t = tf.reshape(t, [-1])
-        print("t = ", t)
-        print("_________________")
         M = M[0:3, 3].assign(tf.cast(t, tf.float32))
-        print("M = ", M)
         T = tf.matmul(M, T)
         # revert height
-        H = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]))
+        H = tf.Variable(lambda: tf.linalg.diag([1.0, 1.0, 1.0, 1.0]))
         H = H[1, 1].assign(-1.0)
         H = H[1, 3].assign(height)
         T = tf.matmul(H, T)
         return tf.cast(T, tf.float32)
-
-    def eulerAngles_to_RotationMatrix(self, theta):
-        x, y, z = theta[0], theta[1], theta[2]
-        Rx = tf.Variable([[1,          0,         0],
-                          [0,  tf.cos(x), tf.sin(x)],
-                          [0, -tf.sin(x), tf.cos(x)]], trainable=False)
-
-        Ry = tf.Variable([[tf.cos(y), 0, -tf.sin(y)],
-                          [        0, 1,          0],
-                          [tf.sin(y), 0,  tf.cos(y)]], trainable=False)
-                    
-        Rz = tf.Variable([[tf.cos(z) , tf.sin(z), 0],
-                          [-tf.sin(z), tf.cos(z), 0],
-                          [0         ,         0, 1]], trainable=False)
-        R = tf.matmul(Rx, tf.matmul(Ry, Rz))
-        return R
     
     def pose_3DMM_to_sRt(self, pose_3DDM):
         T = tf.reshape(pose_3DDM, (3, 4))

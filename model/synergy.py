@@ -11,17 +11,23 @@ from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropou
 # PCA()
 # create_MobileNetV2()
 
-def create_synergy(input_shape, classes=62):
+def create_synergy(input_shape, num_classes=62, num_points=68):
     inputs = Input(shape=input_shape)
-    X = create_MobileNetV2(input_shape=input_shape, classes=classes)(inputs)
+    X = create_MobileNetV2(input_shape=input_shape, classes=num_classes)(inputs)
     X_flattened = Flatten(name='Flatten')(X)
     Z = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
     X_p = Dropout(0.2)(X_flattened)
-    pose_para = Dense(name='pose_para', units=12)(X_p)
+    pose_3DMM = Dense(name='pose_3DMM', units=12)(X_p)
     X_exp = Dropout(0.2)(X_flattened)
     alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
     X_shape = Dropout(0.2)(X_flattened)
     alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
 
-    model = Model(inputs=[inputs], outputs=[Z, pose_para, alpha_exp, alpha_shp], name='Synergy')
+    morphable_model = PCA(height=input_shape[0], name='Morphable_layer')
+    Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
+
+    Lr = MMFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
+    pose_3DMM, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
+         num_points=num_points)(Lr)
+    model = Model(inputs=[inputs], outputs=[pose_3DMM, Lc, Lr, alpha_exp, alpha_shp], name='Synergy')
     return model
