@@ -70,9 +70,9 @@ def MMFA(num_points=68):
     model = Model(inputs=[Lc, Z, alpha_exp, alpha_shp], outputs=[Lr], name='MFFA')
     return model
 
-class MultiAttribute_FeatureAggregation(tf.keras.Model):
+class MAFA(tf.keras.Model):
     def __init__(self, num_points=68, **kwargs):
-        super(MultiAttribute_FeatureAggregation, self).__init__(**kwargs)
+        super(MAFA, self).__init__(**kwargs, name='MAFA')
         self.num_points = num_points
         self.conv1 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_1')
         self.bn1 = BatchNormalization(name='Encoder_BatchNormalization_1')

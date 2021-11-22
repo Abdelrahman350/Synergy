@@ -87,3 +87,8 @@ def pose_3DMM_to_sRt(label):
     alpha_exp = parameters_3DMM[:, 12:22]
     alpha_Shape = parameters_3DMM[:, 22:]
     return s, R, t, alpha_exp, alpha_Shape
+
+def resize_landmarks(pt2d, aspect_ratio):
+    pt2d[:, 0] = pt2d[:, 0] * aspect_ratio[0]
+    pt2d[:, 1] = pt2d[:, 1] * aspect_ratio[1]
+    return pt2d

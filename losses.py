@@ -13,7 +13,7 @@ class Synergy_Loss(Loss):
 
     def call(self, y_true, y_pred):
         pose_3DMM_true, L_true = y_true
-        pose_3DMM, Lc, Lr, pose_3DMM_hat, alpha_exp, alpha_shp = y_pred
+        pose_3DMM, Lr, pose_3DMM_hat, alpha_exp, alpha_shp = y_pred
         L3DMM = self.L3DMM_loss(pose_3DMM_true, pose_3DMM)
         L_lmk = self.L_lmk_loss(L_true, Lr)
         L3DMM_lmk = self.L3DMM_lmk_loss(pose_3DMM_true, pose_3DMM_hat)
