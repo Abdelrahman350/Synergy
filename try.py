@@ -20,49 +20,27 @@ json_file_path = "../../Datasets/labels_LP.json"
 with open(json_file_path, 'r') as j:
      labels_LP = json.loads(j.read())
 
+input_shape = (224, 224, 3)
 training_data_generator = data_generator.DataGenerator(partition_LP['train'], labels_LP,\
-     batch_size=5, input_shape=(64, 64, 3), shuffle=False)
+     batch_size=5, input_shape=input_shape, shuffle=False)
 
 validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], labels_LP,\
-     batch_size=5, input_shape=(64, 64, 3), shuffle=False)
+     batch_size=5, input_shape=input_shape, shuffle=False)
 
 
 image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
 
-def draw_landmarks_(image_original, pt2d):
-    image = image_original.copy()
-    for i in range(pt2d.shape[0]):
-        cv2.circle(image, (int(round(pt2d[i, 0])), int(round(pt2d[i, 1]))), 2, (0, 0, 1), -1)
-    return image
-
-end_list = np.array([17, 22, 27, 42, 48, 31, 36, 68], dtype = np.int32) - 1
-def plot_kpt(image, kpt):
-    ''' Draw 68 key points
-    Args: 
-        image: the input image
-        kpt: (68, 3).
-    '''
-    image = image.copy()
-    kpt = np.round(kpt).astype(np.int32)
-    for i in range(kpt.shape[0]):
-        st = kpt[i, :2]
-        image = cv2.circle(image,(st[0], st[1]), 1, (0,0,1), 2)  
-        if i in end_list:
-            continue
-        ed = kpt[i + 1, :2]
-        image = cv2.line(image, (st[0], st[1]), (ed[0], ed[1]), (1, 1, 1), 1)
-    return image
 
 def plot_landmarks_try(image, pts, name='foo'):
-    image = plot_kpt(image, pts)
-    cv2.imwrite(f"output_landmarks_try.jpg", image*255)
-    import matplotlib.pyplot as plt
-    fig = plt.figure(figsize = (10, 7))
-    plt.imshow(image)
-    plt.xlabel("0")
-    plt.ylabel("1")
-    plt.scatter(pts[:, 0], pts[:, 1], color = "red", linewidths=0.1)
-    plt.savefig(name+'.png')
+    image = draw_landmarks(image, pts)
+    cv2.imwrite(name+".jpg", image*255)
+    # import matplotlib.pyplot as plt
+    # fig = plt.figure(figsize = (10, 7))
+    # plt.imshow(image)
+    # plt.xlabel("0")
+    # plt.ylabel("1")
+    # plt.scatter(pts[:, 0], pts[:, 1], color = "red", linewidths=0.1)
+    # plt.savefig(name+'.jpg')
 
 def get_transform_matrix(s, angles, t, height):
     """
