@@ -31,13 +31,13 @@ with open(json_file_path, 'r') as j:
 
 input_shape = (224, 224, 3)
 training_data_generator = data_generator.DataGenerator(partition_LP['train'], labels_LP,\
-     batch_size=5, input_shape=input_shape, shuffle=False)
+     batch_size=10, input_shape=input_shape, shuffle=False)
 
 validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], labels_LP,\
-     batch_size=5, input_shape=input_shape, shuffle=False)
+     batch_size=10, input_shape=input_shape, shuffle=False)
 
 model = create_synergy((224, 224, 3))
-model.compile(optimizer= AdamOptimizer(learning_rate=1e-5), loss=Synergy_Loss())
+model.compile(optimizer= AdamOptimizer(learning_rate=0.02), loss=Synergy_Loss())
 
 model_checkpoint_callback = ModelCheckpoint(filepath='.',
      save_weights_only=True,

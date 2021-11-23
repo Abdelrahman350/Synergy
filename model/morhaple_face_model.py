@@ -87,9 +87,9 @@ class PCA(Layer):
         return tf.cast(T, tf.float32)
     
     def pose_3DMM_to_sRt(self, pose_3DDM):
-        T = tf.reshape(pose_3DDM, (3, 4))
-        R = T[:, 0:3]
-        t = tf.expand_dims(T[:, -1], -1)
+        T = tf.reshape(pose_3DDM, (tf.shape(pose_3DDM)[0], 3, 4), name='2nd_Reshape')
+        R = T[:, :, 0:3]
+        t = tf.expand_dims(T[:, :, -1], -1)
         s = tf.reduce_sum(t[-1])
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
         t = tf.matmul(zero, t)
