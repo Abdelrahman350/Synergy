@@ -5,7 +5,7 @@ import numpy as np
 import pickle
 
 class PCA(Layer):
-    def __init__(self, height, num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
+    def __init__(self, height=450, num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
         super(PCA, self).__init__(**kwargs)
         self.num_landmarks = num_landmarks
         self.pca_dir = pca_dir

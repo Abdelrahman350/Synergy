@@ -37,9 +37,9 @@ class DataGenerator(tf.keras.utils.Sequence):
         X = []
         y = []
         for index, image_id in enumerate(batch):
-            image = image_loader(image_id, self.dataset_path)
+            image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
             X.append(image)
-            label = label_loader(image_id, self.labels)
+            label = label_loader(image_id, self.labels, aspect_ratio)
             y.append(label)
         X = np.array(X)
         y = np.array(y)

@@ -30,10 +30,8 @@ validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], 
 
 image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
 
-
 bfm_info = sio.loadmat('../../Datasets/300W-LP/300W_LP/AFW/AFW_134212_1_2.mat')
 
-[height, _, _] = image.shape
 pose_para = np.ravel(bfm_info['Pose_Para'])
 pose_3dmm = np.ravel(pose_to_3DMM(pose_para))
 shape_para = np.ravel(bfm_info['Shape_Para'][0:40])
@@ -43,17 +41,14 @@ pose_3dmm = np.expand_dims(pose_3dmm, 0)
 shape_para = np.expand_dims(shape_para, 0)
 exp_para = np.expand_dims(exp_para, 0)
 
-pca = PCA(height=height)
+pca = PCA()
 pca.build()
 vertices_tf = pca.call(pose_3dmm, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
 print(vertices.shape)
-image = resize_image(image)
 landmarks_pred = vertices[0]
-landmarks_gt =  label_to_pt2d(label)
 landmarks_pred = resize_landmarks(landmarks_pred, (224/450.0, 224/450.0))
-landmarks_gt = resize_landmarks(landmarks_gt, (224/450.0, 224/450.0))
 
 plot_landmarks_pred(image, landmarks_pred, 'pred')
 plot_landmarks_gt(image, label, name='gt')
