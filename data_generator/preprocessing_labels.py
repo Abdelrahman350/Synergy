@@ -9,7 +9,6 @@ def label_loader(image_id, labels, aspect_ratio):
     alpha_Shape = np.array(labels[image_id]['Shape_Para']).T
     pt2d = np.array(labels[image_id]['pt2d']).T
     pt2d = resize_landmarks(pt2d, aspect_ratio)
-    parameters_3DMM = np.concatenate((pose_3DMM, alpha_exp, alpha_Shape), axis=1)
     return pose_3DMM, pt2d
 
 def pose_to_3DMM(pose):
@@ -17,8 +16,8 @@ def pose_to_3DMM(pose):
     t = np.expand_dims([*pose[3:5], 0], -1)
     T = np.concatenate((R, t), axis=1)
     s = pose[-1]
-    pose_3DDM = T.reshape((1, -1))
-    pose_3DDM[0, -1] = s
+    pose_3DDM = T.reshape((-1, ))
+    pose_3DDM[-1] = s
     return pose_3DDM
 
 # Calculates Rotation Matrix given euler angles.
@@ -46,7 +45,7 @@ def label_3DDm_to_pose(label):
     return rotationMatrix_to_EulerAngles(R)
 
 def label_to_3DMM(label):
-    return label[0, 0]
+    return label[0]
 
 def rotationMatrix_to_EulerAngles(R):
     ''' compute three Euler angles from a Rotation Matrix. 
@@ -75,7 +74,7 @@ def label_3DDm_to_pt2d(label):
     return pt2d
 
 def label_to_pt2d(label):
-    return label[0, 1]
+    return label[1]
 
 def pose_3DMM_to_sRt(label):
     parameters_3DMM = label_to_3DMM(label)

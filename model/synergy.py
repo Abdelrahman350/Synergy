@@ -32,8 +32,10 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
     pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
          num_points=num_points)(Lr)
+
+    pose_3DMM_hat = tf.squeeze(pose_3DMM_hat, 1)
     #, Lr, pose_3DMM_hat, alpha_exp, alpha_shp
-    print("Prediction shape = ", pose_3DMM.shape)
+    print("Prediction shape = ", pose_3DMM_hat.shape)
     model = Model(inputs=[inputs],\
           outputs=[pose_3DMM], name='Synergy')
     return model

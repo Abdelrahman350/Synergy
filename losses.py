@@ -1,3 +1,4 @@
+from data_generator.preprocessing_labels import label_to_3DMM
 import tensorflow as tf
 from tensorflow.math import square, reduce_sum
 from tensorflow.keras.losses import Loss, Huber
@@ -12,7 +13,7 @@ class Synergy_Loss(Loss):
         self.huber = Huber()
         
     def call(self, y_true, y_pred):
-        pose_3DMM_true = y_true[0]
+        pose_3DMM_true = label_to_3DMM(y_true)
         #L_true = y_true[1]
         pose_3DMM = y_pred[0]
         #Lr = y_pred[1]
