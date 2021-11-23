@@ -10,13 +10,17 @@ class Synergy_Loss(Loss):
         self.lamda_3 = lamda_3
         self.lamda_4 = lamda_4
         self.huber = Huber()
-
+        
     def call(self, y_true, y_pred):
-        pose_3DMM_true, L_true = y_true
-        pose_3DMM, Lr, pose_3DMM_hat, alpha_exp, alpha_shp = y_pred
+        pose_3DMM_true = y_true[0]
+        L_true = y_true[1]
+        pose_3DMM = y_pred[0]
+        Lr = y_pred[1]
+        pose_3DMM_hat = y_pred[2]
+
         L3DMM = self.L3DMM_loss(pose_3DMM_true, pose_3DMM)
-        L_lmk = self.L_lmk_loss(L_true, Lr)
-        L3DMM_lmk = self.L3DMM_lmk_loss(pose_3DMM_true, pose_3DMM_hat)
+        L_lmk = 0#self.L_lmk_loss(L_true, Lr)
+        L3DMM_lmk = 0#self.L3DMM_lmk_loss(pose_3DMM_true, pose_3DMM_hat)
         Lg = self.Lg_loss(pose_3DMM, pose_3DMM_hat)
         L_total  = self.lamda_1*L3DMM + self.lamda_2*L_lmk +\
              self.lamda_3*L3DMM_lmk + self.lamda_4*Lg

@@ -1,12 +1,25 @@
 
-#labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'].keys()
-from utils.data_utils.plotting_data import *
-from data_generator.preprocessing_labels import label_3DDm_to_pose, label_3DDm_to_pt2d
-from data_generator import data_generator
-from model.encoder import MMFA
-from model.decoder import Landmarks_to_3DMM
-import json
 import tensorflow as tf
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.compat.v1.train import AdamOptimizer
+tf.compat.v1.enable_eager_execution()
+
+from losses import Synergy_Loss
+from data_generator import data_generator
+from model.synergy import create_synergy
+from data_generator import data_generator
+import json
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+#from tensorflow import ConfigProto
+#from tensorflow import InteractiveSession
+config = ConfigProto()
+config.gpu_options.allow_growth = True
+session = InteractiveSession(config=config)
 
 json_file_path = "../../Datasets/partition_LP.json"
 with open(json_file_path, 'r') as j:
@@ -16,31 +29,28 @@ json_file_path = "../../Datasets/labels_LP.json"
 with open(json_file_path, 'r') as j:
      labels_LP = json.loads(j.read())
 
+input_shape = (224, 224, 3)
 training_data_generator = data_generator.DataGenerator(partition_LP['train'], labels_LP,\
-     batch_size=5, input_shape=(64, 64, 3), shuffle=False)
+     batch_size=5, input_shape=input_shape, shuffle=False)
 
 validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], labels_LP,\
-     batch_size=5, input_shape=(64, 64, 3), shuffle=False)
+     batch_size=5, input_shape=input_shape, shuffle=False)
 
-# print(labels_LP['300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0'])
-#300W-LP/300W_LP/AFW/AFW_134212_1_2 #300W-LP/300W_LP/AFW/AFW_3989161_1_0
-image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
+model = create_synergy((224, 224, 3))
+model.compile(optimizer= AdamOptimizer(learning_rate=1e-5), loss=Synergy_Loss())
+print(model.summary())
 
-#model1 = MMFA()
-# Define Sequential model with 3 layers
-model1 = tf.keras.Sequential(
-    [
-        MMFA()
-    ]
-)
-model1.build((68, 3))
-print(model1.summary())
-tf.keras.utils.plot_model(model1, "encoder.png")
+model.fit(training_data_generator)
 
-model2 = Landmarks_to_3DMM()
-print(model2.summary())
-tf.keras.utils.plot_model(model2, "decoder.png")
-#print(*label_3DDm_to_pose(label))
-plot_pose_image(image, label)
-#print(label_3DDm_to_pt2d(label))
-plot_landmarks_image(image, label)
+model_checkpoint_callback = ModelCheckpoint(filepath='.',
+     save_weights_only=True,
+     monitor='val_loss',
+     mode='min',
+     save_best_only=True,
+     verbose=1)
+
+model_fit = model.fit(x=training_data_generator,
+validation_data=validation_data_generator,
+epochs=10, 
+verbose=1,
+callbacks=[model_checkpoint_callback])   

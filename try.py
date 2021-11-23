@@ -1,4 +1,3 @@
-from data_generator.image_utils import resize_image
 from losses import Synergy_Loss
 from model.synergy import create_synergy
 from model.morhaple_face_model import PCA
@@ -29,7 +28,7 @@ validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], 
 
 
 image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
-
+print(np.shape(label))
 bfm_info = sio.loadmat('../../Datasets/300W-LP/300W_LP/AFW/AFW_134212_1_2.mat')
 
 pose_para = np.ravel(bfm_info['Pose_Para'])
@@ -46,13 +45,13 @@ pca.build()
 vertices_tf = pca.call(pose_3dmm, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
-print(vertices.shape)
+#print(vertices.shape)
 landmarks_pred = vertices[0]
 
 plot_landmarks_pred(image, landmarks_pred, 'pred')
 plot_landmarks_gt(image, label, name='gt')
 
 model = create_synergy((224, 224, 3))
-print(model.summary())
+#print(model.summary())
 
 loss = Synergy_Loss()
