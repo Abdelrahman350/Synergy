@@ -15,7 +15,8 @@ class PCA(Layer):
         self.w_exp_base = 0
         self.w_shp_base = 0
         self.aspect_ratio = tf.expand_dims(
-            tf.constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]), 0)
+            tf.constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]),\
+                 0, name='aspect_ratio')
 
     def build(self):
         w_exp = self.parsing_npy('w_exp_sim.npy')
@@ -39,13 +40,16 @@ class PCA(Layer):
         alpha_exp = tf.cast(alpha_exp, tf.float32)
         alpha_shp = tf.cast(alpha_shp, tf.float32)
 
-        vertices = tf.add(self.u_base, tf.add(tf.matmul(self.w_exp_base, alpha_exp),\
-             tf.matmul(self.w_shp_base, alpha_shp)))
-        vertices = tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3))
+        vertices = tf.add(self.u_base,\
+             tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
+             tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
+                  name='Outer_Add')
+        vertices = tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3),\
+             name='1st_Reshape')
         T_bfm = self.transform_matrix(pose_3DMM, self.height)
-        temp_ones_vec = tf.ones((tf.shape(vertices)[0], tf.shape(vertices)[1], 1))
-        homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1)
-        image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm))[:, :, 0:3]
+        temp_ones_vec = tf.ones((tf.shape(vertices)[0], tf.shape(vertices)[1], 1), name='1st_Ones')
+        homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
+        image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm), name='3rd_Matmul')[:, :, 0:3]
         image_vertices_resized = self.resize_landmarks(image_vertices)
         return image_vertices_resized
 
@@ -56,7 +60,7 @@ class PCA(Layer):
         return pickle.load(open(self.pca_dir+file, 'rb'))
     
     def convert_npy_to_tensor(self, npy_array):
-        return tf.Variable(npy_array, dtype=tf.float32, trainable=False)
+        return tf.constant(npy_array, dtype=tf.float32, name='Principal_Components')
     
     def transform_matrix(self, pose_3DMM, height):
         """
@@ -64,19 +68,19 @@ class PCA(Layer):
         :return: 4x4 transmatrix
         """
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        T = tf.Variable(lambda: tf.zeros((4, 4)))
+        T = tf.Variable(lambda: tf.zeros((4, 4)), name='Transformation_Matrix')
         T = T[0:3, 0:3].assign(R)
         T = T[3, 3].assign(1.0)
         # scale
         S = tf.linalg.diag([s, s, s, 1.0])
         T = tf.matmul(S, T)
         # offset move
-        M = tf.Variable(lambda: tf.linalg.diag([1.0, 1.0, 1.0, 1.0]))
+        M = tf.Variable(lambda: tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Move_Matrix')
         t = tf.reshape(t, [-1])
         M = M[0:3, 3].assign(tf.cast(t, tf.float32))
         T = tf.matmul(M, T)
         # revert height
-        H = tf.Variable(lambda: tf.linalg.diag([1.0, 1.0, 1.0, 1.0]))
+        H = tf.Variable(lambda: tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Height_Matrix')
         H = H[1, 1].assign(-1.0)
         H = H[1, 3].assign(height)
         T = tf.matmul(H, T)
