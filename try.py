@@ -48,7 +48,6 @@ vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to 
 vertices = tf.make_ndarray(vertices)
 print(vertices.shape)
 landmarks_pred = vertices[0]
-landmarks_pred = resize_landmarks(landmarks_pred, (224/450.0, 224/450.0))
 
 plot_landmarks_pred(image, landmarks_pred, 'pred')
 plot_landmarks_gt(image, label, name='gt')

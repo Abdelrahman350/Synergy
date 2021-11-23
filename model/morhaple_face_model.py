@@ -5,14 +5,17 @@ import numpy as np
 import pickle
 
 class PCA(Layer):
-    def __init__(self, height=450, num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
+    def __init__(self, input_shape=(224, 224, 3),\
+         num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
         super(PCA, self).__init__(**kwargs)
         self.num_landmarks = num_landmarks
         self.pca_dir = pca_dir
-        self.height = height
+        self.height = 450
         self.u_base = 0
         self.w_exp_base = 0
         self.w_shp_base = 0
+        self.aspect_ratio = tf.expand_dims(
+            tf.constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]), 0)
 
     def build(self):
         w_exp = self.parsing_npy('w_exp_sim.npy')
@@ -43,7 +46,8 @@ class PCA(Layer):
         temp_ones_vec = tf.ones((tf.shape(vertices)[0], tf.shape(vertices)[1], 1))
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1)
         image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm))[:, :, 0:3]
-        return image_vertices
+        image_vertices_resized = self.resize_landmarks(image_vertices)
+        return image_vertices_resized
 
     def parsing_npy(self, file):
         return np.load(self.pca_dir+file)
@@ -86,3 +90,6 @@ class PCA(Layer):
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
         t = tf.matmul(zero, t)
         return s, R, t
+    
+    def resize_landmarks(self, pt2d):
+        return pt2d*self.aspect_ratio

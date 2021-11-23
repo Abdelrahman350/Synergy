@@ -23,7 +23,7 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     X_shape = Dropout(0.2)(X_flattened)
     alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
 
-    morphable_model = PCA(height=input_shape[0], name='Morphable_layer')
+    morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
     morphable_model.build()
     Lc = morphable_model.call(pose_3DMM, alpha_exp, alpha_shp)
     Z = tf.expand_dims(Z, 1)
