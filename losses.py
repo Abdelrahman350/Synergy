@@ -13,15 +13,15 @@ class Synergy_Loss(Loss):
         
     def call(self, y_true, y_pred):
         pose_3DMM_true = y_true[0]
-        L_true = y_true[1]
+        #L_true = y_true[1]
         pose_3DMM = y_pred[0]
-        Lr = y_pred[1]
-        pose_3DMM_hat = y_pred[2]
+        #Lr = y_pred[1]
+        #pose_3DMM_hat = y_pred[2]
 
         L3DMM = self.L3DMM_loss(pose_3DMM_true, pose_3DMM)
         L_lmk = 0#self.L_lmk_loss(L_true, Lr)
         L3DMM_lmk = 0#self.L3DMM_lmk_loss(pose_3DMM_true, pose_3DMM_hat)
-        Lg = self.Lg_loss(pose_3DMM, pose_3DMM_hat)
+        Lg = 0#self.Lg_loss(pose_3DMM, pose_3DMM_hat)
         L_total  = self.lamda_1*L3DMM + self.lamda_2*L_lmk +\
              self.lamda_3*L3DMM_lmk + self.lamda_4*Lg
         return L_total
@@ -35,7 +35,7 @@ class Synergy_Loss(Loss):
         return reduce_sum(square(alpha_true - alpha_pred))
 
     def L_lmk_loss(self, L_true, L_pred):
-        return self.huber(L_true - L_pred)
+        return self.huber(L_true, L_pred)
     
     def L3DMM_lmk_loss(self, alpha_true, alpha_hat):
         return reduce_sum(square(alpha_true - alpha_hat))

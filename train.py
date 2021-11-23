@@ -38,9 +38,6 @@ validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], 
 
 model = create_synergy((224, 224, 3))
 model.compile(optimizer= AdamOptimizer(learning_rate=1e-5), loss=Synergy_Loss())
-print(model.summary())
-
-model.fit(training_data_generator)
 
 model_checkpoint_callback = ModelCheckpoint(filepath='.',
      save_weights_only=True,
@@ -48,6 +45,8 @@ model_checkpoint_callback = ModelCheckpoint(filepath='.',
      mode='min',
      save_best_only=True,
      verbose=1)
+
+print(model.summary())
 
 model_fit = model.fit(x=training_data_generator,
 validation_data=validation_data_generator,
