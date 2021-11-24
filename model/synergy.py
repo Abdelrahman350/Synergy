@@ -7,9 +7,6 @@ import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout, Flatten
 
-# Landmarks_to_3DMM()
-# PCA()
-# create_MobileNetV2()
 
 def create_synergy(input_shape, num_classes=62, num_points=68):
     inputs = Input(shape=input_shape)
