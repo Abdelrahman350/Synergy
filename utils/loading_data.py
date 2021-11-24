@@ -11,7 +11,6 @@ def loading_dictionaries(dataset='300w'):
     elif dataset=='AFLW':
         json_file_ids = base_dir_ids + 'AFLW.json'
         json_file_labels = base_dir_labels + 'AFLW.json'
-    print(json_file_ids)
     with open(json_file_ids, 'r') as j:
         partition = json.loads(j.read())
     with open(json_file_labels, 'r') as j:
