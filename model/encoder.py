@@ -178,3 +178,11 @@ class MAFA(tf.keras.Model):
         X = self.bn9(X)
         Lr = self.Lr(X)
         return Lr
+
+    def model(self):
+        Lc = Input(shape=(68, 3), name='Landmarks')
+        Z = Input(shape=(1, 1280), name='Z')
+        alpha_exp = Input(shape=(1, 10), name='alpha_exp')
+        alpha_shp = Input(shape=(1, 40), name='alpha_shp')
+        return Model(inputs=[Lc, Z, alpha_exp, alpha_shp],\
+             outputs=self.call(Lc, Z, alpha_exp, alpha_shp))
