@@ -12,7 +12,8 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
         pb_1 = Progbar(len(train_dataset.list_IDs)/train_dataset.batch_size,\
             stateful_metrics=None)
         for batch, (X_batch, y_batch) in enumerate(train_dataset):
-            train_loss = train_batch(X_batch, y_batch, optimizer, loss_function, model)
+            train_loss = train_batch(X_batch,\
+                 y_batch, optimizer, loss_function, model)/train_dataset.batch_size
             values=[('train_loss', train_loss)]
             pb_1.update(batch, values)
         pb_1.update(len(train_dataset.list_IDs), values=values, finalize=True)
@@ -20,7 +21,8 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
         pb_2 = Progbar(len(valid_dataset.list_IDs)/valid_dataset.batch_size,\
             stateful_metrics=None)
         for batch, (X_batch, y_batch) in enumerate(valid_dataset):
-            valid_loss = validation_batch(X_batch, y_batch, model, loss_function)
+            valid_loss = validation_batch(X_batch,\
+                 y_batch, model, loss_function)/valid_dataset.batch_size
             valid_loss_list.append(valid_loss)
             values=[('valid_loss', valid_loss)]
             pb_2.update(batch, values)

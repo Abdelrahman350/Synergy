@@ -20,7 +20,7 @@ config.gpu_options.allow_growth = True
 session = InteractiveSession(config=config)
 
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=(224, 224, 3), batch_size=64, shuffle=True)
+      input_shape=(224, 224, 3), batch_size=32, shuffle=True)
 
 model = create_synergy((224, 224, 3))
 optimizer = AdamOptimizer(learning_rate=0.02)
