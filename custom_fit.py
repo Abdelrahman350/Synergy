@@ -6,27 +6,27 @@ import time
 def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer):
     best_loss = np.inf
     for epoch in range(epochs):
-        train_loss_list = []
-        valid_loss_list = [] 
-        start_time_train = time.time()
-        tf.print("\nEpoch {}/{}".format(epoch+1, epochs))
-        pb_1 = Progbar(len(train_dataset.list_IDS)/train_dataset.batch_size,\
+        valid_loss_list = []
+        train_loss = 0
+        tf.print("\nEpoch {}/{}:\n".format(epoch+1, epochs))
+        pb_1 = Progbar(len(train_dataset.list_IDs)/train_dataset.batch_size,\
             stateful_metrics=None)
         for batch, (X_batch, y_batch) in enumerate(train_dataset):
             train_loss = train_batch(X_batch, y_batch, optimizer, loss_function, model)
-            train_loss_list.append(train_loss)
-        epoch_train_loss = tf.reduce_mean(train_loss_list)
-        end_time_train = start_time_train - time.time()
+            values=[('train_loss', train_loss)]
+            pb_1.update(batch, values)
+        pb_1.update(len(train_dataset.list_IDs), values=values, finalize=True)
 
-        start_time_valid = time.time()
-        pb_2 = Progbar(len(valid_dataset.list_IDS)/valid_dataset.batch_size,\
+        pb_2 = Progbar(len(valid_dataset.list_IDs)/valid_dataset.batch_size,\
             stateful_metrics=None)
         for batch, (X_batch, y_batch) in enumerate(valid_dataset):
             valid_loss = validation_batch(X_batch, y_batch, model, loss_function)
             valid_loss_list.append(valid_loss)
+            values=[('valid_loss', valid_loss)]
+            pb_2.update(batch, values)
         epoch_valid_loss = tf.reduce_mean(valid_loss_list)
-        end_time_valid = start_time_valid - time.time()
-
+        values=[('train_loss', train_loss), ('val_loss', epoch_valid_loss)]
+        pb_2.update(len(valid_dataset.list_IDs), values=values, finalize=True)
         if epoch_valid_loss < best_loss:
             tf.print(" ")
             model.save("model.h5")
