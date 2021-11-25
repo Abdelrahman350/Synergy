@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.utils import Progbar
 import numpy as np
-import time
 
 def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer):
     best_loss = np.inf
@@ -16,7 +15,7 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
                  y_batch, optimizer, loss_function, model)/train_dataset.batch_size
             values=[('train_loss', train_loss)]
             pb_1.update(batch, values)
-        pb_1.update(len(train_dataset.list_IDs), values=values, finalize=True)
+        pb_1.update(len(train_dataset.list_IDs)/train_dataset.batch_size, values=values)
 
         pb_2 = Progbar(len(valid_dataset.list_IDs)/valid_dataset.batch_size,\
             stateful_metrics=None)
@@ -28,7 +27,7 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
             pb_2.update(batch, values)
         epoch_valid_loss = tf.reduce_mean(valid_loss_list)
         values=[('train_loss', train_loss), ('val_loss', epoch_valid_loss)]
-        pb_2.update(len(valid_dataset.list_IDs), values=values, finalize=True)
+        pb_2.update(len(valid_dataset.list_IDs)/valid_dataset.batch_size, values=values)
         if epoch_valid_loss < best_loss:
             tf.print(" ")
             model.save("model.h5")

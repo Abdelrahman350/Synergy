@@ -3,7 +3,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.compat.v1.train import AdamOptimizer
 tf.compat.v1.enable_eager_execution()
 
-from custom_fit import train
+from utils.custom_fit import train
 from losses import Synergy_Loss
 from utils.loading_data import loading_generators
 from model.synergy import create_synergy
