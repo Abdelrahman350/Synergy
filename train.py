@@ -34,8 +34,8 @@ loss_function = Synergy_Loss()
 #      save_best_only=True,
 #      verbose=1)
 
-# print(model.summary())
-
+print(model.summary())
+model.save("Model.h5")
 # model_fit = model.fit(x=training_data_generator,
 # validation_data=validation_data_generator,
 # epochs=10, 
