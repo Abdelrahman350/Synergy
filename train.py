@@ -41,4 +41,4 @@ loss_function = Synergy_Loss()
 # epochs=10, 
 # verbose=1,
 # callbacks=[model_checkpoint_callback])
-train(model, training_data_generator, validation_data_generator, 2, loss_function, optimizer)
+train(model, validation_data_generator, validation_data_generator, 2, loss_function, optimizer)
