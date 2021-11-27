@@ -31,8 +31,6 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
          num_points=num_points)(Lr)
 
     pose_3DMM_hat = tf.squeeze(pose_3DMM_hat, 1)
-    #, alpha_exp, alpha_shp
-    print("Prediction shape = ", pose_3DMM_hat.shape)
     model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM, Lr, pose_3DMM_hat], name='Synergy')
+          outputs=[pose_3DMM, Lc, pose_3DMM_hat], name='Synergy')
     return model

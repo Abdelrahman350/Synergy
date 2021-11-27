@@ -26,7 +26,7 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
             pb_2.update(batch, values)
         values=[('train_loss', train_loss), ('val_loss', valid_loss)]
         pb_2.update(len(valid_dataset.list_IDs)/valid_dataset.batch_size, values=values)
-        model.save("my_h5_model.h5")
+        model.save_weights("Model.h5")
 
 def train_batch(X, y_true, optimizer, loss_function, model):
     with tf.GradientTape() as tape:

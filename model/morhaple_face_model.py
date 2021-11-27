@@ -1,6 +1,6 @@
 from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, rotationMatrix_to_EulerAngles
 import tensorflow as tf
-from tensorflow.keras.layers import Layer
+from tensorflow.keras.layers import Layer, Lambda
 import numpy as np
 import pickle
 
@@ -44,15 +44,17 @@ class PCA(Layer):
              tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
-        vertices = tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3),\
-             name='1st_Reshape')
+        vertices = Lambda(lambda x : self.Reshape_vertices(x))(vertices)
         T_bfm = self.transform_matrix(pose_3DMM, self.height)
         temp_ones_vec = tf.ones((tf.shape(vertices)[0], tf.shape(vertices)[1], 1), name='1st_Ones')
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
         image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm), name='3rd_Matmul')[:, :, 0:3]
         image_vertices_resized = self.resize_landmarks(image_vertices)
-        return image_vertices_resized
+        return vertices
     
+    def Reshape_vertices(self, vertices):
+        return tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3))
+
     def get_config(self):
         base_config = super(PCA, self).get_config()
         return {**base_config, 
@@ -97,14 +99,17 @@ class PCA(Layer):
         T = tf.matmul(H, T)
         return tf.cast(T, tf.float32)
     
-    def pose_3DMM_to_sRt(self, pose_3DDM):
-        T = tf.reshape(pose_3DDM, (tf.shape(pose_3DDM)[0], 3, 4), name='2nd_Reshape')
+    def pose_3DMM_to_sRt(self, pose_3DMM):
+        T = Lambda(lambda x : self.Reshape_pose_3DMM(x))(pose_3DMM)
         R = T[:, :, 0:3]
         t = tf.expand_dims(T[:, :, -1], -1)
         s = tf.reduce_sum(t[-1])
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
         t = tf.matmul(zero, t)
         return s, R, t
+    
+    def Reshape_pose_3DMM(self, pose_3DMM):
+        return tf.reshape(pose_3DMM, (tf.shape(pose_3DMM)[0], 3, 4))
     
     def resize_landmarks(self, pt2d):
         return pt2d*self.aspect_ratio
