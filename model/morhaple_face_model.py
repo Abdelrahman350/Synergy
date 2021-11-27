@@ -52,6 +52,17 @@ class PCA(Layer):
         image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm), name='3rd_Matmul')[:, :, 0:3]
         image_vertices_resized = self.resize_landmarks(image_vertices)
         return image_vertices_resized
+    
+    def get_config(self):
+        base_config = super(PCA, self).get_config()
+        return {**base_config, 
+        "num_landmarks": self.num_landmarks,
+        "pca_dir": self.pca_dir,
+        "height": self.height,
+        "u_base": self.u_base,
+        "w_exp_base": self.w_exp_base,
+        "w_shp_base": self.w_shp_base,
+        "aspect_ratio": self.aspect_ratio}
 
     def parsing_npy(self, file):
         return np.load(self.pca_dir+file)
