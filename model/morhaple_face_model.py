@@ -29,9 +29,9 @@ class PCA(Layer):
         param_mean = self.parsing_pkl('param_whitening.pkl').get('param_mean')
         param_std = self.parsing_pkl('param_whitening.pkl').get('param_std')
         u = u_exp + u_shp
-        self.u_base = self.convert_npy_to_tensor(u[keypoints])
-        self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints])
-        self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints])
+        self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
+        self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
+        self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints], 'w_shp_base')
 
     def call(self, pose_3DMM, alpha_exp, alpha_shp):
         alpha_exp = tf.expand_dims(alpha_exp, -1)
@@ -59,8 +59,8 @@ class PCA(Layer):
     def parsing_pkl(self, file):
         return pickle.load(open(self.pca_dir+file, 'rb'))
     
-    def convert_npy_to_tensor(self, npy_array):
-        return tf.constant(npy_array, dtype=tf.float32, name='Principal_Components')
+    def convert_npy_to_tensor(self, npy_array, name):
+        return tf.constant(npy_array, dtype=tf.float32, name=name)
     
     def transform_matrix(self, pose_3DMM, height):
         """
