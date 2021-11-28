@@ -50,7 +50,7 @@ class PCA(Layer):
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
         image_vertices = tf.matmul(homo_vertices, tf.transpose(T_bfm), name='3rd_Matmul')[:, :, 0:3]
         image_vertices_resized = self.resize_landmarks(image_vertices)
-        return vertices
+        return image_vertices_resized
     
     def Reshape_vertices(self, vertices):
         return tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3))
