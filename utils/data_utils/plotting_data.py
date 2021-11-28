@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from numpy import cos, sin
 import matplotlib.pyplot as plt
-from data_generator.labels_preprocessing import label_3DDm_to_pose, label_3DDm_to_pt2d
+from data_generator.labels_preprocessing import label_3DMM_to_pose, label_to_pt2d
 
 def draw_axis(image_original, pitch, yaw, roll, tdx=None, tdy=None, size = 100):
     # Referenced from HopeNet https://github.com/natanielruiz/deep-head-pose
@@ -37,7 +37,6 @@ def draw_landmarks(image_original, pt2d):
     image = image_original.copy()
     end_list = np.array([17, 22, 27, 42, 48, 31, 36, 68], dtype = np.int32) - 1
     pt2d = np.round(pt2d).astype(np.int32)
-    pt2d = np.squeeze(pt2d, 0)
     for i in range(pt2d.shape[0]):
         start_point = pt2d[i]
         cv2.circle(image, (start_point[0], start_point[1]), 2, (0, 0, 1), -1)
@@ -49,12 +48,12 @@ def draw_landmarks(image_original, pt2d):
     return image
 
 def plot_pose_gt(image, label, name='output_axis'):
-    pitch, yaw, roll = label_3DDm_to_pose(label)
+    pitch, yaw, roll = label_3DMM_to_pose(label)
     image = draw_axis(image, pitch, yaw, roll)        
     cv2.imwrite(name+".jpg", image*255)
 
 def plot_landmarks_gt(image, label, name='output_landmarks'):
-    pt2d = label_3DDm_to_pt2d(label)
+    pt2d = label_to_pt2d(label)
     image = draw_landmarks(image, pt2d)        
     cv2.imwrite(name+".jpg", image*255)
 

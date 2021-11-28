@@ -37,7 +37,7 @@ def eulerAngles_to_RotationMatrix(theta):
     R = Rx.dot(Ry).dot(Rz)
     return R
 
-def label_3DDm_to_pose(label):
+def label_3DMM_to_pose(label):
     parameters_3DMM = label_to_3DMM(label)
     pose_3DDM = parameters_3DMM[:, 0:12]
     T = pose_3DDM.reshape((3, 4))
@@ -68,10 +68,6 @@ def rotationMatrix_to_EulerAngles(R):
             yaw = -np.pi / 2
             pitch = -roll + arctan2(-R[1, 0], -R[2, 0])
     return pitch, yaw, roll
-
-def label_3DDm_to_pt2d(label):
-    pt2d = label_to_pt2d(label)
-    return pt2d
 
 def label_to_pt2d(label):
     return label[1]

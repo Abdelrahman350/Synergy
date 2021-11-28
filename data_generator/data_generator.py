@@ -51,4 +51,4 @@ class DataGenerator(tf.keras.utils.Sequence):
     def get_one_instance(self, id):
         batch = [id]
         X, y = self.__data_generation(batch)
-        return X[0], y
+        return X[0], [y[0][0], y[1][0]]
