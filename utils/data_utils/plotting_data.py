@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from numpy import cos, sin
 import matplotlib.pyplot as plt
-from data_generator.preprocessing_labels import label_3DDm_to_pose, label_3DDm_to_pt2d
+from data_generator.labels_preprocessing import label_3DDm_to_pose, label_3DDm_to_pt2d
 
 def draw_axis(image_original, pitch, yaw, roll, tdx=None, tdy=None, size = 100):
     # Referenced from HopeNet https://github.com/natanielruiz/deep-head-pose

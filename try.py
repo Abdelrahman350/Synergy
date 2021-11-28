@@ -3,7 +3,7 @@ from model.synergy import create_synergy
 from model.morhaple_face_model import PCA
 import numpy as np
 from utils.data_utils.plotting_data import *
-from data_generator.preprocessing_labels import *
+from data_generator.labels_preprocessing import *
 from data_generator import data_generator
 import scipy.io as sio
 
