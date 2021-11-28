@@ -7,21 +7,20 @@ from utils.custom_fit import train
 from losses import Synergy_Loss
 from utils.loading_data import loading_generators
 from model.synergy import create_synergy
-import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
-#from tensorflow import ConfigProto
-#from tensorflow import InteractiveSession
-config = ConfigProto()
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+  # Restrict TensorFlow to only use the first GPU
+  try:
+    tf.config.set_visible_devices(gpus[0], 'GPU')
+    logical_gpus = tf.config.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
+  except RuntimeError as e:
+    # Visible devices must be set before GPUs have been initialized
+    print(e)
 
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=(224, 224, 3), batch_size=32, shuffle=True)
-
 model = create_synergy((224, 224, 3))
 optimizer = AdamOptimizer(learning_rate=0.02)
 loss_function = Synergy_Loss()

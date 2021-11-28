@@ -4,27 +4,23 @@ from model.morhaple_face_model import PCA
 import numpy as np
 from utils.data_utils.plotting_data import *
 from data_generator.labels_preprocessing import *
-from data_generator import data_generator
 import scipy.io as sio
-
-import json
+from utils.loading_data import loading_generators
 import tensorflow as tf
-tf.compat.v1.enable_eager_execution()
 
-json_file_path = "../../Datasets/partition_LP.json"
-with open(json_file_path, 'r') as j:
-     partition_LP = json.loads(j.read())
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+  # Restrict TensorFlow to only use the first GPU
+  try:
+    tf.config.set_visible_devices(gpus[0], 'GPU')
+    logical_gpus = tf.config.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
+  except RuntimeError as e:
+    # Visible devices must be set before GPUs have been initialized
+    print(e)
 
-json_file_path = "../../Datasets/labels_LP.json"
-with open(json_file_path, 'r') as j:
-     labels_LP = json.loads(j.read())
-
-input_shape = (224, 224, 3)
-training_data_generator = data_generator.DataGenerator(partition_LP['train'], labels_LP,\
-     batch_size=5, input_shape=input_shape, shuffle=False)
-
-validation_data_generator = data_generator.DataGenerator(partition_LP['valid'], labels_LP,\
-     batch_size=5, input_shape=input_shape, shuffle=False)
+training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
+      input_shape=(224, 224, 3), batch_size=32, shuffle=True)
 
 
 image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
