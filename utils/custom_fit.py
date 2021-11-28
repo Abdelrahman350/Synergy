@@ -2,11 +2,18 @@ import tensorflow as tf
 from tensorflow.keras.utils import Progbar
 import numpy as np
 
-def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer):
+def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer, load_model=True):
+    if load_model:
+        model.load_weights("Checkpoints/Model.h5")
+    
     best_loss = np.inf
+    
     for epoch in range(epochs):
         train_loss = 0
         valid_loss = 0
+        cumulative_train_loss = 0
+        cumulative_valid_loss = 0
+        last_batch = 0
         tf.print("\nEpoch {}/{}:\n".format(epoch+1, epochs))
         pb_1 = Progbar(len(train_dataset.list_IDs)/train_dataset.batch_size,\
             stateful_metrics=None)
@@ -14,7 +21,11 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
             train_loss = train_batch(X_batch,\
                  y_batch, optimizer, loss_function, model)/train_dataset.batch_size
             values=[('train_loss', train_loss)]
+            cumulative_train_loss += train_loss
             pb_1.update(batch, values)
+            last_batch = batch
+        cumulative_train_loss /= (last_batch+1)
+        values=[('train_loss', cumulative_train_loss)]
         pb_1.update(len(train_dataset.list_IDs)/train_dataset.batch_size, values=values)
 
         pb_2 = Progbar(len(valid_dataset.list_IDs)/valid_dataset.batch_size,\
@@ -24,9 +35,14 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer)
                  y_batch, model, loss_function)/valid_dataset.batch_size
             values=[('valid_loss', valid_loss)]
             pb_2.update(batch, values)
-        values=[('train_loss', train_loss), ('val_loss', valid_loss)]
+            cumulative_valid_loss += valid_loss
+            last_batch = batch
+        cumulative_valid_loss /= (last_batch+1)
+        values=[('train_loss', cumulative_train_loss), ('val_loss', cumulative_valid_loss)]
         pb_2.update(len(valid_dataset.list_IDs)/valid_dataset.batch_size, values=values)
-        model.save_weights("Model.h5")
+        
+        if cumulative_valid_loss < best_loss:
+            model.save_weights("Checkpoints/Model.h5")
 
 def train_batch(X, y_true, optimizer, loss_function, model):
     with tf.GradientTape() as tape:

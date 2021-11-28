@@ -35,10 +35,10 @@ loss_function = Synergy_Loss()
 #      verbose=1)
 
 print(model.summary())
-model.save_weights("Model.h5")
 # model_fit = model.fit(x=training_data_generator,
 # validation_data=validation_data_generator,
 # epochs=10, 
 # verbose=1,
 # callbacks=[model_checkpoint_callback])
-train(model, validation_data_generator, validation_data_generator, 2, loss_function, optimizer)
+train(model, training_data_generator, validation_data_generator, 100,\
+       loss_function, optimizer, False)
