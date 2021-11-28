@@ -1,4 +1,4 @@
-from data_generator.preprocessing_labels import eulerAngles_to_RotationMatrix, rotationMatrix_to_EulerAngles
+from data_generator.labels_preprocessing import *
 import tensorflow as tf
 from tensorflow.keras.layers import Layer, Lambda
 import numpy as np

@@ -1,4 +1,4 @@
-from data_generator.preprocessing_labels import label_to_3DMM, label_to_pt2d
+from data_generator.labels_preprocessing import label_to_3DMM, label_to_pt2d
 import tensorflow as tf
 from tensorflow.math import square, reduce_sum
 from tensorflow.keras.losses import Loss, Huber
