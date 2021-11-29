@@ -33,7 +33,14 @@ class PCA(Layer):
         self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
         self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints], 'w_shp_base')
-        super().build(batch_input_shape)
+        self.T = tf.Variable(tf.zeros((self.batch_size, 4, 4)),\
+             name='Transformation_Matrix', trainable=False, validate_shape=True)
+        self.M = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Move_Matrix', trainable=False)
+        # revert height
+        self.H = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Height_Matrix', trainable=False)
+        self.H[1, 1].assign(-1.0)
+        self.H[1, 3].assign(self.height)
+        super(PCA, self).build(batch_input_shape)
 
     def call(self, pose_3DMM, alpha_exp, alpha_shp):
         alpha_exp = tf.expand_dims(alpha_exp, -1)
@@ -47,7 +54,7 @@ class PCA(Layer):
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
         vertices = tf.reshape(vertices, (self.batch_size, self.num_landmarks, 3))
-        T_bfm = self.transform_matrix(pose_3DMM, self.height)
+        T_bfm = self.transform_matrix(pose_3DMM)
         temp_ones_vec = tf.ones((self.batch_size, self.num_landmarks, 1), name='1st_Ones')
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
         image_vertices = tf.matmul(homo_vertices, T_bfm, transpose_b=True, name='3rd_Matmul')[:, :, 0:3]
@@ -74,29 +81,24 @@ class PCA(Layer):
     def convert_npy_to_tensor(self, npy_array, name):
         return tf.constant(npy_array, dtype=tf.float32, name=name)
     
-    def transform_matrix(self, pose_3DMM, height):
+    def transform_matrix(self, pose_3DMM):
         """
         :pose_3DMM : [12]
         :return: 4x4 transmatrix
         """
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        T = tf.Variable(lambda : tf.zeros((self.batch_size, 4, 4)), name='Transformation_Matrix')
-        T = T[:, 0:3, 0:3].assign(R)
-        T = T[:, 3, 3].assign([1.0])
+        self.T[:, 0:3, 0:3].assign(R)
+        self.T[:, 3, 3].assign([1.0])
         # scale
         S = tf.linalg.diag([s, s, s, 1.0])
-        T = tf.matmul(S, T)
+        self.T = tf.matmul(S, self.T)
         # offset move
-        M = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Move_Matrix')
         t = tf.reshape(t, [-1])
-        M = M[0:3, 3].assign(tf.cast(t, tf.float32))
-        T = tf.matmul(M, T)
-        # revert height
-        H = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Height_Matrix')
-        H = H[1, 1].assign(-1.0)
-        H = H[1, 3].assign(height)
-        T = tf.matmul(H, T)
-        return tf.cast(T, tf.float32)
+        self.M[0:3, 3].assign(tf.cast(t, tf.float32))
+        self.T = tf.matmul(self.M, self.T)
+
+        self.T = tf.matmul(self.H, self.T)
+        return tf.cast(self.T, tf.float32)
     
     def pose_3DMM_to_sRt(self, pose_3DMM):
         T = tf.reshape(pose_3DMM, (self.batch_size, 3, 4))
