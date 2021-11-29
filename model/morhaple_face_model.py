@@ -19,6 +19,7 @@ class PCA(Layer):
                  0, name='aspect_ratio')
 
     def build(self, batch_input_shape):
+        self.batch_size = batch_input_shape[0]
         w_exp = self.parsing_npy('w_exp_sim.npy')
         w_shp = self.parsing_npy('w_shp_sim.npy')
         w_tex = self.parsing_npy('w_tex_sim.npy')
@@ -45,9 +46,9 @@ class PCA(Layer):
              tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
-        vertices = tf.reshape(vertices, (tf.shape(vertices)[0], self.num_landmarks, 3))
+        vertices = tf.reshape(vertices, (self.batch_size, self.num_landmarks, 3))
         T_bfm = self.transform_matrix(pose_3DMM, self.height)
-        temp_ones_vec = tf.ones((tf.shape(vertices)[0], self.num_landmarks, 1), name='1st_Ones')
+        temp_ones_vec = tf.ones((self.batch_size, self.num_landmarks, 1), name='1st_Ones')
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
         image_vertices = tf.matmul(homo_vertices, T_bfm, transpose_b=True, name='3rd_Matmul')[:, :, 0:3]
         image_vertices_resized = self.resize_landmarks(image_vertices)
@@ -79,7 +80,7 @@ class PCA(Layer):
         :return: 4x4 transmatrix
         """
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        T = tf.Variable(lambda : tf.zeros((tf.shape(pose_3DMM)[0], 4, 4)), name='Transformation_Matrix')
+        T = tf.Variable(lambda : tf.zeros((self.batch_size, 4, 4)), name='Transformation_Matrix')
         T = T[:, 0:3, 0:3].assign(R)
         T = T[:, 3, 3].assign([1.0])
         # scale
@@ -98,7 +99,7 @@ class PCA(Layer):
         return tf.cast(T, tf.float32)
     
     def pose_3DMM_to_sRt(self, pose_3DMM):
-        T = tf.reshape(pose_3DMM, (tf.shape(pose_3DMM)[0], 3, 4))
+        T = tf.reshape(pose_3DMM, (self.batch_size, 3, 4))
         R = T[:, :, 0:3]
         t = tf.expand_dims(T[:, :, -1], -1)
         s = tf.reduce_sum(t[:, -1])
