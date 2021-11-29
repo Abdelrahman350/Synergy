@@ -41,11 +41,10 @@ vertices_tf = pca(pose_3dmm, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
 #print(vertices.shape)
-landmarks_pred = vertices
-
-for output in landmarks_pred:
-  plot_landmarks_pred(image, output, 'pred')
-  plot_landmarks_gt(image, label, name='gt')
+landmarks_pred = vertices[0]
+#for output in landmarks_pred:
+plot_landmarks_pred(image, landmarks_pred, 'pred')
+plot_landmarks_gt(image, label, name='gt')
 
 # model = create_synergy((224, 224, 3))
 # print(model.summary())

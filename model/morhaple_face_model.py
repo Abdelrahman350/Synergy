@@ -50,8 +50,9 @@ class PCA(Layer):
         temp_ones_vec = tf.ones((tf.shape(vertices)[0], self.num_landmarks, 1), name='1st_Ones')
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
         image_vertices = tf.matmul(homo_vertices, T_bfm, transpose_b=True, name='3rd_Matmul')[:, :, 0:3]
+        print(T_bfm)
         image_vertices_resized = self.resize_landmarks(image_vertices)
-        return image_vertices_resized
+        return image_vertices
 
     def get_config(self):
         base_config = super(PCA, self).get_config()
@@ -101,7 +102,12 @@ class PCA(Layer):
         T = tf.reshape(pose_3DMM, (tf.shape(pose_3DMM)[0], 3, 4))
         R = T[:, :, 0:3]
         t = tf.expand_dims(T[:, :, -1], -1)
-        s = tf.reduce_sum(t[-1])
+        s = tf.reduce_sum(t[:, -1])
+        print("T = ", T)
+        print()
+        print("t = ", t)
+        print()
+        print("s = ", s)
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
         t = tf.matmul(zero, t)
         return s, R, t
