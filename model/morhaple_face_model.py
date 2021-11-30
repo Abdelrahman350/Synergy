@@ -35,11 +35,12 @@ class PCA(Layer):
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints], 'w_shp_base')
         self.T = tf.Variable(tf.zeros((self.batch_size, 4, 4)),\
              name='Transformation_Matrix', trainable=False, validate_shape=True)
-        self.M = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Move_Matrix', trainable=False)
+        batch_diag = tf.repeat(tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), 0), self.batch_size, 0)
+        self.M = tf.Variable(batch_diag, name='Move_Matrix', trainable=False)
         # revert height
-        self.H = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Height_Matrix', trainable=False)
-        self.H[1, 1].assign(-1.0)
-        self.H[1, 3].assign(self.height)
+        self.H = tf.Variable(batch_diag, name='Height_Matrix', trainable=False)
+        self.H[:, 1, 1].assign(-tf.ones((self.batch_size, )))
+        self.H[:, 1, 3].assign(self.height*tf.ones((self.batch_size, )))
         self.reshape_vertices = Reshape((self.num_landmarks, 3))
         self.reshape_pose = Reshape((3, 4))
         super(PCA, self).build(batch_input_shape)
@@ -89,14 +90,15 @@ class PCA(Layer):
         :return: 4x4 transmatrix
         """
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
+        print(self.T.shape, R.shape)
         self.T[:, 0:3, 0:3].assign(R)
-        self.T[:, 3, 3].assign([1.0])
+        self.T[:, 3, 3].assign(tf.ones((self.batch_size, )))
         # scale
         S = tf.linalg.diag([s, s, s, 1.0])
         self.T = tf.matmul(S, self.T)
         # offset move
-        t = tf.reshape(t, [-1])
-        self.M[0:3, 3].assign(tf.cast(t, tf.float32))
+        t = tf.squeeze(t, -1)
+        self.M[:, 0:3, 3].assign(tf.cast(t, tf.float32))
         self.T = tf.matmul(self.M, self.T)
 
         self.T = tf.matmul(self.H, self.T)
