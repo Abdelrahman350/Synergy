@@ -33,14 +33,7 @@ class PCA(Layer):
         self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
         self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints], 'w_shp_base')
-        self.T = tf.Variable(tf.zeros((self.batch_size, 4, 4)),\
-             name='Transformation_Matrix', trainable=False, validate_shape=True)
-        batch_diag = tf.repeat(tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), 0), self.batch_size, 0)
-        self.M = tf.Variable(batch_diag, name='Move_Matrix', trainable=False)
-        # revert height
-        self.H = tf.Variable(batch_diag, name='Height_Matrix', trainable=False)
-        self.H[:, 1, 1].assign(-tf.ones((self.batch_size, )))
-        self.H[:, 1, 3].assign(self.height*tf.ones((self.batch_size, )))
+        
         self.reshape_vertices = Reshape((self.num_landmarks, 3))
         self.reshape_pose = Reshape((3, 4))
         self.reshape_scale = Reshape((1, 1))
@@ -91,14 +84,22 @@ class PCA(Layer):
         :return: 4x4 transmatrix
         """
         R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        self.T[:, 0:3, 0:3].assign(R)
-        self.T[:, 3, 3].assign(tf.ones((self.batch_size, )))
+        T = tf.Variable(lambda: tf.zeros((tf.shape(pose_3DMM)[0], 4, 4)),\
+            name='Transformation_Matrix', trainable=False, validate_shape=True)
+        T[:, 0:3, 0:3].assign(R)
+        T[:, 3, 3].assign(tf.ones((tf.shape(pose_3DMM)[0], )))
         # offset move
-        self.M[:, 0:3, 3].assign(tf.cast(t, tf.float32))
-        self.T = tf.matmul(self.M, self.T)
-
-        self.T = tf.matmul(self.H, self.T)
-        return tf.cast(self.T, tf.float32)
+        batch_diag = tf.repeat(tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), 0),\
+             tf.shape(pose_3DMM)[0], 0)
+        M = tf.Variable(batch_diag, name='Move_Matrix', trainable=False)
+        M[:, 0:3, 3].assign(tf.cast(t, tf.float32))
+        T = tf.matmul(M, T)
+        # revert height
+        H = tf.Variable(batch_diag, name='Height_Matrix', trainable=False)
+        H[:, 1, 1].assign(-tf.ones((tf.shape(pose_3DMM)[0], )))
+        H[:, 1, 3].assign(self.height*tf.ones((tf.shape(pose_3DMM)[0], )))
+        T = tf.matmul(H, T)
+        return tf.cast(T, tf.float32)
     
     def pose_3DMM_to_sRt(self, pose_3DMM):
         T = self.reshape_pose(pose_3DMM)
@@ -107,7 +108,7 @@ class PCA(Layer):
         s = tf.expand_dims(t[:, -1], -1)
         s = self.reshape_scale(s)
         diags = tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0]), 0)
-        diags_repeated = tf.repeat(diags, self.batch_size, 0)
+        diags_repeated = tf.repeat(diags, tf.shape(pose_3DMM)[0], 0)
         s = s*diags_repeated
         R = tf.matmul(R, s)
         zero = tf.linalg.diag([1.0, 1.0, 0.0])

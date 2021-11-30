@@ -43,5 +43,5 @@ vertices = tf.make_ndarray(vertices)
 for i in range(len(list_ids)):
     plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
     plot_landmarks(images[i], y[1][i], name='gt_'+str(i))
-# backbone = create_synergy(input_shape=(224, 224, 3))
+backbone = create_synergy(input_shape=(224, 224, 3))
 # print(backbone.summary())
