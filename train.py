@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.compat.v1.train import AdamOptimizer
-tf.compat.v1.enable_eager_execution()
 
 from utils.custom_fit import train
 from losses import Synergy_Loss

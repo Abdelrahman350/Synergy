@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.compat.v1.train import AdamOptimizer
 from model.synergy import create_synergy
-tf.compat.v1.enable_eager_execution()
+from utils.data_utils.plotting_data import plot_landmarks_gt, plot_landmarks_pred
 
 from model.morhaple_face_model import PCA
 from utils.custom_fit import train
@@ -36,11 +36,13 @@ exp_para = y[2]
 shape_para = y[3]
 
 print(pose_3dmm.shape, exp_para.shape, shape_para.shape)
-# backbone = create_synergy(input_shape=(224, 224, 3))
-# print(backbone.summary())
+
 pca = PCA((224, 224, 3))
 vertices_tf = pca(pose_3dmm, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
-
 print(vertices.shape)
+plot_landmarks_pred(images[0], vertices[0][0], 'pred_0')
+plot_landmarks_gt(images[0], y[1][0], name='gt_0')
+backbone = create_synergy(input_shape=(224, 224, 3))
+print(backbone.summary())
