@@ -1,6 +1,6 @@
 from data_generator.labels_preprocessing import *
 import tensorflow as tf
-from tensorflow.keras.layers import Layer
+from tensorflow.keras.layers import Layer, Reshape
 import numpy as np
 import pickle
 
@@ -40,6 +40,8 @@ class PCA(Layer):
         self.H = tf.Variable(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), name='Height_Matrix', trainable=False)
         self.H[1, 1].assign(-1.0)
         self.H[1, 3].assign(self.height)
+        self.reshape_vertices = Reshape((self.num_landmarks, 3))
+        self.reshape_pose = Reshape((3, 4))
         super(PCA, self).build(batch_input_shape)
 
     def call(self, pose_3DMM, alpha_exp, alpha_shp):
@@ -53,7 +55,7 @@ class PCA(Layer):
              tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
-        vertices = tf.reshape(vertices, (self.batch_size, self.num_landmarks, 3))
+        vertices = self.reshape_vertices(vertices)
         T_bfm = self.transform_matrix(pose_3DMM)
         temp_ones_vec = tf.ones((self.batch_size, self.num_landmarks, 1), name='1st_Ones')
         homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
@@ -101,7 +103,7 @@ class PCA(Layer):
         return tf.cast(self.T, tf.float32)
     
     def pose_3DMM_to_sRt(self, pose_3DMM):
-        T = tf.reshape(pose_3DMM, (self.batch_size, 3, 4))
+        T = self.reshape_pose(pose_3DMM)
         R = T[:, :, 0:3]
         t = tf.expand_dims(T[:, :, -1], -1)
         s = tf.reduce_sum(t[:, -1])
