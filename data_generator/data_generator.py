@@ -40,7 +40,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
             X.append(image)
-            pose_3DMM, landmarks = label_loader(image_id, self.labels, aspect_ratio)
+            pose_3DMM, landmarks, _, _ = label_loader(image_id, self.labels, aspect_ratio)
             pose_parameters.append(pose_3DMM)
             pt2d.append(landmarks)
         X = np.array(X)
@@ -53,16 +53,22 @@ class DataGenerator(tf.keras.utils.Sequence):
         X = []
         pose_parameters = []
         pt2d = []
+        exps = []
+        shps = []
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
             X.append(image)
-            pose_3DMM, landmarks = label_loader(image_id, self.labels, aspect_ratio)
+            pose_3DMM, landmarks, alpha_exp, alpha_shp = label_loader(image_id, self.labels, aspect_ratio)
             pose_parameters.append(pose_3DMM)
             pt2d.append(landmarks)
+            exps.append(alpha_exp)
+            shps.append(alpha_shp)
         X = np.array(X)
         pose_parameters = np.array(pose_parameters)
         pt2d = np.array(pt2d)
-        return X, [pose_parameters, pt2d]
+        exps = np.array(exps)
+        shps = np.array(shps)
+        return X, [pose_parameters, pt2d, exps, shps]
 
     def get_one_instance(self, id):
         batch = [id]

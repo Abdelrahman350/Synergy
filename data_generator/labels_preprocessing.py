@@ -9,7 +9,7 @@ def label_loader(image_id, labels, aspect_ratio):
     alpha_Shape = np.array(labels[image_id]['Shape_Para']).T
     pt2d = np.array(labels[image_id]['pt2d']).T
     pt2d = resize_landmarks(pt2d, aspect_ratio)
-    return pose_3DMM, pt2d
+    return pose_3DMM, pt2d, alpha_exp, alpha_Shape
 
 def pose_to_3DMM(pose):
     R = eulerAngles_to_RotationMatrix(pose[:3])
