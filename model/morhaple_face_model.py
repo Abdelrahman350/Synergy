@@ -43,6 +43,7 @@ class PCA(Layer):
         self.H[:, 1, 3].assign(self.height*tf.ones((self.batch_size, )))
         self.reshape_vertices = Reshape((self.num_landmarks, 3))
         self.reshape_pose = Reshape((3, 4))
+        self.reshape_scale = Reshape((1, 1))
         super(PCA, self).build(batch_input_shape)
 
     def call(self, pose_3DMM, alpha_exp, alpha_shp):
@@ -89,15 +90,10 @@ class PCA(Layer):
         :pose_3DMM : [12]
         :return: 4x4 transmatrix
         """
-        s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        print(self.T.shape, R.shape)
+        R, t = self.pose_3DMM_to_sRt(pose_3DMM)
         self.T[:, 0:3, 0:3].assign(R)
         self.T[:, 3, 3].assign(tf.ones((self.batch_size, )))
-        # scale
-        S = tf.linalg.diag([s, s, s, 1.0])
-        self.T = tf.matmul(S, self.T)
         # offset move
-        t = tf.squeeze(t, -1)
         self.M[:, 0:3, 3].assign(tf.cast(t, tf.float32))
         self.T = tf.matmul(self.M, self.T)
 
@@ -107,11 +103,16 @@ class PCA(Layer):
     def pose_3DMM_to_sRt(self, pose_3DMM):
         T = self.reshape_pose(pose_3DMM)
         R = T[:, :, 0:3]
-        t = tf.expand_dims(T[:, :, -1], -1)
-        s = tf.reduce_sum(t[:, -1])
+        t = T[:, :, -1]
+        s = tf.expand_dims(t[:, -1], -1)
+        s = self.reshape_scale(s)
+        diags = tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0]), 0)
+        diags_repeated = tf.repeat(diags, self.batch_size, 0)
+        s = s*diags_repeated
+        R = tf.matmul(R, s)
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
-        t = tf.matmul(zero, t)
-        return s, R, t
+        t = tf.matmul(t, zero)
+        return R, t
     
     def resize_landmarks(self, pt2d):
         return pt2d*self.aspect_ratio

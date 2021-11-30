@@ -22,27 +22,26 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
+input_shape = (450, 450, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=(224, 224, 3), batch_size=32, shuffle=True)
+      input_shape=input_shape, batch_size=32, shuffle=True)
 
-list_ids = ["300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
+list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
      "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
       "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
-print(images.shape)
 
 pose_3dmm = y[0]
 exp_para = y[2]
 shape_para = y[3]
 
-print(pose_3dmm.shape, exp_para.shape, shape_para.shape)
-
-pca = PCA((224, 224, 3))
+pca = PCA(input_shape)
 vertices_tf = pca(pose_3dmm, exp_para, shape_para)
 vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
 vertices = tf.make_ndarray(vertices)
-print(vertices.shape)
-plot_landmarks_pred(images[0], vertices[0][0], 'pred_0')
-plot_landmarks_gt(images[0], y[1][0], name='gt_0')
-backbone = create_synergy(input_shape=(224, 224, 3))
-print(backbone.summary())
+
+for i in range(len(list_ids)):
+    plot_landmarks_pred(images[i], vertices[i], 'pred_'+str(i))
+    plot_landmarks_pred(images[i], y[1][i], name='gt_'+str(i))
+# backbone = create_synergy(input_shape=(224, 224, 3))
+# print(backbone.summary())
