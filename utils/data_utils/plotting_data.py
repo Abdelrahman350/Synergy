@@ -57,6 +57,6 @@ def plot_landmarks_gt(image, label, name='output_landmarks'):
     image = draw_landmarks(image, pt2d)        
     cv2.imwrite(name+".jpg", image*255)
 
-def plot_landmarks_pred(image, pt2d, name='output_landmarks'):
+def plot_landmarks(image, pt2d, name='output_landmarks'):
     image = draw_landmarks(image, pt2d)        
     cv2.imwrite(name+".jpg", image*255)

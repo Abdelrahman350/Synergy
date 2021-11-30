@@ -24,8 +24,8 @@ training_data_generator, validation_data_generator = loading_generators(dataset=
       input_shape=input_shape, batch_size=32, shuffle=True)
 
 
-image, label = training_data_generator.get_one_instance('300W-LP/300W_LP/AFW/AFW_134212_1_2')
-bfm_info = sio.loadmat('../../Datasets/300W-LP/300W_LP/AFW/AFW_134212_1_2.mat')
+image, label = training_data_generator.get_one_instance("300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13")
+bfm_info = sio.loadmat('../../Datasets/300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13.mat')
 
 pose_para = np.ravel(bfm_info['Pose_Para'])
 pose_3dmm = np.ravel(pose_to_3DMM(pose_para))
@@ -43,7 +43,7 @@ vertices = tf.make_ndarray(vertices)
 #print(vertices.shape)
 landmarks_pred = vertices[0]
 #for output in landmarks_pred:
-plot_landmarks_pred(image, landmarks_pred, 'pred')
+plot_landmarks(image, landmarks_pred, 'pred')
 plot_landmarks_gt(image, label, name='gt')
 
 # model = create_synergy((224, 224, 3))

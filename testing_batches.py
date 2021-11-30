@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.compat.v1.train import AdamOptimizer
 from model.synergy import create_synergy
-from utils.data_utils.plotting_data import plot_landmarks_gt, plot_landmarks_pred
+from utils.data_utils.plotting_data import plot_landmarks_gt, plot_landmarks
 
 from model.morhaple_face_model import PCA
 from utils.custom_fit import train
@@ -41,7 +41,7 @@ vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to 
 vertices = tf.make_ndarray(vertices)
 
 for i in range(len(list_ids)):
-    plot_landmarks_pred(images[i], vertices[i], 'pred_'+str(i))
-    plot_landmarks_pred(images[i], y[1][i], name='gt_'+str(i))
+    plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
+    plot_landmarks(images[i], y[1][i], name='gt_'+str(i))
 # backbone = create_synergy(input_shape=(224, 224, 3))
 # print(backbone.summary())
