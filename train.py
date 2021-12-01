@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.compat.v1.train import AdamOptimizer
+from tensorflow.keras.optimizers import Adam
 
 from utils.custom_fit import train
 from losses import Synergy_Loss
@@ -21,7 +21,7 @@ if gpus:
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=(224, 224, 3), batch_size=32, shuffle=True)
 model = Synergy((224, 224, 3))
-optimizer = AdamOptimizer(learning_rate=0.02)
+optimizer = Adam(learning_rate=0.02)
 loss_function = Synergy_Loss()
 # model.compile(optimizer= AdamOptimizer(learning_rate=0.02), loss=Synergy_Loss())
 
