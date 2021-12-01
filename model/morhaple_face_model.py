@@ -51,12 +51,12 @@ class PCA(Layer):
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
         vertices = self.reshape_vertices(vertices)
-        T_bfm = self.transform_matrix(pose_3DMM)
-        temp_ones_vec = tf.ones((self.batch_size, self.num_landmarks, 1), name='1st_Ones')
-        homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
-        image_vertices = tf.matmul(homo_vertices, T_bfm, transpose_b=True, name='3rd_Matmul')[:, :, 0:3]
-        image_vertices_resized = self.resize_landmarks(image_vertices)
-        return image_vertices_resized
+        # T_bfm = self.transform_matrix(pose_3DMM)
+        # temp_ones_vec = tf.ones((self.batch_size, self.num_landmarks, 1), name='1st_Ones')
+        # homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
+        # image_vertices = tf.matmul(homo_vertices, T_bfm, transpose_b=True, name='3rd_Matmul')[:, :, 0:3]
+        # image_vertices_resized = self.resize_landmarks(image_vertices)
+        return vertices
 
     def get_config(self):
         base_config = super(PCA, self).get_config()
