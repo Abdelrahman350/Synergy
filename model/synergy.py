@@ -21,15 +21,57 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
 
     morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
+    
     Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
-    Z = tf.expand_dims(Z, 1)
-    alpha_exp = tf.expand_dims(alpha_exp, 1)
-    alpha_shp = tf.expand_dims(alpha_shp, 1)
     Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
     pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
          num_points=num_points)(Lr)
 
-    pose_3DMM_hat = tf.squeeze(pose_3DMM_hat, 1)
     model = Model(inputs=[inputs],\
           outputs=[pose_3DMM, Lc, pose_3DMM_hat], name='Synergy')
     return model
+
+class Synergy(Model):
+      def __init__(self, input_shape, num_classes=62, num_points=68, **kwargs):
+            super(Synergy, self).__init__(**kwargs, name="Synergy")
+            self.input_shape_ = input_shape
+            self.mobileNet = create_MobileNetV2(input_shape=input_shape, classes=num_classes)
+            self.flatten = Flatten(name='Flatten')
+            self.GlobalAvgBooling = GlobalAveragePooling2D(name='Global_Avg_Pooling')
+          
+            self.dropOut_pose = Dropout(0.2, name='pose_dropout')
+            self.dense_pose = Dense(name='pose_3DMM', units=12)
+
+            self.dropOut_exp = Dropout(0.2, name='exp_dropout')
+            self.dense_exp = Dense(name='alpha_exp', units=10)
+
+            self.dropOut_shp = Dropout(0.2, name='shp_dropout')
+            self.dense_shp = Dense(name='alpha_shp', units=40)
+            self.morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
+
+            self.encoder =  MAFA(num_points=num_points)
+            self.decoder = Landmarks_to_3DMM(num_classes=num_classes, num_points=num_points)
+
+      def call(self, batch_images):
+            X = self.mobileNet(batch_images)
+            X_flattened = self.flatten(X)
+            Z = self.GlobalAvgBooling(X)
+
+            X_pose = self.dropOut_pose(X_flattened)
+            pose_3DMM = self.dense_pose(X_pose)
+
+            X_exp = self.dropOut_exp(X_flattened)
+            alpha_exp = self.dense_exp(X_exp)
+
+            X_shp = self.dropOut_shp(X_flattened)
+            alpha_shp = self.dense_shp(X_shp)
+
+            Lc = self.morphable_model(pose_3DMM, alpha_exp, alpha_shp)
+            Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
+            pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
+
+            return pose_3DMM, Lc, pose_3DMM_hat
+      
+      def model(self):
+        images = Input(shape=self.input_shape_, name='Input_Images')
+        return Model(inputs=[images], outputs=self.call(images))

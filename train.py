@@ -5,7 +5,7 @@ from tensorflow.compat.v1.train import AdamOptimizer
 from utils.custom_fit import train
 from losses import Synergy_Loss
 from utils.loading_data import loading_generators
-from model.synergy import create_synergy
+from model.synergy import create_synergy, Synergy
 
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
@@ -20,7 +20,7 @@ if gpus:
 
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=(224, 224, 3), batch_size=32, shuffle=True)
-model = create_synergy((224, 224, 3))
+model = Synergy((224, 224, 3))
 optimizer = AdamOptimizer(learning_rate=0.02)
 loss_function = Synergy_Loss()
 # model.compile(optimizer= AdamOptimizer(learning_rate=0.02), loss=Synergy_Loss())
@@ -32,7 +32,7 @@ loss_function = Synergy_Loss()
 #      save_best_only=True,
 #      verbose=1)
 
-print(model.summary())
+print(model.model().summary())
 # model_fit = model.fit(x=training_data_generator,
 # validation_data=validation_data_generator,
 # epochs=10, 

@@ -70,7 +70,7 @@ def MMFA(num_points=68):
     model = Model(inputs=[Lc, Z, alpha_exp, alpha_shp], outputs=[Lr], name='MFFA')
     return model
 
-class MAFA(tf.keras.Model):
+class MAFA(Model):
     def __init__(self, num_points=68, **kwargs):
         super(MAFA, self).__init__(**kwargs, name='MAFA')
         self.num_points = num_points
@@ -120,6 +120,10 @@ class MAFA(tf.keras.Model):
         self.Lr = ReLU(name='Encoder_Lr')
 
     def call(self, Lc, Z, alpha_exp, alpha_shp):
+        Z = tf.expand_dims(Z, 1, name="Expanding_Z")
+        alpha_exp = tf.expand_dims(alpha_exp, 1, name="Expanding_alphaExp")
+        alpha_shp = tf.expand_dims(alpha_shp, 1, name="Expanding_alphaShp")
+
         # First hidden layer
         X = self.conv1(Lc)
         X = self.bn1(X)
