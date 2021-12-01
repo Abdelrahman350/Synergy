@@ -46,16 +46,25 @@ class PCA(Layer):
         alpha_exp = tf.cast(alpha_exp, tf.float32)
         alpha_shp = tf.cast(alpha_shp, tf.float32)
 
+        s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
+        zero = tf.linalg.diag([1.0, 1.0, 0.0])
+        t = tf.matmul(t, zero) + tf.constant([0.0, 0.0, 1.0])
+        H = tf.constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0, self.height, 0.0]])
+        t = tf.matmul(t, H)
+        print("zero = ", zero.shape)
+        T = tf.math.multiply(self.reshape_scale(s), R, name=None)
         vertices = tf.add(self.u_base,\
              tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
+
+        print("T.shape = ", T.shape)
         vertices = self.reshape_vertices(vertices)
-        # T_bfm = self.transform_matrix(pose_3DMM)
-        # temp_ones_vec = tf.ones((self.batch_size, self.num_landmarks, 1), name='1st_Ones')
-        # homo_vertices = tf.concat((vertices, temp_ones_vec), axis=-1, name='1st_Concat')
-        # image_vertices = tf.matmul(homo_vertices, T_bfm, transpose_b=True, name='3rd_Matmul')[:, :, 0:3]
-        # image_vertices_resized = self.resize_landmarks(image_vertices)
+        vertices = tf.matmul(vertices, T, transpose_b=True) + tf.expand_dims(t, 1)
+        print("s.shape = ", s.shape)
+        print("R.shape = ", R.shape)
+        print("t_after.shape = ", t)
+        print("vertices.shape = ", vertices.shape)
         return vertices
 
     def get_config(self):
@@ -91,7 +100,7 @@ class PCA(Layer):
         # offset move
         batch_diag = tf.repeat(tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), 0),\
              tf.shape(pose_3DMM)[0], 0)
-        M = tf.Variable(batch_diag, name='Move_Matrix', trainable=False)
+        M = tf.Variable(lambda: batch_diag, name='Move_Matrix', trainable=False)
         M[:, 0:3, 3].assign(tf.cast(t, tf.float32))
         T = tf.matmul(M, T)
         # revert height
@@ -105,15 +114,8 @@ class PCA(Layer):
         T = self.reshape_pose(pose_3DMM)
         R = T[:, :, 0:3]
         t = T[:, :, -1]
-        s = tf.expand_dims(t[:, -1], -1)
-        s = self.reshape_scale(s)
-        diags = tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0]), 0)
-        diags_repeated = tf.repeat(diags, tf.shape(pose_3DMM)[0], 0)
-        s = s*diags_repeated
-        R = tf.matmul(R, s)
-        zero = tf.linalg.diag([1.0, 1.0, 0.0])
-        t = tf.matmul(t, zero)
-        return R, t
+        s = t[:, -1]
+        return s, R, t
     
     def resize_landmarks(self, pt2d):
         return pt2d*self.aspect_ratio

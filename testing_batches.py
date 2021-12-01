@@ -44,12 +44,13 @@ for i in range(len(list_ids)):
     plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
     plot_landmarks(images[i], y[1][i], name='gt_'+str(i))
 
-model = Synergy(input_shape=(224, 224, 3))
+model = Synergy(input_shape=input_shape)
 model.model().summary()
 
 model.save_weights("checkpoints/model_synergy.h5")
-
-model_test = Synergy(input_shape=(224, 224, 3))
+print()
+print()
+model_test = Synergy(input_shape=input_shape)
 model_test.built = True
 model_test.model()
 model_test.load_weights("checkpoints/model_synergy.h5")
