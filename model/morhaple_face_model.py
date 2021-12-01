@@ -49,22 +49,18 @@ class PCA(Layer):
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
         t = tf.matmul(t, zero) + tf.constant([0.0, 0.0, 1.0])
-        H = tf.constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0, self.height, 0.0]])
-        t = tf.matmul(t, H)
-        print("zero = ", zero.shape)
-        T = tf.math.multiply(self.reshape_scale(s), R, name=None)
+        H_t = tf.constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, self.height, 0.0]])
+        t = tf.matmul(t, H_t)
+        H_R = tf.constant([[1.0, 1.0, 1.0], [-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]])
+        T = H_R*tf.math.multiply(self.reshape_scale(s), R, name=None)
+        print("\nT = ", T)
         vertices = tf.add(self.u_base,\
              tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
 
-        print("T.shape = ", T.shape)
         vertices = self.reshape_vertices(vertices)
         vertices = tf.matmul(vertices, T, transpose_b=True) + tf.expand_dims(t, 1)
-        print("s.shape = ", s.shape)
-        print("R.shape = ", R.shape)
-        print("t_after.shape = ", t)
-        print("vertices.shape = ", vertices.shape)
         return vertices
 
     def get_config(self):
