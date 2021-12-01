@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.compat.v1.train import AdamOptimizer
-from model.synergy import create_synergy
+from model.synergy import Synergy, create_synergy
 from utils.data_utils.plotting_data import plot_landmarks_gt, plot_landmarks
 
 from model.morhaple_face_model import PCA
@@ -43,5 +43,14 @@ vertices = tf.make_ndarray(vertices)
 for i in range(len(list_ids)):
     plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
     plot_landmarks(images[i], y[1][i], name='gt_'+str(i))
-backbone = create_synergy(input_shape=(224, 224, 3))
-# print(backbone.summary())
+
+model = Synergy(input_shape=(224, 224, 3))
+model.model().summary()
+
+model.save_weights("checkpoints/model_synergy.h5")
+
+model_test = Synergy(input_shape=(224, 224, 3))
+model_test.built = True
+model_test.model()
+model_test.load_weights("checkpoints/model_synergy.h5")
+print(model_test.summary())

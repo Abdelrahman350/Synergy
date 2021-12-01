@@ -75,3 +75,21 @@ class Synergy(Model):
       def model(self):
         images = Input(shape=self.input_shape_, name='Input_Images')
         return Model(inputs=[images], outputs=self.call(images))
+
+      def get_config(self):
+        base_config = super(Synergy, self).get_config()
+        return {**base_config, 
+        "input_shape": self.input_shape_,
+        "backbone": self.mobileNet,
+        "flatten": self.flatten,
+        "GlobalAvgBooling": self.GlobalAvgBooling,
+        "dropOut_pose": self.dropOut_pose,
+        "dense_pose": self.dense_pose,
+        "dropOut_exp": self.dropOut_exp,
+        "dense_exp": self.dense_exp,
+        "dropOut_shp": self.dropOut_shp,
+        "dense_shp": self.dense_shp,
+        "morphable_model": self.morphable_model,
+        "encoder": self.encoder,
+        "decoder": self.decoder}
+        
