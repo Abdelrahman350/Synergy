@@ -70,7 +70,7 @@ class Synergy(Model):
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
             pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
 
-            return pose_3DMM, Lc, pose_3DMM_hat
+            return pose_3DMM, Lr, pose_3DMM_hat
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
