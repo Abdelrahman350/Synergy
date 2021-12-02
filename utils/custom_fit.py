@@ -45,7 +45,11 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer,
         wandb.log({'epoch': epoch, 'training loss': cumulative_train_loss,\
              'validation loss': cumulative_valid_loss})         
         if cumulative_valid_loss < best_loss:
-            model.save_weights("checkpoints/Model.h5")
+            model_name = "Model.h5"
+            model.save_weights("checkpoints/" + model_name)
+            print(f"The validation loss improved from {best_loss} to {cumulative_valid_loss}.\
+                 Saving model {model_name}")
+            best_loss = cumulative_valid_loss
 
 def train_batch(X, y_true, optimizer, loss_function, model):
     with tf.GradientTape() as tape:

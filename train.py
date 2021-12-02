@@ -1,12 +1,13 @@
 import tensorflow as tf
-from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
 import wandb
+import numpy as np
 
 from utils.custom_fit import train
 from losses import Synergy_Loss
 from utils.loading_data import loading_generators
-from model.synergy import create_synergy, Synergy
+from model.synergy import Synergy
 
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
@@ -19,26 +20,18 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=(224, 224, 3), batch_size=32, shuffle=True)
-model = Synergy((224, 224, 3))
-optimizer = Adam(learning_rate=0.02)
-loss_function = Synergy_Loss()
-# model.compile(optimizer= AdamOptimizer(learning_rate=0.02), loss=Synergy_Loss())
+input_shape = (224, 224, 3)
 
-# model_checkpoint_callback = ModelCheckpoint(filepath='.',
-#      save_weights_only=True,
-#      monitor='val_loss',
-#      mode='min',
-#      save_best_only=True,
-#      verbose=1)
+training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
+      input_shape=input_shape, batch_size=32, shuffle=True)
+model = Synergy(input_shape)
+
+var = tf.Variable(np.random.random(size=(1,)))
+learning_rate = ExponentialDecay(initial_learning_rate=0.08, decay_steps=20, decay_rate=0.1)
+optimizer = Adam(learning_rate=learning_rate)
+loss_function = Synergy_Loss()
 
 print(model.model().summary())
-# model_fit = model.fit(x=training_data_generator,
-# validation_data=validation_data_generator,
-# epochs=10, 
-# verbose=1,
-# callbacks=[model_checkpoint_callback])
 experiment_name = "Synergy"
 resume = False
 run = wandb.init(project="Synergy", name= experiment_name, resume= resume)
