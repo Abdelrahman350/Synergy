@@ -74,7 +74,7 @@ class Synergy(Model):
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
-            return Model(inputs=[images], outputs=self.call(images))
+            return Model(inputs=[images], outputs=self.call(images), name="Synergy")
 
       def get_config(self):
             base_config = super(Synergy, self).get_config()

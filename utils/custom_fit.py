@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.utils import Progbar
 import numpy as np
+import wandb
 
 def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer, load_model=True):
     if load_model:
@@ -40,9 +41,11 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer,
         cumulative_valid_loss /= (last_batch+1)
         values=[('train_loss', cumulative_train_loss), ('val_loss', cumulative_valid_loss)]
         pb_2.update(len(valid_dataset.list_IDs)/valid_dataset.batch_size, values=values)
-        
+
+        wandb.log({'epoch': epoch, 'training loss': cumulative_train_loss,\
+             'validation loss': cumulative_valid_loss})         
         if cumulative_valid_loss < best_loss:
-            model.save_weights("Checkpoints/Model.h5")
+            model.save_weights("checkpoints/Model.h5")
 
 def train_batch(X, y_true, optimizer, loss_function, model):
     with tf.GradientTape() as tape:

@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.optimizers import Adam
+import wandb
 
 from utils.custom_fit import train
 from losses import Synergy_Loss
@@ -38,5 +39,10 @@ print(model.model().summary())
 # epochs=10, 
 # verbose=1,
 # callbacks=[model_checkpoint_callback])
+experiment_name = "Synergy"
+resume = False
+run = wandb.init(project="Synergy", name= experiment_name, resume= resume)
+wandb.save("train.py")
+
 train(model, training_data_generator, validation_data_generator, 100,\
        loss_function, optimizer, False)
