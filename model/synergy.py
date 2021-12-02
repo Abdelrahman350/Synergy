@@ -68,7 +68,7 @@ class Synergy(Model):
 
             Lc = self.morphable_model(pose_3DMM, alpha_exp, alpha_shp)
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
-            pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
+            pose_3DMM_hat = self.decoder(Lr)
 
             return pose_3DMM, Lr, pose_3DMM_hat
       

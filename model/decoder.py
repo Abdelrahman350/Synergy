@@ -49,5 +49,5 @@ def Landmarks_to_3DMM(num_classes=62, num_points=68):
     bn8 = BatchNormalization(name='Decoder_BatchNormalization_8')(conv8)
     alpha_shp = ReLU(name='Decoder_ReLU_8')(bn8)
     pose_3DMM = tf.squeeze(pose_3DMM, 1, name="Squeezing_pose3DMM")
-    model = Model(inputs=[Lr], outputs=[pose_3DMM, alpha_exp, alpha_shp], name='Landmarks_to_3DMM')
+    model = Model(inputs=[Lr], outputs=[pose_3DMM], name='Landmarks_to_3DMM')
     return model
