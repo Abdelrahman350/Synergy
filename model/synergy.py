@@ -73,23 +73,57 @@ class Synergy(Model):
             return pose_3DMM, Lc, pose_3DMM_hat
       
       def model(self):
-        images = Input(shape=self.input_shape_, name='Input_Images')
-        return Model(inputs=[images], outputs=self.call(images))
+            images = Input(shape=self.input_shape_, name='Input_Images')
+            return Model(inputs=[images], outputs=self.call(images))
 
       def get_config(self):
-        base_config = super(Synergy, self).get_config()
-        return {**base_config, 
-        "input_shape": self.input_shape_,
-        "backbone": self.mobileNet,
-        "flatten": self.flatten,
-        "GlobalAvgBooling": self.GlobalAvgBooling,
-        "dropOut_pose": self.dropOut_pose,
-        "dense_pose": self.dense_pose,
-        "dropOut_exp": self.dropOut_exp,
-        "dense_exp": self.dense_exp,
-        "dropOut_shp": self.dropOut_shp,
-        "dense_shp": self.dense_shp,
-        "morphable_model": self.morphable_model,
-        "encoder": self.encoder,
-        "decoder": self.decoder}
-        
+            base_config = super(Synergy, self).get_config()
+            return {**base_config, 
+                        "input_shape": self.input_shape_,
+                        "backbone": self.mobileNet,
+                        "flatten": self.flatten,
+                        "GlobalAvgBooling": self.GlobalAvgBooling,
+                        "dropOut_pose": self.dropOut_pose,
+                        "dense_pose": self.dense_pose,
+                        "dropOut_exp": self.dropOut_exp,
+                        "dense_exp": self.dense_exp,
+                        "dropOut_shp": self.dropOut_shp,
+                        "dense_shp": self.dense_shp,
+                        "morphable_model": self.morphable_model,
+                        "encoder": self.encoder,
+                        "decoder": self.decoder
+                  }
+      
+      def train_step(self, data):
+            # Unpack the data. Its structure depends on your model and
+            # on what you pass to `fit()`.
+            X, y = data
+
+            with tf.GradientTape() as tape:
+                  y_pred = self(X, training=True)  # Forward pass
+                  # Compute the loss value
+                  # (the loss function is configured in `compile()`)
+                  loss = self.compiled_loss(y, y_pred, regularization_losses=self.losses)
+
+            # Compute gradients
+            trainable_vars = self.trainable_variables
+            gradients = tape.gradient(loss, trainable_vars)
+            # Update weights
+            self.optimizer.apply_gradients(zip(gradients, trainable_vars))
+            # Update metrics (includes the metric that tracks the loss)
+            self.compiled_metrics.update_state(y, y_pred)
+            # Return a dict mapping metric names to current value
+            return {m.name: m.result() for m in self.metrics}
+      
+      def test_step(self, data):
+            # Unpack the data
+            X, y = data
+            # Compute predictions
+            y_pred = self(X, training=False)
+            # Updates the metrics tracking the loss
+            self.compiled_loss(y, y_pred, regularization_losses=self.losses)
+            # Update the metrics.
+            self.compiled_metrics.update_state(y, y_pred)
+            # Return a dict mapping metric names to current value.
+            # Note that it will include the loss (tracked in self.metrics).
+            return {m.name: m.result() for m in self.metrics}
