@@ -46,21 +46,16 @@ class PCA(Layer):
         alpha_exp = tf.cast(alpha_exp, tf.float32)
         alpha_shp = tf.cast(alpha_shp, tf.float32)
 
-        s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        zero = tf.linalg.diag([1.0, 1.0, 0.0])
-        t = tf.matmul(t, zero) + tf.constant([0.0, 0.0, 1.0])
-        H_t = tf.constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, self.height, 0.0]])
-        t = tf.matmul(t, H_t)
-        H_R = tf.constant([[1.0, 1.0, 1.0], [-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]])
-        T = H_R*tf.math.multiply(self.reshape_scale(s), R, name=None)
-        print("\nT = ", T)
+        
         vertices = tf.add(self.u_base,\
              tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
              tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
                   name='Outer_Add')
 
         vertices = self.reshape_vertices(vertices)
+        T, t = self.transform_matrix(pose_3DMM)
         vertices = tf.matmul(vertices, T, transpose_b=True) + tf.expand_dims(t, 1)
+        vertices = self.resize_landmarks(vertices)
         return vertices
 
     def get_config(self):
@@ -88,23 +83,17 @@ class PCA(Layer):
         :pose_3DMM : [12]
         :return: 4x4 transmatrix
         """
-        R, t = self.pose_3DMM_to_sRt(pose_3DMM)
-        T = tf.Variable(lambda: tf.zeros((tf.shape(pose_3DMM)[0], 4, 4)),\
-            name='Transformation_Matrix', trainable=False, validate_shape=True)
-        T[:, 0:3, 0:3].assign(R)
-        T[:, 3, 3].assign(tf.ones((tf.shape(pose_3DMM)[0], )))
-        # offset move
-        batch_diag = tf.repeat(tf.expand_dims(tf.linalg.diag([1.0, 1.0, 1.0, 1.0]), 0),\
-             tf.shape(pose_3DMM)[0], 0)
-        M = tf.Variable(lambda: batch_diag, name='Move_Matrix', trainable=False)
-        M[:, 0:3, 3].assign(tf.cast(t, tf.float32))
-        T = tf.matmul(M, T)
-        # revert height
-        H = tf.Variable(batch_diag, name='Height_Matrix', trainable=False)
-        H[:, 1, 1].assign(-tf.ones((tf.shape(pose_3DMM)[0], )))
-        H[:, 1, 3].assign(self.height*tf.ones((tf.shape(pose_3DMM)[0], )))
-        T = tf.matmul(H, T)
-        return tf.cast(T, tf.float32)
+        s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
+        # Zeroing the tz
+        zero = tf.linalg.diag([1.0, 1.0, 0.0])
+        t = tf.matmul(t, zero) + tf.constant([0.0, 0.0, 1.0])
+        # Convert ty ----> (Height_image - ty)
+        H_t = tf.constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, self.height, 0.0]])
+        t = tf.matmul(t, H_t)
+        # Negative 2nd row in R
+        H_R = tf.constant([[1.0, 1.0, 1.0], [-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]])
+        T = H_R * tf.math.multiply(self.reshape_scale(s), R, name=None)
+        return T, t
     
     def pose_3DMM_to_sRt(self, pose_3DMM):
         T = self.reshape_pose(pose_3DMM)
