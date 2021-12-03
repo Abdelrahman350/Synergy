@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.11.0-40-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2021-12-02T17:18:01.726412",
+    "startedAt": "2021-12-02T17:18:00.003560",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": "https://github.com/Abdelrahman350/Synergy.git",
+        "commit": "407acdb81d6d1e383bd152e72886d61a06b72d24"
+    },
+    "email": "eng.abdelrahman.ahmad@gmail.com",
+    "root": "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy",
+    "host": "atun-181",
+    "username": "avidbeam",
+    "executable": "/home/avidbeam/.virtualenvs/TensorFlow_2/bin/python3"
+}
