@@ -70,6 +70,6 @@ def train_batch(X, y_true, optimizer, loss_function, model):
     return loss_value
 
 def validation_batch(X, y_true, model, loss_function):
-    y_pred = model(X, training=True)
+    y_pred = model(X, training=False)
     loss_value = loss_function(y_true, y_pred)
     return loss_value
