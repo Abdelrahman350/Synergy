@@ -1,0 +1,21 @@
+
+2021-12-04 04:22:52.471246: I tensorflow/stream_executor/cuda/cuda_dnn.cc:366] Loaded cuDNN version 8100
+2021-12-04 04:22:53.215878: I tensorflow/stream_executor/cuda/cuda_blas.cc:1774] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+Traceback (most recent call last):
+  File "train.py", line 40, in <module>
+    train(model, training_data_generator, validation_data_generator, 100,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 13, in train
+    for batch, (X_batch, y_batch) in enumerate(valid_dataset):
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/utils/data_utils.py", line 485, in __iter__
+    for item in (self[i] for i in range(len(self))):
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/utils/data_utils.py", line 485, in <genexpr>
+    for item in (self[i] for i in range(len(self))):
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/data_generator/data_generator.py", line 32, in __getitem__
+    X, y = self.__data_generation(batch)
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/data_generator/data_generator.py", line 41, in __data_generation
+    image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/data_generator/image_preprocessing.py", line 8, in image_loader
+    image_normalized = normalization(image)
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/data_generator/image_preprocessing.py", line 17, in normalization
+    image = image.astype(np.float32)
+KeyboardInterrupt
