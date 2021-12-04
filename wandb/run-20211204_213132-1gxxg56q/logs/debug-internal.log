@@ -8131,3 +8131,141 @@
 2021-12-05 00:53:41,898 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
 2021-12-05 00:53:43,898 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
 2021-12-05 00:53:45,899 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:47,899 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:49,899 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:51,900 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:53,900 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:55,618 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:53:55,618 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:53:55,901 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:57,902 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:53:59,902 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:00,396 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:54:01,902 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:03,903 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:05,903 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:07,904 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:09,904 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:10,945 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:54:10,945 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:54:11,905 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:13,905 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:15,906 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:17,906 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:19,907 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:21,907 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:23,908 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:25,908 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:26,258 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:54:26,258 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:54:27,909 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:29,909 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:30,537 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:54:31,910 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:33,910 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:35,911 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:37,911 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:39,912 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:41,623 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:54:41,623 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:54:41,912 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:43,912 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:45,913 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:47,913 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:49,914 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:51,914 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:53,915 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:55,915 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:57,007 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:54:57,007 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:54:57,916 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:54:59,916 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:00,672 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:55:01,917 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:03,917 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:05,918 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:07,918 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:09,919 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:11,919 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:12,323 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:55:12,324 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:55:13,919 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:15,920 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:17,921 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:19,921 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:21,921 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:23,922 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:25,922 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:27,643 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:55:27,643 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:55:27,923 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:29,923 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:30,809 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:55:31,924 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:33,924 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:35,924 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:37,925 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:39,925 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:41,926 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:42,964 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:55:42,964 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:55:43,926 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:45,927 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:47,927 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:49,927 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:51,928 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:53,928 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:55,929 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:57,929 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:55:58,280 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:55:58,280 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:55:59,929 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:00,954 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:56:01,930 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:03,930 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:05,931 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:07,931 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:09,932 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:11,932 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:13,603 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:56:13,604 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:56:14,933 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:16,933 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:18,934 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:20,934 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:22,935 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:24,935 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:26,936 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:28,923 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:56:28,923 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:56:28,936 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:30,936 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:31,090 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:56:32,937 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:34,938 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:36,938 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:38,939 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:40,939 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:42,939 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:44,238 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:56:44,238 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:56:44,940 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:46,940 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:48,941 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:50,941 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:52,942 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:54,942 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:56,943 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:58,943 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:56:59,555 DEBUG   HandlerThread:428334 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-05 00:56:59,555 DEBUG   SenderThread:428334 [sender.py:send_request():252] send_request: stop_status
+2021-12-05 00:57:00,944 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:57:01,229 DEBUG   SenderThread:428334 [sender.py:send():238] send: stats
+2021-12-05 00:57:01,803 DEBUG   SenderThread:428334 [sender.py:send():238] send: history
+2021-12-05 00:57:01,803 DEBUG   SenderThread:428334 [sender.py:send():238] send: summary
+2021-12-05 00:57:01,803 INFO    SenderThread:428334 [sender.py:_save_file():960] saving file wandb-summary.json with policy end
+2021-12-05 00:57:01,945 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/wandb-summary.json
+2021-12-05 00:57:02,945 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:57:03,945 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:57:04,945 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log
+2021-12-05 00:57:06,946 INFO    Thread-8  :428334 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_213132-1gxxg56q/files/output.log

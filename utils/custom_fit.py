@@ -58,7 +58,7 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer,
             model_name = "Model.h5"
             model.save_weights("checkpoints/" + model_name)
             print(f"The validation loss improved from {best_loss} to {cumulative_valid_loss}.\
-                 Saving model {model_name}")
+                Saving model to {model_name}")
             best_loss = cumulative_valid_loss
 
 def train_batch(X, y_true, optimizer, loss_function, model):
