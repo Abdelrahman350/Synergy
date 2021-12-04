@@ -1283,3 +1283,150 @@
 2021-12-04 21:27:31,128 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: stop_status
 2021-12-04 21:27:32,816 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
 2021-12-04 21:27:34,816 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:36,817 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:38,817 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:40,818 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:42,818 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:44,818 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:46,465 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-04 21:27:46,466 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: stop_status
+2021-12-04 21:27:46,819 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:48,819 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:50,820 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:52,820 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:54,821 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:56,162 DEBUG   SenderThread:425069 [sender.py:send():238] send: stats
+2021-12-04 21:27:56,821 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:27:58,822 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:00,822 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:01,797 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: stop_status
+2021-12-04 21:28:01,797 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: stop_status
+2021-12-04 21:28:02,822 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:04,823 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:05,498 WARNING MainThread:425069 [internal.py:wandb_internal():146] Internal process interrupt: 1
+2021-12-04 21:28:06,824 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:07,603 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:07,604 DEBUG   SenderThread:425069 [sender.py:send():238] send: telemetry
+2021-12-04 21:28:07,605 DEBUG   SenderThread:425069 [sender.py:send():238] send: exit
+2021-12-04 21:28:07,605 INFO    SenderThread:425069 [sender.py:send_exit():370] handling exit code: 255
+2021-12-04 21:28:07,605 INFO    SenderThread:425069 [sender.py:send_exit():372] handling runtime: 60897
+2021-12-04 21:28:07,606 INFO    SenderThread:425069 [sender.py:_save_file():960] saving file wandb-summary.json with policy end
+2021-12-04 21:28:07,606 INFO    SenderThread:425069 [sender.py:send_exit():382] send defer
+2021-12-04 21:28:07,606 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:07,607 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:07,607 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 0
+2021-12-04 21:28:07,608 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:07,608 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 0
+2021-12-04 21:28:07,608 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 1
+2021-12-04 21:28:07,608 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:07,609 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 1
+2021-12-04 21:28:07,625 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:07,625 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 1
+2021-12-04 21:28:07,625 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 2
+2021-12-04 21:28:07,625 DEBUG   SenderThread:425069 [sender.py:send():238] send: stats
+2021-12-04 21:28:07,626 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:07,626 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 2
+2021-12-04 21:28:07,626 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:07,626 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 2
+2021-12-04 21:28:07,626 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 3
+2021-12-04 21:28:07,626 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:07,626 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 3
+2021-12-04 21:28:07,626 DEBUG   SenderThread:425069 [sender.py:send():238] send: summary
+2021-12-04 21:28:07,626 INFO    SenderThread:425069 [sender.py:_save_file():960] saving file wandb-summary.json with policy end
+2021-12-04 21:28:07,626 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:07,626 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 3
+2021-12-04 21:28:07,626 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 4
+2021-12-04 21:28:07,627 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:07,627 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 4
+2021-12-04 21:28:07,627 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:07,627 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 4
+2021-12-04 21:28:07,709 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:07,825 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:07,825 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/wandb-summary.json
+2021-12-04 21:28:07,970 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 5
+2021-12-04 21:28:07,970 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:07,971 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:07,971 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 5
+2021-12-04 21:28:07,971 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:07,971 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 5
+2021-12-04 21:28:07,971 INFO    SenderThread:425069 [dir_watcher.py:finish():283] shutting down directory watcher
+2021-12-04 21:28:08,072 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:08,825 INFO    Thread-8  :425069 [dir_watcher.py:_on_file_modified():230] file/dir modified: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/config.yaml
+2021-12-04 21:28:08,827 INFO    SenderThread:425069 [dir_watcher.py:finish():313] scan: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files
+2021-12-04 21:28:08,827 INFO    SenderThread:425069 [dir_watcher.py:finish():327] scan save: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/train.py train.py
+2021-12-04 21:28:08,827 INFO    SenderThread:425069 [dir_watcher.py:finish():327] scan save: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/config.yaml config.yaml
+2021-12-04 21:28:08,827 INFO    SenderThread:425069 [dir_watcher.py:finish():327] scan save: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log output.log
+2021-12-04 21:28:08,828 INFO    SenderThread:425069 [dir_watcher.py:finish():327] scan save: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/wandb-summary.json wandb-summary.json
+2021-12-04 21:28:08,828 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 6
+2021-12-04 21:28:08,834 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:08,834 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:08,834 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 6
+2021-12-04 21:28:08,835 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:08,835 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 6
+2021-12-04 21:28:08,844 INFO    SenderThread:425069 [file_pusher.py:finish():177] shutting down file pusher
+2021-12-04 21:28:08,937 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:08,937 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,040 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,041 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,143 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,144 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,247 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,247 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,350 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,350 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,453 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,454 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,556 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,557 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,660 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,660 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,763 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,763 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,866 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,867 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:09,970 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:09,970 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,073 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,073 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,121 INFO    Thread-13 :425069 [upload_job.py:push():137] Uploaded file /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/output.log
+2021-12-04 21:28:10,176 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,177 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,208 INFO    Thread-12 :425069 [upload_job.py:push():137] Uploaded file /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/config.yaml
+2021-12-04 21:28:10,279 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,280 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,304 INFO    Thread-14 :425069 [upload_job.py:push():137] Uploaded file /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/files/wandb-summary.json
+2021-12-04 21:28:10,382 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,383 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,485 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,485 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,505 INFO    Thread-7  :425069 [sender.py:transition_state():395] send defer: 7
+2021-12-04 21:28:10,505 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:10,505 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 7
+2021-12-04 21:28:10,505 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:10,505 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 7
+2021-12-04 21:28:10,587 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,888 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 8
+2021-12-04 21:28:10,888 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,889 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:10,889 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 8
+2021-12-04 21:28:10,890 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:10,890 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 8
+2021-12-04 21:28:10,890 INFO    SenderThread:425069 [sender.py:transition_state():395] send defer: 9
+2021-12-04 21:28:10,891 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: defer
+2021-12-04 21:28:10,891 INFO    HandlerThread:425069 [handler.py:handle_request_defer():147] handle defer: 9
+2021-12-04 21:28:10,891 DEBUG   SenderThread:425069 [sender.py:send():238] send: final
+2021-12-04 21:28:10,892 DEBUG   SenderThread:425069 [sender.py:send():238] send: footer
+2021-12-04 21:28:10,892 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: defer
+2021-12-04 21:28:10,892 INFO    SenderThread:425069 [sender.py:send_request_defer():391] handle sender defer: 9
+2021-12-04 21:28:10,991 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: poll_exit
+2021-12-04 21:28:10,992 DEBUG   SenderThread:425069 [sender.py:send_request():252] send_request: poll_exit
+2021-12-04 21:28:10,992 INFO    SenderThread:425069 [file_pusher.py:join():182] waiting for file pusher
+2021-12-04 21:28:11,678 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: get_summary
+2021-12-04 21:28:11,680 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: sampled_history
+2021-12-04 21:28:11,682 DEBUG   HandlerThread:425069 [handler.py:handle_request():130] handle_request: shutdown
+2021-12-04 21:28:11,682 INFO    HandlerThread:425069 [handler.py:finish():731] shutting down handler
+2021-12-04 21:28:11,893 INFO    WriterThread:425069 [datastore.py:close():281] close: /media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/wandb/run-20211204_205516-1oyvcl3v/run-1oyvcl3v.wandb
+2021-12-04 21:28:12,676 INFO    SenderThread:425069 [sender.py:finish():1091] shutting down sender
+2021-12-04 21:28:12,676 INFO    SenderThread:425069 [file_pusher.py:finish():177] shutting down file pusher
+2021-12-04 21:28:12,676 INFO    SenderThread:425069 [file_pusher.py:join():182] waiting for file pusher
+2021-12-04 21:28:12,679 INFO    MainThread:425069 [internal.py:handle_exit():77] Internal process exited

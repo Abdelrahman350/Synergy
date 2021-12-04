@@ -940,3 +940,38 @@ Loaded model with validation_loss = 41.92481994628906
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 815/1633 [=============>................] - ETA: 6:01 - train_loss: 42.8225
+Traceback (most recent call last):
+  File "train.py", line 40, in <module>
+    train(model, training_data_generator, validation_data_generator, 100,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 32, in train
+    train_loss = train_batch(X_batch,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 68, in train_batch
+    grads = tape.gradient(loss_value, model.trainable_weights)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/eager/backprop.py", line 1084, in gradient
+    flat_grad = imperative_grad.imperative_grad(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/eager/imperative_grad.py", line 71, in imperative_grad
+    return pywrap_tfe.TFE_Py_TapeGradient(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/eager/backprop.py", line 159, in _gradient_function
+    return grad_fn(mock_op, *out_grads)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/ops/nn_grad.py", line 591, in _Conv2DGrad
+    gen_nn_ops.conv2d_backprop_filter(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/ops/gen_nn_ops.py", line 1080, in conv2d_backprop_filter
+    _result = pywrap_tfe.TFE_Py_FastPathExecute(
+
+ 817/1633 [==============>...............] - ETA: 6:00 - train_loss: 42.8191

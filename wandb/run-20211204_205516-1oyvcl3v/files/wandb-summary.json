@@ -1,1 +1,1 @@
-{"_runtime": 60539, "_timestamp": 1638645724, "training loss": 41.410858154296875, "validation loss": 42.150936126708984, "_step": 93, "epoch": 1}
+{"_runtime": 60539, "_timestamp": 1638645724, "training loss": 41.410858154296875, "validation loss": 42.150936126708984, "_step": 93, "epoch": 1, "_wandb": {"runtime": 60897}}
