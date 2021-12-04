@@ -4,10 +4,19 @@ import numpy as np
 import wandb
 
 def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer, load_model=True):
-    if load_model:
-        model.load_weights("Checkpoints/Model.h5")
-    
     best_loss = np.inf
+    if load_model:
+        model.build((1, train_dataset.input_shape[0],\
+            train_dataset.input_shape[1], train_dataset.input_shape[2]))
+        model.load_weights("checkpoints/Model.h5")
+        cumulative_valid_loss = 0
+        for batch, (X_batch, y_batch) in enumerate(valid_dataset):
+            valid_loss = validation_batch(X_batch,\
+                 y_batch, model, loss_function)/valid_dataset.batch_size
+            cumulative_valid_loss += valid_loss
+            last_batch = batch
+        cumulative_valid_loss /= (last_batch+1)
+        best_loss = cumulative_valid_loss
     
     for epoch in range(epochs):
         train_loss = 0

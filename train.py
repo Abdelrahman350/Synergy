@@ -38,4 +38,4 @@ run = wandb.init(project="Synergy", name= experiment_name, resume= resume)
 wandb.save("train.py")
 
 train(model, training_data_generator, validation_data_generator, 100,\
-       loss_function, optimizer, False)
+       loss_function, optimizer, True)
