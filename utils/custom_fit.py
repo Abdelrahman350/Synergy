@@ -17,6 +17,7 @@ def train(model, train_dataset, valid_dataset, epochs, loss_function, optimizer,
             last_batch = batch
         cumulative_valid_loss /= (last_batch+1)
         best_loss = cumulative_valid_loss
+        tf.print(f"Loaded model with validation_loss = {best_loss}\n")
     
     for epoch in range(epochs):
         train_loss = 0

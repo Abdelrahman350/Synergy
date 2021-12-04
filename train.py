@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, Nadam
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
 import wandb
 import numpy as np
@@ -28,7 +28,7 @@ model = Synergy(input_shape)
 
 var = tf.Variable(np.random.random(size=(1,)))
 learning_rate = ExponentialDecay(initial_learning_rate=0.03, decay_steps=20, decay_rate=0.5)
-optimizer = Adam(learning_rate=0.0001)
+optimizer = Nadam(learning_rate=0.0001)
 loss_function = Synergy_Loss()
 
 print(model.model().summary())
