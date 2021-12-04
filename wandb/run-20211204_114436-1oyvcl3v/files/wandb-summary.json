@@ -1,1 +1,1 @@
-{"_step": 41, "epoch": 0, "_runtime": 26767, "_timestamp": 1638611768, "training loss": 50.232486724853516, "validation loss": 50.62901306152344}
+{"_step": 84, "epoch": 43, "_runtime": 54283, "_timestamp": 1638639284, "training loss": 40.990299224853516, "validation loss": 42.574851989746094}
