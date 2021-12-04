@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "train.py", line 40, in <module>
+    train(model, training_data_generator, validation_data_generator, 100,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 10, in train
+    model.load_weights("Checkpoints/Model.h5")
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/utils/traceback_utils.py", line 67, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/h5py/_hl/files.py", line 507, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/h5py/_hl/files.py", line 220, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 106, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'Checkpoints/Model.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
