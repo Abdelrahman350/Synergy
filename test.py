@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.compat.v1.train import AdamOptimizer
 from model.synergy import Synergy, create_synergy
-from utils.data_utils.plotting_data import plot_landmarks_gt, plot_landmarks
+from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
 from utils.custom_fit import train
@@ -31,13 +31,20 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
       "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
 
-
-for i in range(len(list_ids)):
-    plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
-    plot_landmarks(images[i], y[1][i], name='gt_'+str(i))
-
 model = Synergy(input_shape=input_shape)
 model.model().summary()
 model.build((1, input_shape[0], input_shape[1], input_shape[2]))
 model.load_weights("checkpoints/Model.h5")
 
+y_pred = model(images, training=False)
+y_pred = y_pred.numpy()
+poses = y_pred[0]
+vertices = y_pred[1]
+
+for i in range(len(list_ids)):
+    plot_landmarks(images[i], vertices[i], 'landmarks_pred_'+str(i))
+    plot_landmarks(images[i], y[1][i], name='landmarks_gt_'+str(i))
+
+for i in range(len(list_ids)):
+    plot_pose(images[i], poses[i], name='poses_pred_'+str(i))
+    plot_pose(images[i], y[0][i], name='poses_gt_'+str(i))

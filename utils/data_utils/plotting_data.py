@@ -47,14 +47,9 @@ def draw_landmarks(image_original, pt2d):
              (end_point[0], end_point[1]), (1, 1, 1), 1)
     return image
 
-def plot_pose_gt(image, label, name='output_axis'):
+def plot_pose(image, label, name='output_axis'):
     pitch, yaw, roll = label_3DMM_to_pose(label)
     image = draw_axis(image, pitch, yaw, roll)        
-    cv2.imwrite(name+".jpg", image*255)
-
-def plot_landmarks_gt(image, label, name='output_landmarks'):
-    pt2d = label_to_pt2d(label)
-    image = draw_landmarks(image, pt2d)        
     cv2.imwrite(name+".jpg", image*255)
 
 def plot_landmarks(image, pt2d, name='output_landmarks'):
