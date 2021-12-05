@@ -1,12 +1,8 @@
 import tensorflow as tf
-from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.compat.v1.train import AdamOptimizer
 from model.synergy import Synergy, create_synergy
-from utils.data_utils.plotting_data import plot_landmarks_gt, plot_landmarks
+from utils.data_utils.plotting_data import plot_landmarks
 
 from model.morhaple_face_model import PCA
-from utils.custom_fit import train
-from losses import Synergy_Loss
 from utils.loading_data import loading_generators
 from model.synergy import create_synergy
 from model.backbone import create_MobileNetV2

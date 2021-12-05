@@ -28,7 +28,7 @@ model = Synergy(input_shape)
 
 var = tf.Variable(np.random.random(size=(1,)))
 learning_rate = ExponentialDecay(initial_learning_rate=0.03, decay_steps=20, decay_rate=0.5)
-optimizer = Nadam(learning_rate=0.05)
+optimizer = Nadam(learning_rate=0.01)
 loss_function = Synergy_Loss()
 
 print(model.model().summary())
@@ -38,4 +38,4 @@ run = wandb.init(project="Synergy", name= experiment_name, resume= resume)
 wandb.save("train.py")
 
 train(model, training_data_generator, validation_data_generator, 500,\
-       loss_function, optimizer, resume)
+       loss_function, optimizer, True)

@@ -73,3 +73,21 @@ def validation_batch(X, y_true, model, loss_function):
     y_pred = model(X, training=False)
     loss_value = loss_function(y_true, y_pred)
     return loss_value
+
+def train_on_image(model, X_batch, y_batch, epochs, loss_function, optimizer, load_model=True):
+    best_loss = np.inf
+    if load_model:
+        model.build((1, X_batch.input_shape[0],\
+            X_batch.input_shape[1], X_batch.input_shape[2]))
+        model.load_weights("checkpoints/Model_overfit.h5")  
+    for epoch in range(epochs):
+        train_loss = 0
+        tf.print("\nEpoch {}/{}:\n".format(epoch+1, epochs))
+        train_loss = train_batch(X_batch,\
+            y_batch, optimizer, loss_function, model)/X_batch.shape[0]
+        if train_loss < best_loss:
+            model_name = "Model_overfit.h5"
+            model.save_weights("checkpoints/" + model_name)
+            print(f"The validation loss improved from {best_loss} to {train_loss}.\
+                Saving model to {model_name}")
+            best_loss = train_loss
