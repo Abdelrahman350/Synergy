@@ -23,19 +23,19 @@ if gpus:
 input_shape = (224, 224, 3)
 
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=input_shape, batch_size=64, shuffle=True)
+      input_shape=input_shape, batch_size=32, shuffle=True)
 model = Synergy(input_shape)
 
 var = tf.Variable(np.random.random(size=(1,)))
 learning_rate = ExponentialDecay(initial_learning_rate=0.03, decay_steps=20, decay_rate=0.5)
-optimizer = Nadam(learning_rate=0.0007)
+optimizer = Nadam(learning_rate=0.0002)
 loss_function = Synergy_Loss()
 
 print(model.model().summary())
 experiment_name = "Synergy_mobilenetV2"
-resume = True
+resume = False
 run = wandb.init(project="Synergy", name= experiment_name, resume= resume)
 wandb.save("train.py")
 
 train(model, training_data_generator, validation_data_generator, 500,\
-       loss_function, optimizer, True)
+       loss_function, optimizer, resume)

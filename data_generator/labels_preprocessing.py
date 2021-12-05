@@ -37,16 +37,14 @@ def eulerAngles_to_RotationMatrix(theta):
     R = Rx.dot(Ry).dot(Rz)
     return R
 
-def label_3DMM_to_pose(label):
-    parameters_3DMM = label_to_3DMM(label)
-    pose_3DDM = parameters_3DMM[:, 0:12]
-    T = pose_3DDM.reshape((3, 4))
+def _3DMM_to_pose(pose_3DMM):
+    T = pose_3DMM.reshape((3, 4))
     R = T[:, 0:3]
     return rotationMatrix_to_EulerAngles(R)
 
 def label_to_3DMM(label):
     return label[0]
-
+    
 def rotationMatrix_to_EulerAngles(R):
     ''' compute three Euler angles from a Rotation Matrix. 
         Ref: http://www.gregslabaugh.net/publications/euler.pdf

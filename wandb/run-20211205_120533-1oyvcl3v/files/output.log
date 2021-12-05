@@ -152,3 +152,65 @@ Loaded model with validation_loss = 778.1830444335938
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 790/1633 [=============>................] - ETA: 6:02 - train_loss: 886.8270
+Traceback (most recent call last):
+  File "train.py", line 40, in <module>
+    train(model, training_data_generator, validation_data_generator, 500,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 32, in train
+    train_loss = train_batch(X_batch,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 66, in train_batch
+    y_pred = model(X, training=True)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/utils/traceback_utils.py", line 64, in error_handler
+    return fn(*args, **kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/engine/base_layer.py", line 1028, in __call__
+    inputs = tf.nest.map_structure(_convert_numpy_or_python_types, inputs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/util/nest.py", line 869, in map_structure
+    structure[0], [func(*x) for x in entries],
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/util/nest.py", line 869, in <listcomp>
+    structure[0], [func(*x) for x in entries],
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/engine/base_layer.py", line 3364, in _convert_numpy_or_python_types
+    return tf.convert_to_tensor(x)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/util/traceback_utils.py", line 150, in error_handler
+    return fn(*args, **kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/util/dispatch.py", line 1096, in op_dispatch_handler
+    return dispatch_target(*args, **kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1485, in convert_to_tensor_v2_with_dispatch
+    return convert_to_tensor_v2(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1491, in convert_to_tensor_v2
+    return convert_to_tensor(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/profiler/trace.py", line 163, in wrapped
+    return func(*args, **kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1621, in convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/tensor_conversion_registry.py", line 52, in _default_conversion_function
+    return constant_op.constant(value, dtype, name=name)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 271, in constant
+    return _constant_impl(value, dtype, shape, name, verify_shape=False,
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 283, in _constant_impl
+    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 308, in _constant_eager_impl
+    t = convert_to_eager_tensor(value, ctx, dtype)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 106, in convert_to_eager_tensor
+    return ops.EagerTensor(value, ctx.device_name, dtype)
+KeyboardInterrupt
