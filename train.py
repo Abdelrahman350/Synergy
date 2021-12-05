@@ -23,12 +23,12 @@ if gpus:
 input_shape = (224, 224, 3)
 
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=input_shape, batch_size=32, shuffle=True)
+      input_shape=input_shape, batch_size=64, shuffle=True)
 model = Synergy(input_shape)
 
 var = tf.Variable(np.random.random(size=(1,)))
 learning_rate = ExponentialDecay(initial_learning_rate=0.03, decay_steps=20, decay_rate=0.5)
-optimizer = Nadam(learning_rate=0.0002)
+optimizer = Nadam(learning_rate=0.05)
 loss_function = Synergy_Loss()
 
 print(model.model().summary())

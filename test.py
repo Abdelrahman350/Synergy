@@ -36,14 +36,14 @@ model.model().summary()
 model.build((1, input_shape[0], input_shape[1], input_shape[2]))
 model.load_weights("checkpoints/Model.h5")
 
-y_pred = model(images, training=False)
-poses = y_pred[0].numpy()
-vertices = y_pred[1].numpy()
+poses_tf, vertices_tf, poses_hat_tf = model(images, training=False)
+poses_hat = poses_hat_tf.numpy()
+vertices = vertices_tf.numpy()
 
 for i in range(len(list_ids)):
   plot_landmarks(images[i], vertices[i], 'landmarks_pred_'+str(i))
   plot_landmarks(images[i], y[1][i], name='landmarks_gt_'+str(i))
 
 for i in range(len(list_ids)):
-  plot_pose(images[i], poses[i], name='poses_pred_'+str(i))
+  plot_pose(images[i], poses_hat[i], name='poses_pred_'+str(i))
   plot_pose(images[i], y[0][i], name='poses_gt_'+str(i))
