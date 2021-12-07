@@ -68,7 +68,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         pt2d = np.array(pt2d)
         exps = np.array(exps)
         shps = np.array(shps)
-        return X, [pose_parameters, pt2d, exps, shps]
+        return X, [pose_parameters]
 
     def get_one_instance(self, id):
         batch = [id]

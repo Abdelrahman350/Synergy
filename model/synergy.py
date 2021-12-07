@@ -11,24 +11,26 @@ from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropou
 def create_synergy(input_shape, num_classes=62, num_points=68):
     inputs = Input(shape=input_shape)
     X = create_MobileNetV2(input_shape=input_shape, classes=num_classes)(inputs)
-    X_flattened = Flatten(name='Flatten')(X)
-    Z = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
-    X_p = Dropout(0.2)(X_flattened)
+    X = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
+    Z = tf.identity(X)
+    X_p = Dropout(0.2)(X)
     pose_3DMM = Dense(name='pose_3DMM', units=12)(X_p)
-    X_exp = Dropout(0.2)(X_flattened)
-    alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
-    X_shape = Dropout(0.2)(X_flattened)
-    alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
+#     X_exp = Dropout(0.2)(X)
+#     alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
+#     X_shape = Dropout(0.2)(X)
+#     alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
 
-    morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
+#     morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
     
-    Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
-    Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
-    pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
-         num_points=num_points)(Lr)
+#     Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
+#     Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
+#     print(Lr.shape)
+#     pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
+#          num_points=num_points)(Lr)
+#     print(pose_3DMM_hat.shape)
 
     model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM, Lc, pose_3DMM_hat], name='Synergy')
+          outputs=[pose_3DMM], name='Synergy')
     return model
 
 class Synergy(Model):
@@ -36,7 +38,6 @@ class Synergy(Model):
             super(Synergy, self).__init__(**kwargs, name="Synergy")
             self.input_shape_ = input_shape
             self.mobileNet = create_MobileNetV2(input_shape=input_shape, classes=num_classes)
-            self.flatten = Flatten(name='Flatten')
             self.GlobalAvgBooling = GlobalAveragePooling2D(name='Global_Avg_Pooling')
           
             self.dropOut_pose = Dropout(0.2, name='pose_dropout')
@@ -54,23 +55,23 @@ class Synergy(Model):
 
       def call(self, batch_images):
             X = self.mobileNet(batch_images)
-            X_flattened = self.flatten(X)
-            Z = self.GlobalAvgBooling(X)
+            X = self.GlobalAvgBooling(X)
+            Z = tf.identity(X)
 
-            X_pose = self.dropOut_pose(X_flattened)
+            X_pose = self.dropOut_pose(X)
             pose_3DMM = self.dense_pose(X_pose)
 
-            X_exp = self.dropOut_exp(X_flattened)
+            X_exp = self.dropOut_exp(X)
             alpha_exp = self.dense_exp(X_exp)
 
-            X_shp = self.dropOut_shp(X_flattened)
+            X_shp = self.dropOut_shp(X)
             alpha_shp = self.dense_shp(X_shp)
 
             Lc = self.morphable_model(pose_3DMM, alpha_exp, alpha_shp)
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
             pose_3DMM_hat = self.decoder(Lr)
 
-            return pose_3DMM, Lr, pose_3DMM_hat
+            return pose_3DMM_hat
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')

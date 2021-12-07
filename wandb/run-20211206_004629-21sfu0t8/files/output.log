@@ -1,0 +1,39 @@
+
+2021-12-06 00:46:31.960835: I tensorflow/stream_executor/cuda/cuda_dnn.cc:366] Loaded cuDNN version 8100
+2021-12-06 00:46:32.676443: I tensorflow/stream_executor/cuda/cuda_blas.cc:1774] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+   0/1633 [..............................] - ETA: 0s - train_loss: 155.2838
+Loaded model with validation_loss = 100.8089599609375
+
+
+
+  14/1633 [..............................] - ETA: 11:31 - train_loss: 149.1889
+Traceback (most recent call last):
+  File "train.py", line 40, in <module>
+    train(model, training_data_generator, validation_data_generator, 500,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 32, in train
+    train_loss = train_batch(X_batch,\
+  File "/media/avidbeam/workspace/Abdelrahman_Workspace/Project_Codes/Synergy/utils/custom_fit.py", line 69, in train_batch
+    optimizer.apply_gradients(zip(grads, model.trainable_weights))
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/optimizer_v2/optimizer_v2.py", line 672, in apply_gradients
+    return self._distributed_apply(strategy, grads_and_vars, name,
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/optimizer_v2/optimizer_v2.py", line 721, in _distributed_apply
+    update_op = distribution.extended.update(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/distribute/distribute_lib.py", line 2634, in update
+    return self._update(var, fn, args, kwargs, group)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/distribute/distribute_lib.py", line 3709, in _update
+    return self._update_non_slot(var, fn, (var,) + tuple(args), kwargs, group)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/distribute/distribute_lib.py", line 3715, in _update_non_slot
+    result = fn(*args, **kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/autograph/impl/api.py", line 601, in wrapper
+    return func(*args, **kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/optimizer_v2/optimizer_v2.py", line 704, in apply_grad_to_update_var
+    update_op = self._resource_apply_dense(grad, var, **apply_kwargs)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/keras/optimizer_v2/nadam.py", line 162, in _resource_apply_dense
+    return tf.compat.v1.assign(var, var_t, use_locking=self._use_locking).op
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/ops/state_ops.py", line 359, in assign
+    return ref.assign(value, name=name)
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/ops/resource_variable_ops.py", line 915, in assign
+    assign_op = gen_resource_variable_ops.assign_variable_op(
+  File "/home/avidbeam/.virtualenvs/TensorFlow_2/lib/python3.8/site-packages/tensorflow/python/ops/gen_resource_variable_ops.py", line 141, in assign_variable_op
+    _result = pywrap_tfe.TFE_Py_FastPathExecute(
+KeyboardInterrupt

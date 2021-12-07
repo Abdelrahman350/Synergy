@@ -135,7 +135,7 @@ class MAFA(Model):
         X = self.relu2(X)
 
         # Low-level point features
-        point_features = X
+        point_features = tf.identity(X)
 
         # Third hidden layer
         X = self.conv3(X)
