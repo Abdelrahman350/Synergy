@@ -5,10 +5,11 @@ from numpy import sin, cos, arctan2, arcsin
 def label_loader(image_id, labels, aspect_ratio):
     pose = np.array(labels[image_id]['pose'])
     pose_3DMM = pose_to_3DMM(pose)
-    alpha_exp = np.array(labels[image_id]['Exp_Para']).T
-    alpha_Shape = np.array(labels[image_id]['Shape_Para']).T
+    alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
+    alpha_Shape = np.ravel(np.array(labels[image_id]['Shape_Para']).T)
     pt2d = np.array(labels[image_id]['pt2d']).T
     pt2d = resize_landmarks(pt2d, aspect_ratio)
+    print(pose_3DMM.shape, alpha_exp.shape, alpha_Shape.shape)
     return pose_3DMM, pt2d, alpha_exp, alpha_Shape
 
 def pose_to_3DMM(pose):

@@ -27,18 +27,16 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
       "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
 
-pose_3dmm = y[0]
-exp_para = y[2]
-shape_para = y[3]
+pose_3dmm = y[:, 0:12]
+exp_para = y[:, 12:22]
+shape_para = y[:, 22:62]
 
 pca = PCA(input_shape)
 vertices_tf = pca(pose_3dmm, exp_para, shape_para)
-vertices = tf.compat.v1.make_tensor_proto(vertices_tf)  # convert `tensor a` to a proto tensor
-vertices = tf.make_ndarray(vertices)
-
+vertices = vertices_tf.numpy()
+print(vertices.shape)
 for i in range(len(list_ids)):
     plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
-    plot_landmarks(images[i], y[1][i], name='gt_'+str(i))
 
 model = Synergy(input_shape=input_shape)
 model.model().summary()
