@@ -5,7 +5,7 @@ from tensorflow.math import square, reduce_sum
 from tensorflow.keras.losses import Loss, Huber
 
 class Synergy_Loss(Loss):
-    def __init__(self, lamda_1=0.02, lamda_2=0.03, lamda_3=0.02,\
+    def __init__(self, lamda_1=0.02, lamda_2=0.05, lamda_3=0.02,\
          lamda_4=0.001, input_shape=(224, 224, 3), **kwargs):
         super(Synergy_Loss, self).__init__(**kwargs)
         self.lamda_1 = lamda_1
