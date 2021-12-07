@@ -23,7 +23,7 @@ input_shape = (224, 224, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
-list_ids = ["300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0"]#, "300W-LP/300W_LP/AFW/AFW_134212_1_2"]#,\
+list_ids = ["300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0", "300W-LP/300W_LP/AFW/AFW_134212_1_2"]#,\
     #  "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
     #   "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
@@ -33,12 +33,14 @@ optimizer = Nadam(learning_rate=0.0001)
 loss_function = Synergy_Loss()
 # train_on_image(model, images, y, 5000, loss_function, optimizer, False)
 
-model.compile(optimizer, loss_function)
+model.compile(optimizer, tf.keras.losses.Huber())
 print(model.summary())
-model.fit(images, y, verbose=1, epochs=5000)
+model.fit(images, y, verbose=1, epochs=3000)
 
 poses_tf = model.predict(images)
-
+print("Y = ", y)
+print()
+print("Y_hat = ", poses_tf)
 # poses_hat = poses_tf.numpy()
 # vertices = vertices_tf.numpy()
 

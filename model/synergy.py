@@ -15,10 +15,10 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     Z = tf.identity(X)
     X_p = Dropout(0.2)(X)
     pose_3DMM = Dense(name='pose_3DMM', units=12)(X_p)
-#     X_exp = Dropout(0.2)(X)
-#     alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
-#     X_shape = Dropout(0.2)(X)
-#     alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
+    X_exp = Dropout(0.2)(X)
+    alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
+    X_shape = Dropout(0.2)(X)
+    alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
 
 #     morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
     
@@ -30,7 +30,7 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
 #     print(pose_3DMM_hat.shape)
 
     model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM], name='Synergy')
+          outputs=[pose_3DMM, alpha_exp, alpha_shp], name='Synergy')
     return model
 
 class Synergy(Model):
