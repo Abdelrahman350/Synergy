@@ -18,12 +18,12 @@ class Synergy_Loss(Loss):
         
     def call(self, y_gt, y_pred):
         pose_3DMM_gt = y_gt[:, 0:12]
-        pose_3DMM = y_pred[0]
+        pose_3DMM = y_pred[:, 0:12]
 
         alpha_exp_gt = y_gt[:, 12:22]
         alpha_shp_gt = y_gt[:, 22:62]
-        alpha_exp = y_pred[1]
-        alpha_shp = y_pred[2]
+        alpha_exp = y_pred[:, 12:22]
+        alpha_shp = y_pred[:, 22:62]
 
         L_gt = self.pca(pose_3DMM_gt, alpha_exp_gt, alpha_shp_gt)
         Lr = self.pca(pose_3DMM, alpha_exp, alpha_shp)

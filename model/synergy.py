@@ -13,13 +13,12 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     X = create_MobileNetV2(input_shape=input_shape, classes=num_classes)(inputs)
     X = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
     Z = tf.identity(X)
-    X_p = Dropout(0.2)(X)
-    pose_3DMM = Dense(name='pose_3DMM', units=12)(X_p)
-    X_exp = Dropout(0.2)(X)
-    alpha_exp = Dense(name='alpha_exp', units=10)(X_exp)
-    X_shape = Dropout(0.2)(X)
-    alpha_shp = Dense(name='alpha_shp', units=40)(X_shape)
-
+#     X_p = Dropout(0.2)(X)
+    pose_3DMM = Dense(name='pose_3DMM', units=12)(X)
+#     X_exp = Dropout(0.2)(X)
+    alpha_exp = Dense(name='alpha_exp', units=10)(X)
+#     X_shape = Dropout(0.2)(X)
+    alpha_shp = Dense(name='alpha_shp', units=40)(X)
 #     morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
     
 #     Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
@@ -28,9 +27,9 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
 #     pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
 #          num_points=num_points)(Lr)
 #     print(pose_3DMM_hat.shape)
-
+    y = tf.concat([pose_3DMM, alpha_exp, alpha_shp], 1)
     model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM, alpha_exp, alpha_shp], name='Synergy')
+          outputs=[y], name='Synergy')
     return model
 
 class Synergy(Model):

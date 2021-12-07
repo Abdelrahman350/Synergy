@@ -69,7 +69,6 @@ class DataGenerator(tf.keras.utils.Sequence):
         exps = np.array(exps)
         shps = np.array(shps)
         y = np.concatenate([pose_parameters, exps, shps], 1)
-        print(y.shape)
         return X, y
 
     def get_one_instance(self, id):
