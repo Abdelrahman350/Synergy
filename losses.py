@@ -5,7 +5,7 @@ from tensorflow.math import square, reduce_sum, log, abs, less, greater_equal
 from tensorflow.keras.losses import Loss, Huber, MeanSquaredError
 
 class Synergy_Loss(Loss):
-    def __init__(self, lamda_1=0.02, lamda_2=0.05, lamda_3=0.02,\
+    def __init__(self, lamda_1=1, lamda_2=0.05, lamda_3=0.02,\
          lamda_4=0.001, input_shape=(224, 224, 3),\
               omega=10, epsilon=2, **kwargs):
         super(Synergy_Loss, self).__init__(**kwargs)
@@ -47,7 +47,7 @@ class Synergy_Loss(Loss):
              "lamda_2": self.lamda_2, "lamda_3": self.lamda_3, "lamda_4": self.lamda_4}
 
     def L3DMM_loss(self, y_gt, y_pred):
-        return self.mse(y_gt[:, 0:12], y_pred[:, 0:12]) #+ self.mse(y_gt[:, 12:], y_pred[:, 12:])
+        return self.mse(y_gt[:, 0:12], y_pred[:, 0:12]) + self.mse(y_gt[:, 12:], y_pred[:, 12:])
 
     def L_lmk_loss(self, L_gt, L_pred):
         y_pred = tf.reshape(L_pred, (-1, L_pred.shape[1]*3))
