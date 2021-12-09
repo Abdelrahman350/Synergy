@@ -1,7 +1,6 @@
 from model.morhaple_face_model import PCA
-from data_generator.labels_preprocessing import label_to_3DMM, label_to_pt2d
 import tensorflow as tf
-from tensorflow.math import square, reduce_sum, log, abs, less, greater_equal
+from tensorflow.math import square, reduce_sum, log, abs, less
 from tensorflow.keras.losses import Loss, Huber, MeanSquaredError
 
 class Synergy_Loss(Loss):

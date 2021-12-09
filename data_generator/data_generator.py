@@ -40,7 +40,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
             X.append(image)
-            pose_3DMM, landmarks, _, _ = label_loader(image_id, self.labels, aspect_ratio)
+            pose_3DMM, _, _ = label_loader(image_id, self.labels, aspect_ratio)
             pose_parameters.append(pose_3DMM)
             pt2d.append(landmarks)
         X = np.array(X)
@@ -51,25 +51,15 @@ class DataGenerator(tf.keras.utils.Sequence):
     def data_generation(self, batch):
         # Initializing input data
         X = []
-        pose_parameters = []
-        pt2d = []
-        exps = []
-        shps = []
+        batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
             X.append(image)
-            pose_3DMM, landmarks, alpha_exp, alpha_shp = label_loader(image_id, self.labels, aspect_ratio)
-            pose_parameters.append(pose_3DMM)
-            pt2d.append(landmarks)
-            exps.append(alpha_exp)
-            shps.append(alpha_shp)
+            parameters_3DDM = label_loader(image_id, self.labels, aspect_ratio)
+            batch_parameters_3DMM.append(parameters_3DDM)
         X = np.array(X)
-        pose_parameters = np.array(pose_parameters)
-        pt2d = np.array(pt2d)
-        exps = np.array(exps)
-        shps = np.array(shps)
-        y = np.concatenate([pose_parameters, exps, shps], 1)
-        return X, y
+        batch_parameters_3DMM = np.array(batch_parameters_3DMM)
+        return X, batch_parameters_3DMM
 
     def get_one_instance(self, id):
         batch = [id]

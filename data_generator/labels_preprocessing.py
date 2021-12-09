@@ -1,24 +1,24 @@
-import math 
 import numpy as np
 from numpy import sin, cos, arctan2, arcsin
+import pickle
 
 def label_loader(image_id, labels, aspect_ratio):
     pose = np.array(labels[image_id]['pose'])
     pose_3DMM = pose_to_3DMM(pose)
     alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
-    alpha_Shape = np.ravel(np.array(labels[image_id]['Shape_Para']).T)
-    pt2d = np.array(labels[image_id]['pt2d']).T
-    pt2d = resize_landmarks(pt2d, aspect_ratio)
-    return pose_3DMM, pt2d, alpha_exp, alpha_Shape
+    alpha_shp = np.ravel(np.array(labels[image_id]['Shape_Para']).T)
+    parameters_3DMM = np.concatenate((pose_3DMM, alpha_exp, alpha_shp), axis=0)
+    parameters_3DMM = normalize(parameters_3DMM)
+    return parameters_3DMM
 
 def pose_to_3DMM(pose):
     R = eulerAngles_to_RotationMatrix(pose[:3])
     t = np.expand_dims([*pose[3:5], 0], -1)
     T = np.concatenate((R, t), axis=1)
     s = pose[-1]
-    pose_3DDM = T.reshape((-1, ))
-    pose_3DDM[-1] = s
-    return pose_3DDM
+    pose_3DMM = T.reshape((-1, ))
+    pose_3DMM[-1] = s
+    return pose_3DMM
 
 # Calculates Rotation Matrix given euler angles.
 def eulerAngles_to_RotationMatrix(theta):
@@ -67,9 +67,6 @@ def rotationMatrix_to_EulerAngles(R):
             pitch = -roll + arctan2(-R[1, 0], -R[2, 0])
     return pitch, yaw, roll
 
-def label_to_pt2d(label):
-    return label[1]
-
 def pose_3DMM_to_sRt(label):
     parameters_3DMM = label_to_3DMM(label)
     pose_3DDM = parameters_3DMM[:, 0:12]
@@ -86,3 +83,13 @@ def resize_landmarks(pt2d, aspect_ratio):
     pt2d[:, 0] = pt2d[:, 0] * aspect_ratio[0]
     pt2d[:, 1] = pt2d[:, 1] * aspect_ratio[1]
     return pt2d
+
+def normalize(parameters_3DMM):
+    param_mean = parsing_pkl('param_whitening.pkl').get('param_mean')[:62]
+    param_std = parsing_pkl('param_whitening.pkl').get('param_std')[:62]
+    parameters_3DMM = (parameters_3DMM - param_mean) / param_std
+    return parameters_3DMM
+
+def parsing_pkl(file):
+    pca_dir = '3dmm_data/'
+    return pickle.load(open(pca_dir+file, 'rb'))
