@@ -1,7 +1,11 @@
 import json
-from typing import Pattern
+import pandas as pd
+from data_generator.labels_preprocessing import pose_to_3DMM
 import numpy as np
+import pickle
 from utils.data_utils.label_parameters import *
+
+path_to_dataset = '../../Datasets/'
 
 def get_IDs(data, list_datasets=['300W_LP', 'AFLW2000']):
     dictionary = {}
@@ -20,22 +24,22 @@ def get_labels(dictionary):
     print('Start Parsing train files')
     for idx in dictionary['train']:
         label = {}
-        label['pose'] = get_pose_from_mat('Datasets/'+idx)
-        label['Exp_Para'] = get_Exp_Para_from_mat('Datasets/'+idx)
-        label['Shape_Para'] = get_Shape_Para_from_mat('Datasets/'+idx)
+        label['pose'] = get_pose_from_mat(path_to_dataset+idx)
+        label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
+        label['Shape_Para'] = get_Shape_Para_from_mat(path_to_dataset+idx)
         labels[idx] = label
     print('Start Parsing valid files')
     for idx in dictionary['valid']:
         label = {}
-        label['pose'] = get_pose_from_mat('Datasets/'+idx)
-        label['Exp_Para'] = get_Exp_Para_from_mat('Datasets/'+idx)
-        label['Shape_Para'] = get_Shape_Para_from_mat('Datasets/'+idx)
+        label['pose'] = get_pose_from_mat(path_to_dataset+idx)
+        label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
+        label['Shape_Para'] = get_Shape_Para_from_mat(path_to_dataset+idx)
         labels[idx] = label
     return labels
 
 def dictionary_to_json(dictionary, file_name):
     partition = json.dumps(dictionary, cls=NumpyEncoder)
-    with open('Datasets/' + file_name + '.json', 'w') as f:
+    with open(file_name + '.json', 'w') as f:
         f.write(partition + '\n')
 
 def load_json(json_file_path):
@@ -58,18 +62,27 @@ class NumpyEncoder(json.JSONEncoder):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
 
-def create_id_json(data):
-    partition_LP = get_IDs(data, ['300W_LP'])
-    dictionary_to_json(partition_LP, 'partition_LP')
+def create_labels_json(data, dataset=['300W_LP']):
+    IDs = get_IDs(data, dataset)
+    dictionary_to_json(IDs, path_to_dataset+'IDs_'+dataset[0])
+    labels = get_labels(IDs)
+    dictionary_to_json(labels, path_to_dataset+'labels_'+dataset[0])
+    data = pd.DataFrame(labels).transpose()
+    data = data.apply(pose_to_param3DMM, axis=1)
+    param3DMM_mean, param3DMM_std = get_mean_std(data, 'param3DMM')
+    Exp_Para_mean, Exp_Para_std = get_mean_std(data, 'Exp_Para')
+    Shape_Para_mean, Shape_Para_std = get_mean_std(data, 'Shape_Para')
+    pose_mean, pose_std = get_mean_std(data, 'pose')
+    param_62_mean = np.concatenate((param3DMM_mean, Exp_Para_mean, Shape_Para_mean), axis=0)
+    param_62_std = np.concatenate((param3DMM_std, Exp_Para_std, Shape_Para_std), axis=0)
+    dictionary = {'param_mean':param_62_mean, 'param_std':param_62_std}
+    pickle.dump(dictionary, open(path_to_dataset+"param_"+dataset[0]+".pkl", "wb"))
 
-    partition_AFLW = get_IDs(data, ['AFLW2000'])
-    dictionary_to_json(partition_AFLW, 'partition_AFLW')
-    return partition_LP, partition_AFLW
+def pose_to_param3DMM(row):
+    row['param3DMM'] = pose_to_3DMM(row['pose'])
+    return row
 
-def create_labels_json(data):
-    partition_LP, partition_AFLW = create_id_json(data)
-    labels_LP = get_labels(partition_LP)
-    dictionary_to_json(labels_LP, 'labels_LP')
-    labels_AFLW = get_labels(partition_AFLW)
-    dictionary_to_json(labels_AFLW, 'labels_AFLW')
-
+def get_mean_std(data, feature):
+    mean = np.mean(data[feature].tolist(), axis=0)
+    std = np.std(data[feature].tolist(), axis=0)
+    return mean, std

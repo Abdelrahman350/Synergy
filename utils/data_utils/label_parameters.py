@@ -13,7 +13,7 @@ def get_pose_from_mat(mat_path):
     return pose_params
 
 def get_Exp_Para_from_mat(mat_path):
-    # Get 2D landmarks
+    # Get Exp_Para landmarks
     mat = sio.loadmat(mat_path)
     Exp_Para = np.ravel(mat['Exp_Para'][0:10])
     return Exp_Para
