@@ -35,18 +35,15 @@ class DataGenerator(tf.keras.utils.Sequence):
     def __data_generation(self, batch):
         # Initializing input data
         X = []
-        pose_parameters = []
-        pt2d = []
+        batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
             X.append(image)
-            pose_3DMM, _, _ = label_loader(image_id, self.labels, aspect_ratio)
-            pose_parameters.append(pose_3DMM)
-            pt2d.append(landmarks)
+            parameters_3DDM = label_loader(image_id, self.labels, aspect_ratio)
+            batch_parameters_3DMM.append(parameters_3DDM)
         X = np.array(X)
-        pose_parameters = np.array(pose_parameters)
-        pt2d = np.array(pt2d)
-        return X, [pose_parameters, pt2d]
+        batch_parameters_3DMM = np.array(batch_parameters_3DMM)
+        return X, batch_parameters_3DMM
     
     def data_generation(self, batch):
         # Initializing input data
@@ -64,4 +61,4 @@ class DataGenerator(tf.keras.utils.Sequence):
     def get_one_instance(self, id):
         batch = [id]
         X, y = self.__data_generation(batch)
-        return X[0], [y[0][0], y[1][0]]
+        return X[0], y[0]
