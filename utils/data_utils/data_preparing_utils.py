@@ -1,6 +1,7 @@
 import json
+from typing import Pattern
 import numpy as np
-from Project_Codes.Synergy.utils.data_utils.label_parameters import *
+from utils.data_utils.label_parameters import *
 
 def get_IDs(data, list_datasets=['300W_LP', 'AFLW2000']):
     dictionary = {}
@@ -20,8 +21,6 @@ def get_labels(dictionary):
     for idx in dictionary['train']:
         label = {}
         label['pose'] = get_pose_from_mat('Datasets/'+idx)
-        label['pt2d'] = get_pt2d_from_mat('Datasets/'+idx)
-        label['roi'] = get_roi_from_mat('Datasets/'+idx)
         label['Exp_Para'] = get_Exp_Para_from_mat('Datasets/'+idx)
         label['Shape_Para'] = get_Shape_Para_from_mat('Datasets/'+idx)
         labels[idx] = label
@@ -29,8 +28,6 @@ def get_labels(dictionary):
     for idx in dictionary['valid']:
         label = {}
         label['pose'] = get_pose_from_mat('Datasets/'+idx)
-        label['pt2d'] = get_pt2d_from_mat('Datasets/'+idx)
-        label['roi'] = get_roi_from_mat('Datasets/'+idx)
         label['Exp_Para'] = get_Exp_Para_from_mat('Datasets/'+idx)
         label['Shape_Para'] = get_Shape_Para_from_mat('Datasets/'+idx)
         labels[idx] = label
@@ -60,3 +57,19 @@ class NumpyEncoder(json.JSONEncoder):
         elif isinstance(obj, (np.ndarray,)):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
+
+def create_id_json(data):
+    partition_LP = get_IDs(data, ['300W_LP'])
+    dictionary_to_json(partition_LP, 'partition_LP')
+
+    partition_AFLW = get_IDs(data, ['AFLW2000'])
+    dictionary_to_json(partition_AFLW, 'partition_AFLW')
+    return partition_LP, partition_AFLW
+
+def create_labels_json(data):
+    partition_LP, partition_AFLW = create_id_json(data)
+    labels_LP = get_labels(partition_LP)
+    dictionary_to_json(labels_LP, 'labels_LP')
+    labels_AFLW = get_labels(partition_AFLW)
+    dictionary_to_json(labels_AFLW, 'labels_AFLW')
+
