@@ -19,14 +19,14 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     alpha_exp = Dense(name='alpha_exp', units=10)(X)
 #     X_shape = Dropout(0.2)(X)
     alpha_shp = Dense(name='alpha_shp', units=40)(X)
-#     morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
+    morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
     
-#     Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
+    Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
 #     Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
 #     pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
 #          num_points=num_points)(Lr)
     model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM, alpha_exp, alpha_shp], name='Synergy')
+          outputs=[pose_3DMM, alpha_exp, alpha_shp, Lc], name='Synergy')
     return model
 
 class Synergy(Model):

@@ -28,15 +28,20 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2"]#, "300W-LP/300W_LP/HELEN_Flip/
     #   "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
 
-model = Synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.001)
+model = create_synergy(input_shape=input_shape)
+optimizer = Nadam(learning_rate=0.0001)
 loss_function = tf.keras.losses.MeanSquaredError()
 #Synergy_Loss()
 # train_on_image(model, images, y, 5000, loss_function, optimizer, False)
-
+losses = {
+            'pose_3DMM':loss_function,
+            'alpha_exp':loss_function,
+            'alpha_shp':loss_function,
+            'Morphable_layer':loss_function
+        }
 model.compile(optimizer, loss_function)
-print(model.model().summary())
-model.fit(images, y, verbose=1, epochs=1000)
+print(model.summary())
+model.fit(images, y, verbose=1, epochs=10000)
 
 DMM = model.predict(images)
 

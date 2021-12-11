@@ -1,3 +1,4 @@
+from model.morhaple_face_model import PCA
 import tensorflow as tf
 import numpy as np
 from data_generator.image_preprocessing import image_loader
@@ -59,7 +60,10 @@ class DataGenerator(tf.keras.utils.Sequence):
         pose_3DMM = batch_parameters_3DMM[:, :12]
         alpha_exp = batch_parameters_3DMM[:, 12:22]
         alpha_shp = batch_parameters_3DMM[:, 22:]
-        return X, (pose_3DMM, alpha_exp, alpha_shp)
+        morphable_model = PCA(input_shape=self.input_shape, name='Morphable_layer')
+            
+        Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
+        return X, (pose_3DMM, alpha_exp, alpha_shp, Lc)
 
     def get_one_instance(self, id):
         batch = [id]
