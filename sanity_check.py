@@ -34,11 +34,12 @@ loss_function = tf.keras.losses.MeanSquaredError()
 #Synergy_Loss()
 # train_on_image(model, images, y, 5000, loss_function, optimizer, False)
 losses = {
-            'pose_3DMM':loss_function,
-            'alpha_exp':loss_function,
-            'alpha_shp':loss_function,
-            'Morphable_layer':loss_function
-        }
+  'pose_3DMM':loss_function,
+  'alpha_exp':loss_function,
+  'alpha_shp':loss_function,
+  'MAFA':loss_function
+  }
+  
 model.compile(optimizer, loss_function)
 print(model.summary())
 model.fit(images, y, verbose=1, epochs=10000)
