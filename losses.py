@@ -33,7 +33,7 @@ class Synergy_Loss(Loss):
         Lr = self.pca(pose_3DMM, alpha_exp, alpha_shp)
 
         L3DMM = self.L3DMM_loss(y_gt, y_pred)
-        L_lmk = self.L_lmk_loss(L_gt, Lr)
+        L_lmk = 0#self.L_lmk_loss(L_gt, Lr)
         L3DMM_lmk = 0#self.L3DMM_lmk_loss(pose_3DMM_true, pose_3DMM_hat)
         Lg = 0#self.Lg_loss(pose_3DMM, pose_3DMM_hat)
         L_total  = self.lamda_1*L3DMM + self.lamda_2*L_lmk +\

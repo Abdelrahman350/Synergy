@@ -23,13 +23,10 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     
 #     Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
 #     Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
-#     print(Lr.shape)
 #     pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_classes=num_classes,\
 #          num_points=num_points)(Lr)
-#     print(pose_3DMM_hat.shape)
-    y = tf.concat([pose_3DMM, alpha_exp, alpha_shp], 1)
     model = Model(inputs=[inputs],\
-          outputs=[y], name='Synergy')
+          outputs=[pose_3DMM, alpha_exp, alpha_shp], name='Synergy')
     return model
 
 class Synergy(Model):

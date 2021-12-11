@@ -29,29 +29,34 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2"]#, "300W-LP/300W_LP/HELEN_Flip/
 images, y = training_data_generator.data_generation(list_ids)
 
 model = create_synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.1)
-loss_function = Synergy_Loss()
+optimizer = Nadam(learning_rate=0.001)
+loss_function = tf.keras.losses.MeanSquaredError()
+#Synergy_Loss()
 # train_on_image(model, images, y, 5000, loss_function, optimizer, False)
 
 model.compile(optimizer, loss_function)
 print(model.summary())
-model.fit(images, y, verbose=1, epochs=10000)
+model.fit(images, y, verbose=1, epochs=1000)
 
 DMM = model.predict(images)
 
-poses_pred = DMM[:, 0:12]
-poses_gt = y[:, 0:12]
+poses_pred = DMM[0]
+poses_gt = y[0]
 
 print("GT = ", poses_gt)
 print()
 print("Pred = ", poses_pred)
-# poses_hat = poses_tf.numpy()
-# vertices = vertices_tf.numpy()
 
-# for i in range(len(list_ids)):
-#     plot_landmarks(images[i], vertices[i], 'sanity_lmk_pred_'+str(i))
-#     print(vertices[i])
-#     plot_landmarks(images[i], y[1][i], name='sanity_lmk_gt_'+str(i))
+pca = PCA(input_shape)
+vertices_tf = pca(DMM[0], DMM[1], DMM[2])
+vertices_pred = vertices_tf.numpy()
+
+vertices_tf = pca(y[0], y[1], y[2])
+vertices_gt = vertices_tf.numpy()
+
+for i in range(len(list_ids)):
+  plot_landmarks(images[i], vertices_pred[i], 'sanity_lmk_pred_'+str(i))
+  plot_landmarks(images[i], vertices_gt[i], name='sanity_lmk_gt_'+str(i))
 
 for i in range(len(list_ids)):
   plot_pose(images[i], poses_pred[i], name='sanity_poses_pred_'+str(i))

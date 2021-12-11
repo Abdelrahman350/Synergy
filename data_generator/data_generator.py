@@ -56,7 +56,10 @@ class DataGenerator(tf.keras.utils.Sequence):
             batch_parameters_3DMM.append(parameters_3DDM)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
-        return X, batch_parameters_3DMM
+        pose_3DMM = batch_parameters_3DMM[:, :12]
+        alpha_exp = batch_parameters_3DMM[:, 12:22]
+        alpha_shp = batch_parameters_3DMM[:, 22:]
+        return X, (pose_3DMM, alpha_exp, alpha_shp)
 
     def get_one_instance(self, id):
         batch = [id]

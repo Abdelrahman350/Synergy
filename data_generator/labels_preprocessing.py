@@ -37,7 +37,7 @@ def eulerAngles_to_RotationMatrix(theta):
     R = Rx.dot(Ry).dot(Rz)
     return R
 
-def _3DMM_to_pose(pose_3DMM):
+def param3DMM_to_pose(pose_3DMM):
     T = pose_3DMM.reshape((3, 4))
     R = T[:, 0:3]
     return rotationMatrix_to_EulerAngles(R)
@@ -88,6 +88,12 @@ def normalize(parameters_3DMM):
     param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:62]
     param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:62]
     parameters_3DMM = (parameters_3DMM - param_mean) / param_std
+    return parameters_3DMM
+
+def denormalize(parameters_3DMM):
+    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:12]
+    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:12]
+    parameters_3DMM = parameters_3DMM*param_std + param_mean
     return parameters_3DMM
 
 def parsing_pkl(file):

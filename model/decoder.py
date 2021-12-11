@@ -3,7 +3,7 @@ from tensorflow.keras.layers import Input, Conv1D, Dense, BatchNormalization
 from tensorflow.keras.layers import ReLU, MaxPool1D, concatenate
 from tensorflow.keras import Model
 
-def Landmarks_to_3DMM(num_classes=62, num_points=68):
+def Landmarks_to_3DMM_2(num_classes=62, num_points=68):
     Lr = Input(shape=(num_points, 3), name='Refined_Landmarks')
 
     # First hidden layer
@@ -52,100 +52,102 @@ def Landmarks_to_3DMM(num_classes=62, num_points=68):
     model = Model(inputs=[Lr], outputs=[pose_3DMM], name='Landmarks_to_3DMM')
     return model
 
-# class Landmarks_to_3DMM(Model):
-#     def __init__(self, num_classes=62, num_points=68, **kwargs):
-#         super(Landmarks_to_3DMM, self).__init__(**kwargs, name="Landmarks_to_3DMM")
-#         self.num_points = num_points
-#         # First hidden layer
-#         self.conv1 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_1')
-#         self.bn1 = BatchNormalization(name='Decoder_BatchNormalization_1')
-#         self.relu1 = ReLU(name='Decoder_ReLU_1')
+class Landmarks_to_3DMM(Model):
+    def __init__(self, num_classes=62, num_points=68, **kwargs):
+        super(Landmarks_to_3DMM, self).__init__(**kwargs, name="Landmarks_to_3DMM")
+        self.num_points = num_points
+        # First hidden layer
+        self.conv1 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_1')
+        self.bn1 = BatchNormalization(name='Decoder_BatchNormalization_1')
+        self.relu1 = ReLU(name='Decoder_ReLU_1')
         
-#         # Second hidden layer
-#         self.conv2 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_2')
-#         self.bn2 = BatchNormalization(name='Decoder_BatchNormalization_2')
-#         self.relu2 = ReLU(name='Decoder_ReLU_2')
+        # Second hidden layer
+        self.conv2 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_2')
+        self.bn2 = BatchNormalization(name='Decoder_BatchNormalization_2')
+        self.relu2 = ReLU(name='Decoder_ReLU_2')
         
-#         # Third hidden layer
-#         self.conv3 = Conv1D(filters=128, kernel_size=1, name='Decoder_Conv1D_3')
-#         self.bn3 = BatchNormalization(name='Decoder_BatchNormalization_3')
-#         self.relu3 = ReLU(name='Decoder_ReLU_3')
+        # Third hidden layer
+        self.conv3 = Conv1D(filters=128, kernel_size=1, name='Decoder_Conv1D_3')
+        self.bn3 = BatchNormalization(name='Decoder_BatchNormalization_3')
+        self.relu3 = ReLU(name='Decoder_ReLU_3')
         
-#         # Fourth hidden layer
-#         self.conv4 = Conv1D(filters=256, kernel_size=1, name='Decoder_Conv1D_4')
-#         self.bn4 = BatchNormalization(name='Decoder_BatchNormalization_4')
-#         self.relu4 = ReLU(name='Decoder_ReLU_4')
+        # Fourth hidden layer
+        self.conv4 = Conv1D(filters=256, kernel_size=1, name='Decoder_Conv1D_4')
+        self.bn4 = BatchNormalization(name='Decoder_BatchNormalization_4')
+        self.relu4 = ReLU(name='Decoder_ReLU_4')
         
-#         # Fifth hidden layer
-#         self.conv5 = Conv1D(filters=1024, kernel_size=1, name='Decoder_Conv1D_5')
-#         self.bn5 = BatchNormalization(name='Decoder_BatchNormalization_5')
-#         self.relu5 = ReLU(name='Decoder_ReLU_5')
+        # Fifth hidden layer
+        self.conv5 = Conv1D(filters=1024, kernel_size=1, name='Decoder_Conv1D_5')
+        self.bn5 = BatchNormalization(name='Decoder_BatchNormalization_5')
+        self.relu5 = ReLU(name='Decoder_ReLU_5')
         
-#         # Global Features (Holistic landmark features)
-#         self.maxPool = MaxPool1D(pool_size=num_classes, name='Decoder_MaxPool1D')
+        # Global Features (Holistic landmark features)
+        self.maxPool = MaxPool1D(pool_size=num_classes, name='Decoder_MaxPool1D')
         
-#         # Regressing pose parameters
-#         self.conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')
-#         self.bn6 = BatchNormalization(name='Decoder_BatchNormalization_6')
-#         self.relu_6 = ReLU(name='Decoder_ReLU_6')
+        # Regressing pose parameters
+        self.conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')
+        self.bn6 = BatchNormalization(name='Decoder_BatchNormalization_6')
+        self.relu_6 = ReLU(name='Decoder_ReLU_6')
 
-#         # Regressing expression parameters
-#         self.conv7 = Conv1D(filters=10, kernel_size=1, name='Decoder_Conv1D_7')
-#         self.bn7 = BatchNormalization(name='Decoder_BatchNormalization_7')
-#         self.relu_7 = ReLU(name='Decoder_ReLU_7')
+        # Regressing expression parameters
+        self.conv7 = Conv1D(filters=10, kernel_size=1, name='Decoder_Conv1D_7')
+        self.bn7 = BatchNormalization(name='Decoder_BatchNormalization_7')
+        self.relu_7 = ReLU(name='Decoder_ReLU_7')
         
-#         # Regressing shape parameters
-#         self.conv8 = Conv1D(filters=40, kernel_size=1, name='Decoder_Conv1D_8')
-#         self.bn8 = BatchNormalization(name='Decoder_BatchNormalization_8')
-#         self.relu_8 = ReLU(name='Decoder_ReLU_8')
+        # Regressing shape parameters
+        self.conv8 = Conv1D(filters=40, kernel_size=1, name='Decoder_Conv1D_8')
+        self.bn8 = BatchNormalization(name='Decoder_BatchNormalization_8')
+        self.relu_8 = ReLU(name='Decoder_ReLU_8')
 
-#     def call(self, Lr):
-#         # First hidden layer
-#         X = self.conv1(Lr)
-#         X = self.bn1(X)
-#         X = self.relu1(X)
+    def call(self, Lr):
+        # First hidden layer
+        X = self.conv1(Lr)
+        X = self.bn1(X)
+        X = self.relu1(X)
 
-#         # Second hidden layer
-#         X = self.conv2(X)
-#         X = self.bn2(X)
-#         X = self.relu2(X)
+        # Second hidden layer
+        X = self.conv2(X)
+        X = self.bn2(X)
+        X = self.relu2(X)
 
-#         # Third hidden layer
-#         X = self.conv3(X)
-#         X = self.bn3(X)
-#         X = self.relu3(X)
+        # Third hidden layer
+        X = self.conv3(X)
+        X = self.bn3(X)
+        X = self.relu3(X)
 
-#         # Fourth hidden layer
-#         X = self.conv4(X)
-#         X = self.bn4(X)
-#         X = self.relu4(X)
+        # Fourth hidden layer
+        X = self.conv4(X)
+        X = self.bn4(X)
+        X = self.relu4(X)
 
-#         # Fifth hidden layer
-#         X = self.conv5(X)
-#         X = self.bn5(X)
-#         X = self.relu5(X)
+        # Fifth hidden layer
+        X = self.conv5(X)
+        X = self.bn5(X)
+        X = self.relu5(X)
 
-#         # Global Features (Holistic landmark features)
-#         global_features = self.maxPool(X)
+        # Global Features (Holistic landmark features)
+        global_features = self.maxPool(X)
 
-#         # Regressing pose parameters
-#         X = self.conv6(global_features)
-#         X = self.bn6(X)
-#         pose_3DMM = self.relu_6(X)
+        # Regressing pose parameters
+        X = self.conv6(global_features)
+        X = self.bn6(X)
+        pose_3DMM = self.relu_6(X)
 
-#         # Regressing expression parameters
-#         X = self.conv7(global_features)
-#         X = self.bn7(X)
-#         alpha_exp = self.relu_7(X)
+        # Regressing expression parameters
+        X = self.conv7(global_features)
+        X = self.bn7(X)
+        alpha_exp = self.relu_7(X)
 
-#         # Regressing shape parameters
-#         X = self.conv8(global_features)
-#         X = self.bn8(X)
-#         alpha_shp = self.relu_8(X)
+        # Regressing shape parameters
+        X = self.conv8(global_features)
+        X = self.bn8(X)
+        alpha_shp = self.relu_8(X)
         
-#         pose_3DMM = tf.squeeze(pose_3DMM, 1, name="Squeezing_pose3DMM")
-#         return pose_3DMM, alpha_exp, alpha_shp
+        pose_3DMM = tf.squeeze(pose_3DMM, 1, name="Squeezing_pose3DMM")
+        alpha_exp = tf.squeeze(alpha_exp, 1, name="Squeezing_alpha_exp")
+        alpha_shp = tf.squeeze(alpha_shp, 1, name="Squeezing_alpha_shp")
+        return pose_3DMM, alpha_exp, alpha_shp
 
-#     def model(self):
-#         Lr = Input(shape=(self.num_points, 3), name='Refined_Landmarks')
-#         return Model(inputs=Lr, outputs=self.call(Lr))
+    def model(self):
+        Lr = Input(shape=(self.num_points, 3), name='Refined_Landmarks')
+        return Model(inputs=Lr, outputs=self.call(Lr))
