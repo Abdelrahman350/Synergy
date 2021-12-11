@@ -36,7 +36,7 @@ vertices_tf = pca(pose_3dmm, exp_para, shape_para)
 vertices = vertices_tf.numpy()
 print(vertices.shape)
 for i in range(len(list_ids)):
-    plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
+  plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
 
 model = Synergy(input_shape=input_shape)
 model.model().summary()

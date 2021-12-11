@@ -27,8 +27,8 @@ class PCA(Layer):
         u_shp = self.parsing_npy('u_shp.npy')
         u_tex = self.parsing_npy('u_tex.npy')
         keypoints = self.parsing_npy('keypoints_sim.npy')
-        param_mean = self.parsing_pkl('param_whitening.pkl').get('param_mean')
-        param_std = self.parsing_pkl('param_whitening.pkl').get('param_std')
+        self.param_mean = self.parsing_pkl('param_300W_LP.pkl').get('param_mean')
+        self.param_std = self.parsing_pkl('param_300W_LP.pkl').get('param_std')
         u = u_exp + u_shp
         self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
         self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
@@ -40,6 +40,10 @@ class PCA(Layer):
         super(PCA, self).build(batch_input_shape)
 
     def call(self, pose_3DMM, alpha_exp, alpha_shp):
+        pose_3DMM = self.param_std[:12]*pose_3DMM + self.param_mean[:12]
+        alpha_exp = self.param_std[12:22]*alpha_exp + self.param_mean[12:22]
+        alpha_shp = self.param_std[22:]*alpha_shp + self.param_mean[22:]
+
         alpha_exp = tf.expand_dims(alpha_exp, -1)
         alpha_shp = tf.expand_dims(alpha_shp, -1)
         pose_3DMM = tf.cast(pose_3DMM, tf.float32)
