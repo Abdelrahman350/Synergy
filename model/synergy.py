@@ -2,7 +2,7 @@ from os import name
 from model.backbone import create_MobileNetV2
 from model.morhaple_face_model import PCA
 from model.encoder import MAFA
-from model.decoder import Landmarks_to_3DMM
+from model.decoder import Landmarks_to_3DMM, Landmarks_to_3DMM_2
 import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout, Flatten
@@ -47,7 +47,7 @@ class Synergy(Model):
             self.morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
 
             self.encoder =  MAFA(num_points=num_points)
-            self.decoder = Landmarks_to_3DMM(num_classes=num_classes, num_points=num_points)
+            self.decoder = Landmarks_to_3DMM_2(num_classes=num_classes, num_points=num_points)
 
       def call(self, batch_images):
             X = self.mobileNet(batch_images)
@@ -65,9 +65,9 @@ class Synergy(Model):
 
             Lc = self.morphable_model(pose_3DMM, alpha_exp, alpha_shp)
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
-            pose_3DMM_hat = self.decoder(Lr)
+            pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
 
-            return pose_3DMM_hat
+            return pose_3DMM_hat, alpha_exp, alpha_shp
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
