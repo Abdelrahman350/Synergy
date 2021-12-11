@@ -120,6 +120,10 @@ class MAFA(Model):
         self.Lr = ReLU(name='Encoder_Lr')
 
     def call(self, Lc, Z, alpha_exp, alpha_shp):
+        Z = tf.expand_dims(Z, 1, name='Expanding_Z')
+        alpha_exp = tf.expand_dims(alpha_exp, 1, name='Expanding_alphaExp')
+        alpha_shp = tf.expand_dims(alpha_shp, 1, name='Expanding_alphaShp')
+
         # First hidden layer
         X = self.conv1(Lc)
         X = self.bn1(X)
@@ -131,7 +135,7 @@ class MAFA(Model):
         X = self.relu2(X)
 
         # Low-level point features
-        point_features = tf.identity(X, name='Point_Feature')
+        point_features = tf.identity(X, name='Point_Features')
 
         # Third hidden layer
         X = self.conv3(X)
@@ -181,8 +185,8 @@ class MAFA(Model):
 
     def model(self):
         Lc = Input(shape=(68, 3), name='Landmarks')
-        Z = Input(shape=(1, 1280), name='Z')
-        alpha_exp = Input(shape=(1, 10), name='alpha_exp')
-        alpha_shp = Input(shape=(1, 40), name='alpha_shp')
+        Z = Input(shape=(1280,), name='Z')
+        alpha_exp = Input(shape=(10,), name='alpha_exp')
+        alpha_shp = Input(shape=(40,), name='alpha_shp')
         return Model(inputs=[Lc, Z, alpha_exp, alpha_shp],\
              outputs=self.call(Lc, Z, alpha_exp, alpha_shp))
