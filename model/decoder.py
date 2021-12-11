@@ -53,7 +53,7 @@ def Landmarks_to_3DMM_2(num_classes=62, num_points=68):
     return model
 
 class Landmarks_to_3DMM(Model):
-    def __init__(self, num_classes=62, num_points=68, **kwargs):
+    def __init__(self, num_points=68, **kwargs):
         super(Landmarks_to_3DMM, self).__init__(**kwargs, name="Landmarks_to_3DMM")
         self.num_points = num_points
         # First hidden layer
@@ -67,12 +67,12 @@ class Landmarks_to_3DMM(Model):
         self.relu2 = ReLU(name='Decoder_ReLU_2')
         
         # Third hidden layer
-        self.conv3 = Conv1D(filters=128, kernel_size=1, name='Decoder_Conv1D_3')
+        self.conv3 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_3')
         self.bn3 = BatchNormalization(name='Decoder_BatchNormalization_3')
         self.relu3 = ReLU(name='Decoder_ReLU_3')
         
         # Fourth hidden layer
-        self.conv4 = Conv1D(filters=256, kernel_size=1, name='Decoder_Conv1D_4')
+        self.conv4 = Conv1D(filters=128, kernel_size=1, name='Decoder_Conv1D_4')
         self.bn4 = BatchNormalization(name='Decoder_BatchNormalization_4')
         self.relu4 = ReLU(name='Decoder_ReLU_4')
         
@@ -82,7 +82,7 @@ class Landmarks_to_3DMM(Model):
         self.relu5 = ReLU(name='Decoder_ReLU_5')
         
         # Global Features (Holistic landmark features)
-        self.maxPool = MaxPool1D(pool_size=num_classes, name='Decoder_MaxPool1D')
+        self.maxPool = MaxPool1D(pool_size=num_points, name='Decoder_MaxPool1D')
         
         # Regressing pose parameters
         self.conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')
