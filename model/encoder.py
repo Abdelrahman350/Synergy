@@ -120,10 +120,6 @@ class MAFA(Model):
         self.Lr = ReLU(name='Encoder_Lr')
 
     def call(self, Lc, Z, alpha_exp, alpha_shp):
-        Z = tf.expand_dims(Z, 1, name="Expanding_Z")
-        alpha_exp = tf.expand_dims(alpha_exp, 1, name="Expanding_alphaExp")
-        alpha_shp = tf.expand_dims(alpha_shp, 1, name="Expanding_alphaShp")
-
         # First hidden layer
         X = self.conv1(Lc)
         X = self.bn1(X)
@@ -135,7 +131,7 @@ class MAFA(Model):
         X = self.relu2(X)
 
         # Low-level point features
-        point_features = tf.identity(X)
+        point_features = tf.identity(X, name='Point_Feature')
 
         # Third hidden layer
         X = self.conv3(X)
@@ -157,7 +153,7 @@ class MAFA(Model):
         
         # Aggregate point features and global features
         concate = concatenate([global_features,\
-             Z, alpha_exp, alpha_shp], name='Encoder_Concate_Global_Features')
+             Z, alpha_exp, alpha_shp], axis=-1, name='Encoder_Concate_Global_Features')
         concate_repeat = tf.tile(concate,\
              (1, self.num_points, 1), name='Encoder_Repeat_Global_Features')
         aggregate = concatenate([point_features, concate_repeat], name='Encoder_aggregate')
