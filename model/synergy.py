@@ -46,7 +46,7 @@ class Synergy(Model):
             self.morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
 
             self.encoder =  MAFA(num_points=num_points)
-            self.decoder = Landmarks_to_3DMM_2(num_classes=num_classes, num_points=num_points)
+            self.decoder = Landmarks_to_3DMM(num_points=num_points)
 
       def call(self, batch_images):
             X = self.mobileNet(batch_images)
@@ -66,7 +66,8 @@ class Synergy(Model):
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
             pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
 
-            return pose_3DMM_hat, alpha_exp, alpha_shp
+            return {'pose_3DMM_hat': pose_3DMM_hat, 'alpha_exp_hat': alpha_exp,\
+                   'alpha_shp_hat': alpha_shp, 'Lr': Lr}
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')

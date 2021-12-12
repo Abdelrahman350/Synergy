@@ -3,7 +3,7 @@ from tensorflow.keras.layers import Input, Conv1D, Dense, BatchNormalization
 from tensorflow.keras.layers import ReLU, MaxPool1D, concatenate
 from tensorflow.keras import Model
 
-def Landmarks_to_3DMM_2(num_classes=62, num_points=68):
+def Landmarks_to_3DMM_2(num_points=68):
     Lr = Input(shape=(num_points, 3), name='Refined_Landmarks')
 
     # First hidden layer
@@ -32,7 +32,7 @@ def Landmarks_to_3DMM_2(num_classes=62, num_points=68):
     relu5 = ReLU(name='Decoder_ReLU_5')(bn5)
 
     # Global Features (Holistic landmark features)
-    global_features = MaxPool1D(pool_size=num_classes, name='Decoder_MaxPool1D')(relu5)
+    global_features = MaxPool1D(pool_size=num_points, name='Decoder_MaxPool1D')(relu5)
 
     # Regressing pose parameters
     conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')(global_features)
