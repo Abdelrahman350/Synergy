@@ -12,7 +12,7 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     inputs = Input(shape=input_shape)
     X = create_MobileNetV2(input_shape=input_shape, classes=num_classes)(inputs)
     X = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
-    Z = tf.identity(X)
+    Z = tf.identity(X, name='Global_Average_Pooling')
 #     X_p = Dropout(0.2)(X)
     pose_3DMM = Dense(name='pose_3DMM', units=12)(X)
 #     X_exp = Dropout(0.2)(X)
@@ -51,7 +51,7 @@ class Synergy(Model):
       def call(self, batch_images):
             X = self.mobileNet(batch_images)
             X = self.GlobalAvgBooling(X)
-            Z = tf.identity(X)
+            Z = tf.identity(X, name='Global_Average_Pooling')
 
             X_pose = self.dropOut_pose(X)
             pose_3DMM = self.dense_pose(X_pose)
@@ -66,8 +66,7 @@ class Synergy(Model):
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
             pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
 
-            return {'pose_3DMM_hat': pose_3DMM_hat, 'alpha_exp_hat': alpha_exp,\
-                   'alpha_shp_hat': alpha_shp, 'Lr': Lr}
+            return pose_3DMM_hat, alpha_exp, alpha_shp, Lr
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
