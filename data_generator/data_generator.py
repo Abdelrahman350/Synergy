@@ -63,7 +63,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         morphable_model = PCA(input_shape=self.input_shape, name='Morphable_layer')
             
         Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
-        return X, (pose_3DMM, alpha_exp, alpha_shp, Lc)
+        return X, (pose_3DMM, alpha_exp, alpha_shp)
 
     def get_one_instance(self, id):
         batch = [id]

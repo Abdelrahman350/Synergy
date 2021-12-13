@@ -23,9 +23,9 @@ def create_synergy(input_shape, num_classes=62, num_points=68):
     
     Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
     Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
-    pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM(num_points=num_points)(Lr)
+    pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM_2(num_points=num_points)(Lr)
     model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM_hat, alpha_exp, alpha_shp, Lr], name='Synergy')
+          outputs=[pose_3DMM_hat, alpha_exp, alpha_shp], name='Synergy')
     return model
 
 class Synergy(Model):
