@@ -66,11 +66,14 @@ class Synergy(Model):
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
             pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
 
-            return pose_3DMM_hat, alpha_exp, alpha_shp, Lr
+            return pose_3DMM_hat, alpha_exp, alpha_shp
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
             return Model(inputs=[images], outputs=self.call(images), name="Synergy")
+      
+      def summary(self):
+            return self.model().summary()
 
       def get_config(self):
             base_config = super(Synergy, self).get_config()

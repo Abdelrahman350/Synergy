@@ -1,6 +1,6 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Input, Conv1D, Dense, BatchNormalization 
-from tensorflow.keras.layers import ReLU, MaxPool1D, GlobalMaxPool1D
+from tensorflow.keras.layers import Input, Conv1D, BatchNormalization 
+from tensorflow.keras.layers import ReLU, GlobalMaxPool1D, Reshape
 from tensorflow.keras import Model
 
 def Landmarks_to_3DMM_2(num_points=68):
@@ -33,7 +33,7 @@ def Landmarks_to_3DMM_2(num_points=68):
 
     # # Global Features (Holistic landmark features)
     global_features = GlobalMaxPool1D(name='Decoder_MaxPool1D')(relu5)
-    global_features = tf.keras.layers.Reshape((1, -1))(global_features)
+    global_features = Reshape((1, -1))(global_features)
     # # Regressing pose parameters
     conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')(global_features)
     bn6 = BatchNormalization(name='Decoder_BatchNormalization_6')(conv6)
@@ -82,8 +82,9 @@ class Landmarks_to_3DMM(Model):
         self.relu5 = ReLU(name='Decoder_ReLU_5')
         
         # Global Features (Holistic landmark features)
-        self.maxPool = MaxPool1D(pool_size=num_points, name='Decoder_MaxPool1D')
-        
+        self.maxPool = GlobalMaxPool1D(name='Decoder_MaxPool1D')
+        self.reshape = Reshape((1, -1))
+
         # Regressing pose parameters
         self.conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')
         self.bn6 = BatchNormalization(name='Decoder_BatchNormalization_6')
@@ -126,7 +127,8 @@ class Landmarks_to_3DMM(Model):
         X = self.relu5(X)
 
         # Global Features (Holistic landmark features)
-        global_features = self.maxPool(X)
+        X = self.maxPool(X)
+        global_features = self.reshape(X)
 
         # Regressing pose parameters
         X = self.conv6(global_features)
