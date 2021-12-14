@@ -1,11 +1,11 @@
-from os import name
 from model.backbone import create_MobileNetV2
 from model.morhaple_face_model import PCA
 from model.encoder import MAFA
 from model.decoder import Landmarks_to_3DMM, Landmarks_to_3DMM_2
 import tensorflow as tf
 from tensorflow.keras import Model
-from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout, Flatten
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
+from tensorflow.keras.losses import MeanSquaredError
 
 
 def create_synergy(input_shape, num_classes=62, num_points=68):
@@ -47,6 +47,7 @@ class Synergy(Model):
 
             self.encoder =  MAFA(num_points=num_points)
             self.decoder = Landmarks_to_3DMM(num_points=num_points)
+            self.mse = MeanSquaredError()
 
       def call(self, batch_images):
             X = self.mobileNet(batch_images)
@@ -64,9 +65,11 @@ class Synergy(Model):
 
             Lc = self.morphable_model(pose_3DMM, alpha_exp, alpha_shp)
             Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
-            pose_3DMM_hat, alpha_exp, alpha_shp = self.decoder(Lr)
-
-            return pose_3DMM_hat, alpha_exp, alpha_shp
+            pose_3DMM_hat, alpha_exp_hat, alpha_shp_hat = self.decoder(Lr)
+            Lg = self.mse(pose_3DMM, pose_3DMM_hat) + self.mse(alpha_exp, alpha_exp_hat) +\
+                  self.mse(alpha_shp, alpha_shp_hat)
+            self.add_loss(0.001 * Lg)
+            return pose_3DMM_hat, alpha_exp_hat, alpha_shp_hat
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
