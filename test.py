@@ -1,28 +1,24 @@
 import tensorflow as tf
-from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.compat.v1.train import AdamOptimizer
-from model.synergy import Synergy, create_synergy
+from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
-from utils.custom_fit import train
 from losses import Synergy_Loss
 from utils.loading_data import loading_generators
-from model.synergy import create_synergy
-from model.backbone import create_MobileNetV2
+from tensorflow.keras.optimizers import Adam, Nadam
 
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
   # Restrict TensorFlow to only use the first GPU
   try:
-    tf.config.set_visible_devices(gpus[0], 'GPU')
+    tf.config.set_visible_devices(gpus[1], 'GPU')
     logical_gpus = tf.config.list_logical_devices('GPU')
     print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
   except RuntimeError as e:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (224, 224, 3)
+input_shape = (120, 120, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
@@ -32,18 +28,39 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
 images, y = training_data_generator.data_generation(list_ids)
 
 model = Synergy(input_shape=input_shape)
-model.model().summary()
-model.build((1, input_shape[0], input_shape[1], input_shape[2]))
-model.load_weights("checkpoints/Model.h5")
+optimizer = Nadam(learning_rate=0.01)
+loss_function = tf.keras.losses.MeanSquaredError()
 
-poses_tf, vertices_tf, poses_hat_tf = model(images, training=False)
-poses_hat = poses_hat_tf.numpy()
-vertices = vertices_tf.numpy()
+losses = {
+  'output_1':loss_function,
+  'output_2':loss_function,
+  'output_3':loss_function,
+  }
+
+model.compile(optimizer, losses)
+print(model.summary())
+model(images)
+model.load_weights("checkpoints/model.h5")
+DMM = model.predict(images)
+
+poses_pred = DMM[0]
+poses_gt = y[0]
+
+print("GT = ", poses_gt)
+print()
+print("Pred = ", poses_pred)
+
+pca = PCA(input_shape)
+vertices_tf = pca(DMM[0], DMM[1], DMM[2])
+vertices_pred = vertices_tf.numpy()
+
+vertices_tf = pca(y[0], y[1], y[2])
+vertices_gt = vertices_tf.numpy()
 
 for i in range(len(list_ids)):
-  plot_landmarks(images[i], vertices[i], 'landmarks_pred_'+str(i))
-  plot_landmarks(images[i], y[1][i], name='landmarks_gt_'+str(i))
+  plot_landmarks(images[i], vertices_pred[i], 'sanity_lmk_pred_'+str(i))
+  plot_landmarks(images[i], vertices_gt[i], name='sanity_lmk_gt_'+str(i))
 
 for i in range(len(list_ids)):
-  plot_pose(images[i], poses_hat[i], name='poses_pred_'+str(i))
-  plot_pose(images[i], y[0][i], name='poses_gt_'+str(i))
+  plot_pose(images[i], poses_pred[i], name='sanity_poses_pred_'+str(i))
+  plot_pose(images[i], poses_gt[i], name='sanity_poses_gt_'+str(i))

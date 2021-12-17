@@ -5,7 +5,7 @@ from model.decoder import Landmarks_to_3DMM, Landmarks_to_3DMM_2
 import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.losses import MeanSquaredError
+from tensorflow.keras.losses import MeanSquaredError, Huber
 
 
 def create_synergy(input_shape, num_classes=62, num_points=68):

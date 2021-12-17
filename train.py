@@ -1,13 +1,13 @@
 import tensorflow as tf
-from tensorflow.keras.optimizers import Adam, Nadam
-from tensorflow.keras.optimizers.schedules import ExponentialDecay
-import wandb
-import numpy as np
+from model.synergy import Synergy, create_synergy
+from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
-from utils.custom_fit import train
+from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
+from model.morhaple_face_model import PCA
+from utils.custom_fit import train, train_on_image
 from losses import Synergy_Loss
 from utils.loading_data import loading_generators
-from model.synergy import Synergy
+from tensorflow.keras.optimizers import Adam, Nadam
 
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
@@ -20,22 +20,42 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (224, 224, 3)
-
+input_shape = (120, 120, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=64, shuffle=True)
-model = Synergy(input_shape)
 
-var = tf.Variable(np.random.random(size=(1,)))
-learning_rate = ExponentialDecay(initial_learning_rate=0.03, decay_steps=20, decay_rate=0.5)
-optimizer = Nadam(learning_rate=0.01)
-loss_function = Synergy_Loss()
+list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
+     "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
+      "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
+images, y = training_data_generator.data_generation(list_ids)
 
-print(model.model().summary())
-experiment_name = "Synergy_mobilenetV2"
-resume = False
-run = wandb.init(project="Synergy", name= experiment_name, resume= resume)
-wandb.save("train.py")
+model = Synergy(input_shape=input_shape)
+optimizer = Nadam(learning_rate=0.1)
+loss_function = tf.keras.losses.MeanSquaredError()
 
-train(model, training_data_generator, validation_data_generator, 500,\
-       loss_function, optimizer, True)
+losses = {
+  'output_1':loss_function,
+  'output_2':loss_function,
+  'output_3':loss_function,
+  }
+  
+model.compile(optimizer, losses)
+print(model.summary())
+
+model_checkpoint_callback = ModelCheckpoint(
+   filepath="checkpoints/model.h5",
+   save_weights_only=True,
+   monitor='val_loss',
+   mode='min',
+   save_best_only=True,
+   verbose=1)
+
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0.001, verbose=2)
+
+
+model_fit = model.fit(
+  x=training_data_generator,
+validation_data=validation_data_generator,
+epochs=1000, 
+verbose=1,
+callbacks=[model_checkpoint_callback, reduce_lr])

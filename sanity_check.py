@@ -19,7 +19,7 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (224, 224, 3)
+input_shape = (120, 120, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
@@ -31,15 +31,15 @@ images, y = training_data_generator.data_generation(list_ids)
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.001)
 loss_function = tf.keras.losses.MeanSquaredError()
-#Synergy_Loss()
-# train_on_image(model, images, y, 5000, loss_function, optimizer, False)
+
+
 losses = {
   'pose_3DMM':loss_function,
   'alpha_exp':loss_function,
   'alpha_shp':loss_function,
   'MAFA':loss_function
   }
-  
+
 model.compile(optimizer, loss_function)
 print(model.summary())
 model.fit(images, y, verbose=1, epochs=3000)
@@ -67,7 +67,3 @@ for i in range(len(list_ids)):
 for i in range(len(list_ids)):
   plot_pose(images[i], poses_pred[i], name='sanity_poses_pred_'+str(i))
   plot_pose(images[i], poses_gt[i], name='sanity_poses_gt_'+str(i))
-
-# from matplotlib import pyplot as plt
-# plt.scatter(vertices[:, 0], vertices[:, 1])
-# plt.savefig('foo.png')
