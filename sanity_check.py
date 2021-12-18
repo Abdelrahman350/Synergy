@@ -1,5 +1,5 @@
 import tensorflow as tf
-from model.synergy import Synergy, create_synergy
+from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
@@ -23,9 +23,9 @@ input_shape = (120, 120, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
-list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0"]#,\
-    #  "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
-    #   "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
+list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
+  "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
+  "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
 
 model = Synergy(input_shape=input_shape)
@@ -34,30 +34,23 @@ loss_function = tf.keras.losses.MeanSquaredError()
 
 
 losses = {
-  'pose_3DMM':loss_function,
-  'alpha_exp':loss_function,
-  'alpha_shp':loss_function,
-  'MAFA':loss_function
+  'output_1':loss_function,
   }
 
 model.compile(optimizer, loss_function)
 print(model.summary())
-model.fit(images, y, verbose=1, epochs=3000)
+model.fit(images, y, verbose=1, epochs=1000)
 
 DMM = model.predict(images)
 
-poses_pred = DMM[0]
-poses_gt = y[0]
-
-print("GT = ", poses_gt)
-print()
-print("Pred = ", poses_pred)
+poses_pred = DMM[:12]
+poses_gt = y[:12]
 
 pca = PCA(input_shape)
-vertices_tf = pca(DMM[0], DMM[1], DMM[2])
+vertices_tf = pca(DMM)
 vertices_pred = vertices_tf.numpy()
 
-vertices_tf = pca(y[0], y[1], y[2])
+vertices_tf = pca(y)
 vertices_gt = vertices_tf.numpy()
 
 for i in range(len(list_ids)):

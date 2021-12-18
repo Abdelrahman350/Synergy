@@ -48,7 +48,7 @@ def draw_landmarks(image_original, pt2d):
 
 def plot_pose(image, label, name='output_axis'):
     label = denormalize(label)
-    pitch, yaw, roll = param3DMM_to_pose(label)
+    pitch, yaw, roll = param3DMM_to_pose(label[:12])
     image = draw_axis(image, pitch, yaw, roll)        
     cv2.imwrite('output/'+name+".jpg", image*255)
 

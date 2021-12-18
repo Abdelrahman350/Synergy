@@ -39,11 +39,9 @@ class PCA(Layer):
         self.reshape_scale = Reshape((1, 1))
         super(PCA, self).build(batch_input_shape)
 
-    def call(self, pose_3DMM, alpha_exp, alpha_shp):
-        pose_3DMM = self.param_std[:12]*pose_3DMM + self.param_mean[:12]
-        alpha_exp = self.param_std[12:22]*alpha_exp + self.param_mean[12:22]
-        alpha_shp = self.param_std[22:]*alpha_shp + self.param_mean[22:]
-
+    def call(self, Param_3D):
+        Param_3D = self.param_std*Param_3D + self.param_mean
+        pose_3DMM, alpha_exp, alpha_shp = Param_3D[:, :12], Param_3D[:, 12:22], Param_3D[:, 22:]
         alpha_exp = tf.expand_dims(alpha_exp, -1)
         alpha_shp = tf.expand_dims(alpha_shp, -1)
         pose_3DMM = tf.cast(pose_3DMM, tf.float32)

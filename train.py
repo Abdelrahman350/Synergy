@@ -1,5 +1,5 @@
 import tensorflow as tf
-from model.synergy import Synergy, create_synergy
+from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
@@ -35,8 +35,6 @@ loss_function = tf.keras.losses.MeanSquaredError()
 
 losses = {
   'output_1':loss_function,
-  'output_2':loss_function,
-  'output_3':loss_function,
   }
   
 model.compile(optimizer, losses)

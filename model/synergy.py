@@ -7,27 +7,6 @@ from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
 from tensorflow.keras.losses import MeanSquaredError, Huber
 
-
-def create_synergy(input_shape, num_classes=62, num_points=68):
-    inputs = Input(shape=input_shape)
-    X = create_MobileNetV2(input_shape=input_shape, classes=num_classes)(inputs)
-    X = GlobalAveragePooling2D(name='Global_Avg_Pooling')(X)
-    Z = tf.identity(X, name='Global_Average_Pooling')
-#     X_p = Dropout(0.2)(X)
-    pose_3DMM = Dense(name='pose_3DMM', units=12)(X)
-#     X_exp = Dropout(0.2)(X)
-    alpha_exp = Dense(name='alpha_exp', units=10)(X)
-#     X_shape = Dropout(0.2)(X)
-    alpha_shp = Dense(name='alpha_shp', units=40)(X)
-    morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
-    
-    Lc = morphable_model(pose_3DMM, alpha_exp, alpha_shp)
-    Lr = MAFA(num_points=num_points)(Lc, Z, alpha_exp, alpha_shp)
-    pose_3DMM_hat, alpha_exp, alpha_shp = Landmarks_to_3DMM_2(num_points=num_points)(Lr)
-    model = Model(inputs=[inputs],\
-          outputs=[pose_3DMM_hat, alpha_exp, alpha_shp], name='Synergy')
-    return model
-
 class Synergy(Model):
       def __init__(self, input_shape, num_classes=62, num_points=68, **kwargs):
             super(Synergy, self).__init__(**kwargs, name="Synergy")
@@ -45,7 +24,7 @@ class Synergy(Model):
             self.dense_shp = Dense(name='alpha_shp', units=40)
             self.morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
 
-            self.encoder =  MAFA(num_points=num_points)
+            self.encoder = MAFA(num_points=num_points)
             self.decoder = Landmarks_to_3DMM(num_points=num_points)
             self.mse = MeanSquaredError()
 
@@ -63,13 +42,14 @@ class Synergy(Model):
             X_shp = self.dropOut_shp(X)
             alpha_shp = self.dense_shp(X_shp)
 
-            Lc = self.morphable_model(pose_3DMM, alpha_exp, alpha_shp)
-            Lr = self.encoder(Lc, Z, alpha_exp, alpha_shp)
-            pose_3DMM_hat, alpha_exp_hat, alpha_shp_hat = self.decoder(Lr)
-            Lg = self.mse(pose_3DMM, pose_3DMM_hat) + self.mse(alpha_exp, alpha_exp_hat) +\
-                  self.mse(alpha_shp, alpha_shp_hat)
-            self.add_loss(0.001 * Lg)
-            return pose_3DMM_hat, alpha_exp_hat, alpha_shp_hat
+            Param_3D = tf.concat((pose_3DMM, alpha_exp, alpha_shp), axis=-1)
+            Lc = self.morphable_model(Param_3D)
+            Lr = self.encoder(Lc, Z, Param_3D[:, 12:22], Param_3D[:, 22:])
+            Param_3D_hat = self.decoder(Lr)
+            # Lg = self.mse(pose_3DMM, pose_3DMM_hat) + self.mse(alpha_exp, alpha_exp_hat) +\
+            #       self.mse(alpha_shp, alpha_shp_hat)
+            # self.add_loss(0.001 * Lg)
+            return Param_3D_hat
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')

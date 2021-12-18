@@ -91,8 +91,8 @@ def normalize(parameters_3DMM):
     return parameters_3DMM
 
 def denormalize(parameters_3DMM):
-    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:12]
-    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:12]
+    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
+    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
     parameters_3DMM = parameters_3DMM*param_std + param_mean
     return parameters_3DMM
 

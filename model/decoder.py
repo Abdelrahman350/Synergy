@@ -148,7 +148,9 @@ class Landmarks_to_3DMM(Model):
         pose_3DMM = tf.squeeze(pose_3DMM, 1, name="Squeezing_pose3DMM")
         alpha_exp = tf.squeeze(alpha_exp, 1, name="Squeezing_alpha_exp")
         alpha_shp = tf.squeeze(alpha_shp, 1, name="Squeezing_alpha_shp")
-        return pose_3DMM, alpha_exp, alpha_shp
+
+        Param_3D_hat = tf.concat((pose_3DMM, alpha_exp, alpha_shp), axis=-1)
+        return Param_3D_hat
 
     def model(self):
         Lr = Input(shape=(self.num_points, 3), name='Refined_Landmarks')
