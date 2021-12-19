@@ -1,5 +1,6 @@
 from data_generator.labels_preprocessing import *
 import tensorflow as tf
+from tensorflow import expand_dims, cast, constant, add, matmul
 from tensorflow.keras.layers import Layer, Reshape
 import numpy as np
 import pickle
@@ -14,9 +15,9 @@ class PCA(Layer):
         self.u_base = 0
         self.w_exp_base = 0
         self.w_shp_base = 0
-        self.aspect_ratio = tf.expand_dims(
-            tf.constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]),\
-                 0, name='aspect_ratio')
+        self.aspect_ratio = expand_dims(
+            constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]),\
+                0, name='aspect_ratio')
 
     def build(self, batch_input_shape):
         self.batch_size = batch_input_shape[0]
@@ -42,21 +43,21 @@ class PCA(Layer):
     def call(self, Param_3D):
         Param_3D = self.param_std*Param_3D + self.param_mean
         pose_3DMM, alpha_exp, alpha_shp = Param_3D[:, :12], Param_3D[:, 12:22], Param_3D[:, 22:]
-        alpha_exp = tf.expand_dims(alpha_exp, -1)
-        alpha_shp = tf.expand_dims(alpha_shp, -1)
-        pose_3DMM = tf.cast(pose_3DMM, tf.float32)
-        alpha_exp = tf.cast(alpha_exp, tf.float32)
-        alpha_shp = tf.cast(alpha_shp, tf.float32)
+        alpha_exp = expand_dims(alpha_exp, -1)
+        alpha_shp = expand_dims(alpha_shp, -1)
+        pose_3DMM = cast(pose_3DMM, tf.float32)
+        alpha_exp = cast(alpha_exp, tf.float32)
+        alpha_shp = cast(alpha_shp, tf.float32)
 
         
-        vertices = tf.add(self.u_base,\
-             tf.add(tf.matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
-             tf.matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
-                  name='Outer_Add')
+        vertices = add(self.u_base,\
+            add(matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
+                matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
+                    name='Outer_Add')
 
         vertices = self.reshape_vertices(vertices)
         T, t = self.transform_matrix(pose_3DMM)
-        vertices = tf.matmul(vertices, T, transpose_b=True) + tf.expand_dims(t, 1)
+        vertices = matmul(vertices, T, transpose_b=True) + expand_dims(t, 1)
         vertices = self.resize_landmarks(vertices)
         return vertices
 
@@ -78,7 +79,7 @@ class PCA(Layer):
         return pickle.load(open(self.pca_dir+file, 'rb'))
     
     def convert_npy_to_tensor(self, npy_array, name):
-        return tf.constant(npy_array, dtype=tf.float32, name=name)
+        return constant(npy_array, dtype=tf.float32, name=name)
     
     def transform_matrix(self, pose_3DMM):
         """
@@ -88,12 +89,12 @@ class PCA(Layer):
         s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
         # Zeroing the tz
         zero = tf.linalg.diag([1.0, 1.0, 0.0])
-        t = tf.matmul(t, zero) + tf.constant([0.0, 0.0, 1.0])
+        t = matmul(t, zero) + constant([0.0, 0.0, 1.0])
         # Convert ty ----> (Height_image - ty)
-        H_t = tf.constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, self.height, 0.0]])
-        t = tf.matmul(t, H_t)
+        H_t = constant([[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, self.height, 0.0]])
+        t = matmul(t, H_t)
         # Negative 2nd row in R
-        H_R = tf.constant([[1.0, 1.0, 1.0], [-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]])
+        H_R = constant([[1.0, 1.0, 1.0], [-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]])
         T = H_R * tf.math.multiply(self.reshape_scale(s), R, name=None)
         return T, t
     

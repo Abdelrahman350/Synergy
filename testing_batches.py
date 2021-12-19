@@ -1,11 +1,9 @@
 import tensorflow as tf
-from model.synergy import Synergy, create_synergy
+from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks
 
 from model.morhaple_face_model import PCA
 from utils.loading_data import loading_generators
-from model.synergy import create_synergy
-from model.backbone import create_MobileNetV2
 
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
@@ -18,7 +16,7 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (224, 224, 3)
+input_shape = (450, 450, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
@@ -32,14 +30,14 @@ exp_para = y[:, 12:22]
 shape_para = y[:, 22:62]
 
 pca = PCA(input_shape)
-vertices_tf = pca(pose_3dmm, exp_para, shape_para)
+vertices_tf = pca(y)
 vertices = vertices_tf.numpy()
 print(vertices.shape)
 for i in range(len(list_ids)):
   plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
 
 model = Synergy(input_shape=input_shape)
-model.model().summary()
+model.summary()
 
 model.save_weights("checkpoints/model_synergy.h5")
 print()
