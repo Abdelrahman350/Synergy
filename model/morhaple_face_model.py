@@ -1,4 +1,3 @@
-from data_generator.labels_preprocessing import *
 import tensorflow as tf
 from tensorflow import expand_dims, cast, constant, add, matmul
 from tensorflow.keras.layers import Layer, Reshape
@@ -49,7 +48,6 @@ class PCA(Layer):
         alpha_exp = cast(alpha_exp, tf.float32)
         alpha_shp = cast(alpha_shp, tf.float32)
 
-        
         vertices = add(self.u_base,\
             add(matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
                 matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
