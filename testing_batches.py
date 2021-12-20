@@ -43,7 +43,6 @@ model.save_weights("checkpoints/model_synergy.h5")
 print()
 print()
 model_test = Synergy(input_shape=input_shape)
-model_test.built = True
 model_test.model()
 model_test.load_weights("checkpoints/model_synergy.h5")
 print(model_test.summary())
