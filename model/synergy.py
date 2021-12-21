@@ -44,7 +44,8 @@ class Synergy(Model):
 
             Param_3D = tf.concat((pose_3DMM, alpha_exp, alpha_shp), axis=-1)
             Lc = self.morphable_model(Param_3D)
-            Lr = self.encoder(Lc, Z, Param_3D[:, 12:22], Param_3D[:, 22:])
+            point_residual = self.encoder(Lc, Z, Param_3D[:, 12:22], Param_3D[:, 22:])
+            Lr = tf.add(point_residual, Lc, name='point_residual')
             Param_3D_hat = self.decoder(Lr)
             Lg = self.paramLoss(Param_3D, Param_3D_hat)
             self.add_loss(0.001 * Lg)

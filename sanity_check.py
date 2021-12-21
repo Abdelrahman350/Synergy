@@ -1,5 +1,5 @@
 import tensorflow as tf
-from losses import ParameterLoss
+from losses import ParameterLoss, WingLoss
 from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
@@ -28,17 +28,19 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
 images, y = training_data_generator.data_generation(list_ids)
 
 model = Synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.001)
-loss_function = ParameterLoss(name='loss_Param_In', mode='normal')
-
+optimizer = Nadam(learning_rate=0.0001)
 
 losses = {
   'output_1': ParameterLoss(name='loss_Param_In', mode='normal'),
+  'output_2': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
+  # 'output_3': WingLoss(name='loss_LMK_f0'),
+  # 'output_4': WingLoss(name='loss_LMK_pointNet')
   }
 
-model.compile(optimizer, loss_function)
+loss_weights = {'output_1':0.02, 'output_2':0.02}
+model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
-model.fit(images, y, verbose=1, epochs=300)
+model.fit(images, y, verbose=1, epochs=1000)
 
 DMM = model.predict(images)[0]
 

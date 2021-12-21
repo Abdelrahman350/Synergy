@@ -2,6 +2,7 @@ from tensorflow.keras.utils import Sequence
 import numpy as np
 from data_generator.image_preprocessing import image_loader
 from data_generator.labels_preprocessing import label_loader
+from model.morhaple_face_model import PCA
 
 class DataGenerator(Sequence):
     def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
@@ -12,6 +13,7 @@ class DataGenerator(Sequence):
         self.input_shape = input_shape
         self.shuffle = shuffle
         self.dataset_path = dataset_path
+        self.pca = PCA(input_shape)
         self.indices = np.arange(len(self.list_IDs))
         
     def __len__(self):
@@ -56,8 +58,8 @@ class DataGenerator(Sequence):
             batch_parameters_3DMM.append(parameters_3DDM)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
-        batch_parameters_3DMM_hat = batch_parameters_3DMM.copy()
-        return X, (batch_parameters_3DMM, batch_parameters_3DMM_hat)
+        Lc = self.pca(batch_parameters_3DMM)
+        return X, (batch_parameters_3DMM, batch_parameters_3DMM)
 
     def get_one_instance(self, id):
         batch = [id]
