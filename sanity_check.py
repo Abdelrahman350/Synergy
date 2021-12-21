@@ -38,18 +38,20 @@ losses = {
 
 model.compile(optimizer, loss_function)
 print(model.summary())
-model.fit(images, y, verbose=1, epochs=1000)
+model.fit(images, y, verbose=1, epochs=300)
 
-DMM = model.predict(images)
+DMM = model.predict(images)[0]
 
 poses_pred = DMM[:12]
-poses_gt = y[:12]
+
+y_DMM = y[0]
+poses_gt = y_DMM[:12]
 
 pca = PCA(input_shape)
 vertices_tf = pca(DMM)
 vertices_pred = vertices_tf.numpy()
 
-vertices_tf = pca(y)
+vertices_tf = pca(y_DMM)
 vertices_gt = vertices_tf.numpy()
 
 for i in range(len(list_ids)):
@@ -57,5 +59,6 @@ for i in range(len(list_ids)):
   plot_landmarks(images[i], vertices_gt[i], name='sanity_lmk_gt_'+str(i))
 
 for i in range(len(list_ids)):
+  print("\n", poses_pred[i])
   plot_pose(images[i], poses_pred[i], name='sanity_poses_pred_'+str(i))
   plot_pose(images[i], poses_gt[i], name='sanity_poses_gt_'+str(i))

@@ -48,7 +48,7 @@ class Synergy(Model):
             Param_3D_hat = self.decoder(Lr)
             Lg = self.paramLoss(Param_3D, Param_3D_hat)
             self.add_loss(0.001 * Lg)
-            return Param_3D_hat
+            return Param_3D, Param_3D_hat
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
