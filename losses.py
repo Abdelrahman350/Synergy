@@ -22,7 +22,7 @@ class ParameterLoss(Loss):
 
 
 class WingLoss(Loss):
-    def __init__(self, omega=10, epsilon=2,name='Wing_Loss'):
+    def __init__(self, omega=10, epsilon=2, name='Wing_Loss'):
         super(WingLoss, self).__init__(name=name)
         self.omega = omega
         self.epsilon = epsilon
