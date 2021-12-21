@@ -57,7 +57,7 @@ class DataGenerator(Sequence):
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
         batch_parameters_3DMM_hat = batch_parameters_3DMM.copy()
-        return X, (batch_parameters_3DMM, batch_parameters_3DMM)
+        return X, (batch_parameters_3DMM, batch_parameters_3DMM_hat)
 
     def get_one_instance(self, id):
         batch = [id]
