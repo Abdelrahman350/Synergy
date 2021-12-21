@@ -1,10 +1,9 @@
 import tensorflow as tf
+from losses import ParameterLoss
 from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
-from utils.custom_fit import train, train_on_image
-from losses import Synergy_Loss
 from utils.loading_data import loading_generators
 from tensorflow.keras.optimizers import Adam, Nadam
 
@@ -19,7 +18,7 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (120, 120, 3)
+input_shape = (450, 450, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
@@ -30,11 +29,11 @@ images, y = training_data_generator.data_generation(list_ids)
 
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.001)
-loss_function = tf.keras.losses.MeanSquaredError()
+loss_function = ParameterLoss(name='loss_Param_In', mode='normal')
 
 
 losses = {
-  'output_1':loss_function,
+  'output_1': ParameterLoss(name='loss_Param_In', mode='normal'),
   }
 
 model.compile(optimizer, loss_function)

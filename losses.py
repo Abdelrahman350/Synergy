@@ -3,21 +3,22 @@ from tensorflow import reduce_sum, abs, sqrt
 from tensorflow.keras.losses import Loss, MeanSquaredError, Reduction
 
 class ParameterLoss(Loss):
-    def __init__(self, reduction=Reduction.NONE, name='Parameter_Loss'):
-        super(ParameterLoss, self).__init__(reduction=reduction, name=name)
+    def __init__(self, reduction=Reduction.NONE, name='Parameter_Loss', mode='3dmm'):
+        super(ParameterLoss, self).__init__(name=name)
         self.mse = MeanSquaredError(reduction=reduction)
+        self.mode = mode
     
-    def call(self, y_true, y_pred, mode='normal'):
-        if mode == 'normal':
+    def call(self, y_true, y_pred):
+        if self.mode == 'normal':
             loss = self.mse(y_true=y_true[:, :12], y_pred=y_pred[:, :12])\
                  + self.mse(y_true=y_true[:, 12:], y_pred=y_pred[:, 12:])
-        elif mode == '3dmm':
+        elif self.mode == '3dmm':
             loss = self.mse(y_true=y_true[:, 12:], y_pred=y_pred[:, 12:])
         return sqrt(loss)
         
     def get_config(self):
-        base_config = super().get_config()
-        return {**base_config, "MSE": self.mse}
+        base_config = super(ParameterLoss, self).get_config()
+        return {**base_config, 'MSE': self.mse}
 
 
 class WingLoss(Loss):

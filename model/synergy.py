@@ -1,11 +1,11 @@
+import tensorflow as tf
+from losses import ParameterLoss
 from model.backbone import create_MobileNetV2
 from model.morhaple_face_model import PCA
 from model.encoder import MAFA
-from model.decoder import Landmarks_to_3DMM, Landmarks_to_3DMM_2
-import tensorflow as tf
+from model.decoder import Landmarks_to_3DMM
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.losses import MeanSquaredError, Huber
 
 class Synergy(Model):
       def __init__(self, input_shape, num_classes=62, num_points=68, **kwargs):
@@ -26,7 +26,7 @@ class Synergy(Model):
 
             self.encoder = MAFA(num_points=num_points)
             self.decoder = Landmarks_to_3DMM(num_points=num_points)
-            self.mse = MeanSquaredError()
+            self.paramLoss = ParameterLoss(name='loss_Param_S1S2', mode='3dmm')
 
       def call(self, batch_images):
             X = self.mobileNet(batch_images)
@@ -46,14 +46,13 @@ class Synergy(Model):
             Lc = self.morphable_model(Param_3D)
             Lr = self.encoder(Lc, Z, Param_3D[:, 12:22], Param_3D[:, 22:])
             Param_3D_hat = self.decoder(Lr)
-            # Lg = self.mse(pose_3DMM, pose_3DMM_hat) + self.mse(alpha_exp, alpha_exp_hat) +\
-            #       self.mse(alpha_shp, alpha_shp_hat)
-            # self.add_loss(0.001 * Lg)
+            Lg = self.paramLoss(Param_3D, Param_3D_hat)
+            self.add_loss(0.001 * Lg)
             return Param_3D_hat
       
       def model(self):
             images = Input(shape=self.input_shape_, name='Input_Images')
-            return Model(inputs=[images], outputs=self.call(images), name="Synergy")
+            return Model(inputs=[images], outputs=self.call(images), name='Synergy')
       
       def summary(self):
             return self.model().summary()
