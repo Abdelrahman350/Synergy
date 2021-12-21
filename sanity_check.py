@@ -59,6 +59,5 @@ for i in range(len(list_ids)):
   plot_landmarks(images[i], vertices_gt[i], name='sanity_lmk_gt_'+str(i))
 
 for i in range(len(list_ids)):
-  print("\n", poses_pred[i])
   plot_pose(images[i], poses_pred[i], name='sanity_poses_pred_'+str(i))
   plot_pose(images[i], poses_gt[i], name='sanity_poses_gt_'+str(i))
