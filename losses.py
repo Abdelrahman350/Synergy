@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow import reduce_sum, abs, sqrt
+from tensorflow import reduce_sum, abs, sqrt, divide
 from tensorflow.keras.losses import Loss, MeanSquaredError, Reduction
 
 class ParameterLoss(Loss):
@@ -39,8 +39,10 @@ class WingLoss(Loss):
         C = self.omega - self.omega * self.log_term
         loss2 = delta_y2 - C
         sums = reduce_sum(loss1) + reduce_sum(loss2)
-        lengths = loss1.shape[0] + loss2.shape[0]
-        return sums/lengths
+        lengths = tf.shape(loss1)[0] + tf.shape(loss2)[0]
+        lengths = tf.cast(lengths, dtype=tf.float32)
+        loss_final = divide(sums, lengths)
+        return loss_final
 
     def get_config(self):
         base_config = super().get_config()

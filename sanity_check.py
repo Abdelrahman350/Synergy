@@ -33,11 +33,11 @@ optimizer = Nadam(learning_rate=0.0001)
 losses = {
   'output_1': ParameterLoss(name='loss_Param_In', mode='normal'),
   'output_2': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
-  # 'output_3': WingLoss(name='loss_LMK_f0'),
-  # 'output_4': WingLoss(name='loss_LMK_pointNet')
+  'output_3': WingLoss(name='loss_LMK_f0'),
+  'output_4': WingLoss(name='loss_LMK_pointNet')
   }
 
-loss_weights = {'output_1':0.02, 'output_2':0.02}
+loss_weights = {'output_1':0.02, 'output_2':0.02, 'output_3':0.05, 'output_4':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 model.fit(images, y, verbose=1, epochs=1000)
