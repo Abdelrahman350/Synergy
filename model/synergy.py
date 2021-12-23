@@ -48,7 +48,7 @@ class Synergy(Model):
             Lr = tf.add(0.05*point_residual, Lc, name='point_residual')
             Param_3D_hat = self.decoder(Lr)
             Lg = self.paramLoss(Param_3D, Param_3D_hat)
-            self.add_loss(lambda: 0.001 * Lg)
+            self.add_loss(0.001 * Lg)
             return Param_3D, Param_3D_hat, Lc, Lr
       
       def model(self):
@@ -61,19 +61,20 @@ class Synergy(Model):
       def get_config(self):
             base_config = super(Synergy, self).get_config()
             return {**base_config, 
-                        "input_shape": self.input_shape_,
-                        "backbone": self.mobileNet,
-                        "flatten": self.flatten,
-                        "GlobalAvgBooling": self.GlobalAvgBooling,
-                        "dropOut_pose": self.dropOut_pose,
-                        "dense_pose": self.dense_pose,
-                        "dropOut_exp": self.dropOut_exp,
-                        "dense_exp": self.dense_exp,
-                        "dropOut_shp": self.dropOut_shp,
-                        "dense_shp": self.dense_shp,
-                        "morphable_model": self.morphable_model,
-                        "encoder": self.encoder,
-                        "decoder": self.decoder
+                        'input_shape': self.input_shape_,
+                        'backbone': self.mobileNet,
+                        'flatten': self.flatten,
+                        'GlobalAvgBooling': self.GlobalAvgBooling,
+                        'dropOut_pose': self.dropOut_pose,
+                        'dense_pose': self.dense_pose,
+                        'dropOut_exp': self.dropOut_exp,
+                        'dense_exp': self.dense_exp,
+                        'dropOut_shp': self.dropOut_shp,
+                        'dense_shp': self.dense_shp,
+                        'morphable_model': self.morphable_model,
+                        'encoder': self.encoder,
+                        'decoder': self.decoder,
+                        'paramLoss': self.paramLoss
                   }
       
       def train_step(self, data):
