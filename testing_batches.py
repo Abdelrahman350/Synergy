@@ -25,14 +25,15 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
       "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
 images, y = training_data_generator.data_generation(list_ids)
 
-pose_3dmm = y[:, 0:12]
-exp_para = y[:, 12:22]
-shape_para = y[:, 22:62]
+DMM = y[0]
+pose_3dmm = DMM[:, 0:12]
+exp_para = DMM[:, 12:22]
+shape_para = DMM[:, 22:62]
 
 pca = PCA(input_shape)
-vertices_tf = pca(y)
+vertices_tf = pca(DMM)
 vertices = vertices_tf.numpy()
-print(vertices.shape)
+
 for i in range(len(list_ids)):
   plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
 
@@ -41,8 +42,8 @@ model.summary()
 
 model.save_weights("checkpoints/model_synergy.h5")
 print()
-print()
+
 model_test = Synergy(input_shape=input_shape)
-model_test.model()
+model_test.build((1, input_shape[0], input_shape[1], input_shape[2]))
 model_test.load_weights("checkpoints/model_synergy.h5")
 print(model_test.summary())

@@ -48,7 +48,7 @@ class Synergy(Model):
             Lr = tf.add(0.05*point_residual, Lc, name='point_residual')
             Param_3D_hat = self.decoder(Lr)
             Lg = self.paramLoss(Param_3D, Param_3D_hat)
-            self.add_loss(0.001 * Lg)
+            self.add_loss(lambda: 0.001 * Lg)
             return Param_3D, Param_3D_hat, Lc, Lr
       
       def model(self):
