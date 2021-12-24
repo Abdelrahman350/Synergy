@@ -30,10 +30,10 @@ model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.01)
 
 losses = {
-  'output_1': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'output_2': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
-  'output_3': WingLoss(name='loss_LMK_f0'),
-  'output_4': WingLoss(name='loss_LMK_pointNet')
+  'A': ParameterLoss(name='loss_Param_In', mode='normal'),
+  'B': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
+  'C': WingLoss(name='loss_LMK_f0'),
+  'D': WingLoss(name='loss_LMK_pointNet')
   }
 
 loss_weights = {'output_1':0.02, 'output_2':0.02, 'output_3':0.05, 'output_4':0.05}
