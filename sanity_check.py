@@ -44,10 +44,10 @@ model.fit(images, y, verbose=1, epochs=1000)
 
 DMM = model.predict(images)[0]
 
-poses_pred = DMM[:12]
+poses_pred = DMM
 
 y_DMM = y[0]
-poses_gt = y_DMM[:12]
+poses_gt = y_DMM
 
 pca = PCA(input_shape)
 vertices_tf = pca(DMM)
