@@ -29,7 +29,7 @@ class WingLoss(Loss):
         self.log_term = tf.math.log(1 + self.omega/self.epsilon)
     
     def call(self, y_true, y_pred):
-        n_points = y_true.shape[1]
+        n_points = y_pred.shape[1]
         y_true = tf.reshape(tf.transpose(y_true, perm=[0, 2, 1]), (-1, 3*n_points))
         y_pred = tf.reshape(tf.transpose(y_pred, perm=[0, 2, 1]), (-1, 3*n_points))
         delta_y = abs(y_true - y_pred)
