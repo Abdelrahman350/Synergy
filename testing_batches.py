@@ -1,6 +1,6 @@
 import tensorflow as tf
 from model.synergy import Synergy
-from utils.data_utils.plotting_data import plot_landmarks
+from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
 from utils.loading_data import loading_generators
@@ -26,24 +26,24 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
 images, y = training_data_generator.data_generation(list_ids)
 
 DMM = y[0]
-pose_3dmm = DMM[:, 0:12]
-exp_para = DMM[:, 12:22]
-shape_para = DMM[:, 22:62]
+poses = DMM
 
 pca = PCA(input_shape)
 vertices_tf = pca(DMM)
 vertices = vertices_tf.numpy()
 
 for i in range(len(list_ids)):
-  plot_landmarks(images[i], vertices[i], 'pred_'+str(i))
+  plot_landmarks(images[i], vertices[i], 'lmk_'+str(i))
+
+for i in range(len(list_ids)):
+  plot_pose(images[i], poses[i], 'pose_'+str(i))
 
 model = Synergy(input_shape=input_shape)
 model.summary()
 
-model.save_weights("checkpoints/model_synergy.h5")
+model.save_weights("checkpoints/model_synergy")
 print()
 
 model_test = Synergy(input_shape=input_shape)
-model_test.build((1, input_shape[0], input_shape[1], input_shape[2]))
-model_test.load_weights("checkpoints/model_synergy.h5")
+model_test.load_weights("checkpoints/model_synergy")
 print(model_test.summary())
