@@ -19,7 +19,6 @@ class PCA(Layer):
                 0, name='aspect_ratio')
 
     def build(self, batch_input_shape):
-        self.batch_size = batch_input_shape[0]
         w_exp = self.parsing_npy('w_exp_sim.npy')
         w_shp = self.parsing_npy('w_shp_sim.npy')
         w_tex = self.parsing_npy('w_tex_sim.npy')

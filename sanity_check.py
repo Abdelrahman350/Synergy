@@ -31,22 +31,22 @@ model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.0001)
 
 losses = {
-  'output_1': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'output_2': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
-  'output_3': WingLoss(name='loss_LMK_f0'),
-  'output_4': WingLoss(name='loss_LMK_pointNet')
+  'Param': ParameterLoss(name='loss_Param_In', mode='normal'),
+  'Param*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
+  'Lc': WingLoss(name='loss_LMK_f0'),
+  'Lr': WingLoss(name='loss_LMK_pointNet')
   }
 
-loss_weights = {'output_1':0.02, 'output_2':0.02, 'output_3':0.05, 'output_4':0.05}
+loss_weights = {'Param':0.02, 'Param*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 model.fit(images, y, verbose=1, epochs=1000)
 
 DMM = model.predict(images)[0]
 
-poses_pred = DMM
+poses_pred = DMM['Param']
 
-y_DMM = y[0]
+y_DMM = y['Param']
 poses_gt = y_DMM
 
 pca = PCA(input_shape)
