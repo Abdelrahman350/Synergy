@@ -46,7 +46,7 @@ class DataGenerator(Sequence):
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
         Lc = self.pca(batch_parameters_3DMM)
-        return X, {'A':batch_parameters_3DMM, 'B':batch_parameters_3DMM, 'C':Lc, 'D':Lc}
+        return X, {'Param':batch_parameters_3DMM, 'Param*':batch_parameters_3DMM, 'Lc':Lc, 'Lr':Lc}
 
     def data_generation(self, batch):
         # Initializing input data
