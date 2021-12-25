@@ -25,6 +25,7 @@ training_data_generator, validation_data_generator = loading_generators(dataset=
 list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
   "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
   "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
+
 images, y = training_data_generator.data_generation(list_ids)
 
 model = Synergy(input_shape=input_shape)
@@ -37,12 +38,12 @@ losses = {
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }
 
-loss_weights = {'Pm':0.02, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
+loss_weights = {'Pm':0.2, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 model.fit(images, y, verbose=1, epochs=1000)
 
-DMM = model.predict(images)[0]
+DMM = model.predict(images)
 
 poses_pred = DMM['Pm']
 
@@ -50,7 +51,7 @@ y_DMM = y['Pm']
 poses_gt = y_DMM
 
 pca = PCA(input_shape)
-vertices_tf = pca(DMM)
+vertices_tf = pca(poses_pred)
 vertices_pred = vertices_tf.numpy()
 
 vertices_tf = pca(y_DMM)
