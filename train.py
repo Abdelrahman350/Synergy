@@ -17,9 +17,9 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (120, 120, 3)
+input_shape = (128, 128, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=input_shape, batch_size=64, shuffle=True)
+      input_shape=input_shape, batch_size=32, shuffle=True)
 
 list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
      "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
@@ -30,13 +30,13 @@ model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.01)
 
 losses = {
-  'Param': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'Param*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
+  'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
+  'Pm*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
   'Lc': WingLoss(name='loss_LMK_f0'),
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }
 
-loss_weights = {'Param':0.02, 'Param*':0.02, 'Lc':0.05, 'Lr':0.05}
+loss_weights = {'Pm':0.2, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 
@@ -48,12 +48,12 @@ model_checkpoint_callback = ModelCheckpoint(
    save_best_only=True,
    verbose=1)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5,\
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.8, patience=5,\
    min_lr=0.00001, verbose=2)
 
 model_fit = model.fit(
   x=training_data_generator,
   validation_data=validation_data_generator,
-  epochs=1000, 
+  epochs=2000, 
   verbose=1,
   callbacks=[model_checkpoint_callback, reduce_lr])
