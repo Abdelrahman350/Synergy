@@ -37,7 +37,7 @@ for id in list_ids:
   images_ori.append(image)
 
 model = Synergy(input_shape=input_shape)
-giy
+
 print(model.summary())
 model.load_weights("checkpoints/model")
 
