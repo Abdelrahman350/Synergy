@@ -6,7 +6,7 @@ from model.morhaple_face_model import PCA
 
 class DataGenerator(Sequence):
     def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
-                 shuffle=True, dataset_path='../../Datasets/'):
+                 shuffle=True, dataset_path='../../Datasets/300W_AFLW/'):
         self.list_IDs = list_IDs
         self.labels = labels
         self.batch_size = batch_size

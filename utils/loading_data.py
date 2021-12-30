@@ -2,8 +2,8 @@ import json
 from data_generator.data_generator import DataGenerator
 
 def loading_dictionaries(dataset='300w'):
-    base_dir_ids = "../../Datasets/IDs_"
-    base_dir_labels = "../../Datasets/labels_"
+    base_dir_ids = "../../Datasets/300W_AFLW/IDs_"
+    base_dir_labels = "../../Datasets/300W_AFLW/labels_"
     json_file_ids = json_file_labels = 'None'
     if dataset=='300w':
         json_file_ids = base_dir_ids + '300W_LP.json'

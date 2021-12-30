@@ -29,7 +29,7 @@ list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HE
 images, y = training_data_generator.data_generation(list_ids)
 
 images_ori = []
-dataset_path='../../Datasets/'
+dataset_path='../../Datasets/300W_AFLW/'
 for id in list_ids:
   image_path = dataset_path + id + '.jpg'
   image = cv2.imread(image_path)
