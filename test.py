@@ -37,17 +37,7 @@ for id in list_ids:
   images_ori.append(image)
 
 model = Synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.0001)
-
-losses = {
-  'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'Pm*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
-  'Lc': WingLoss(name='loss_LMK_f0'),
-  'Lr': WingLoss(name='loss_LMK_pointNet')
-  }
-
-loss_weights = {'Pm':0.2, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
-model.compile(optimizer, losses, loss_weights=loss_weights)
+giy
 print(model.summary())
 model.load_weights("checkpoints/model")
 
