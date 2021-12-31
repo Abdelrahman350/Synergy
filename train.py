@@ -1,7 +1,7 @@
 import tensorflow as tf
 from model.synergy import Synergy
 
-from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
+from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger
 from losses import ParameterLoss, WingLoss
 from utils.loading_data import loading_generators
 from tensorflow.keras.optimizers import Adam, Nadam
@@ -19,7 +19,7 @@ if gpus:
 
 input_shape = (128, 128, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-      input_shape=input_shape, batch_size=32, shuffle=True)
+      input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.01)
@@ -45,6 +45,8 @@ model_checkpoint_callback = ModelCheckpoint(
 
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.8, patience=5,\
    min_lr=0.00001, verbose=1)
+
+csv_logger = CSVLogger("checkpoints/training.csv", append=False)
 
 model_fit = model.fit(
   x=training_data_generator,
