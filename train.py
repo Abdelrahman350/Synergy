@@ -31,7 +31,7 @@ losses = {
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }
 
-loss_weights = {'Pm':0.2, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
+loss_weights = {'Pm':1, 'Pm*':0.2, 'Lc':0.5, 'Lr':0.5}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 
