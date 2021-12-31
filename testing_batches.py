@@ -4,6 +4,7 @@ from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
 from utils.loading_data import loading_generators
+import cv2
 
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
