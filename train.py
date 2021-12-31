@@ -44,7 +44,7 @@ model_checkpoint_callback = ModelCheckpoint(
    verbose=1)
 
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.8, patience=5,\
-   min_lr=0.00001, verbose=2)
+   min_lr=0.00001, verbose=1)
 
 model_fit = model.fit(
   x=training_data_generator,
