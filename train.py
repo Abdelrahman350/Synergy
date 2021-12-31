@@ -21,11 +21,6 @@ input_shape = (128, 128, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
-list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
-     "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
-      "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
-images, y = training_data_generator.data_generation(list_ids)
-
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.01)
 
