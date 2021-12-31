@@ -53,7 +53,6 @@ def colorjitter(image):
         final_hsv = cv2.merge((h, s, v))
         image = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
         return image
-    
     elif cj_type == 's':
         value = np.random.choice(np.array([-50, -40, -30, 30, 40, 50]))
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -70,7 +69,6 @@ def colorjitter(image):
         final_hsv = cv2.merge((h, s, v))
         image = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
         return image
-    
     elif cj_type == 'c':
         brightness = 10
         contrast = np.random.randint(40, 101)
@@ -78,6 +76,8 @@ def colorjitter(image):
         dummy = dummy * (contrast/127+1) - contrast + brightness
         dummy = np.clip(dummy, 0, 255)
         image = np.uint8(dummy)
+        return image
+    else:
         return image
 
 def noisy(image_ori):
@@ -94,8 +94,7 @@ def noisy(image_ori):
         gauss = np.random.normal(mean, st, image.shape)
         gauss = gauss.astype('uint8')
         image = cv2.add(image, gauss)
-        return image
-    
+        return image    
     elif noise_type == 'sp':
         image = image_ori.copy() 
         prob = 0.05
@@ -114,6 +113,8 @@ def noisy(image_ori):
         image[probs < (prob / 2)] = black
         image[probs > 1 - (prob / 2)] = white
         return image
+    else:
+        return image_ori
 
 def filters(image_ori):
     f_type = np.random.choice(['blur', 'gaussian', 'median', 'None'])
@@ -126,13 +127,13 @@ def filters(image_ori):
         image = image_ori.copy()
         fsize = 9
         return cv2.blur(image, (fsize, fsize))
-    
     elif f_type == 'gaussian':
         image = image_ori.copy()
         fsize = 9
         return cv2.GaussianBlur(image, (fsize, fsize), 0)
-    
     elif f_type == 'median':
         image = image_ori.copy()
         fsize = 9
         return cv2.medianBlur(image, fsize)
+    else:
+        return image_ori
