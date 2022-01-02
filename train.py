@@ -31,20 +31,20 @@ losses = {
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }
 
-loss_weights = {'Pm':1, 'Pm*':0.2, 'Lc':0.5, 'Lr':0.5}
+loss_weights = {'Pm':0.02, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 
 model_checkpoint_callback = ModelCheckpoint(
    filepath="checkpoints/model",
    save_weights_only=True,
-   monitor='val_loss',
+   monitor='val_Pm_loss',
    mode='min',
    save_best_only=True,
    verbose=1)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.8, patience=5,\
-   min_lr=0.00001, verbose=1)
+reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
+   min_lr=0.000001, verbose=1)
 
 csv_logger = CSVLogger("checkpoints/training.csv", append=False)
 
