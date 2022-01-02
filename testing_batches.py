@@ -39,7 +39,7 @@ poses_gt = y_DMM
 
 pca = PCA(input_shape)
 vertices_tf = pca(y_DMM)
-vertices = vertices_tf.numpy()*450/128.0
+vertices = vertices_tf.numpy()*450.0/input_shape[0]
 
 for i in range(len(list_ids)):
   plot_landmarks(images_ori[i], vertices[i], 'lmk_'+str(i))
