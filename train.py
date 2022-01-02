@@ -49,7 +49,7 @@ reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
 csv_logger = CSVLogger("checkpoints/training.csv", append=False)
 
 print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
-print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.")
+print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
 model_fit = model.fit(
   x=training_data_generator,
   validation_data=validation_data_generator,
