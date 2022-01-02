@@ -4,9 +4,9 @@ import cv2
 def image_loader(image_id, dataset_path, input_shape):
     image_path = dataset_path + image_id + '.jpg'
     image = parse_image(image_path)
-    image = colorjitter(image)
-    image = noisy(image)
-    image = filters(image)
+    # image = colorjitter(image)
+    # image = noisy(image)
+    # image = filters(image)
     image, aspect_ratio = resize_image(image, input_shape)
     image_normalized = normalization(image)
     return image_normalized, aspect_ratio
@@ -137,3 +137,21 @@ def filters(image_ori):
         return cv2.medianBlur(image, fsize)
     else:
         return image_ori
+
+def augment(image, lmks, input_shape):
+    image = crop(image, lmks)
+    image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
+    return image
+
+def crop(image, lmks):
+    x_min = np.min(lmks[:, :, 0])
+    y_min = np.min(lmks[:, :, 1])
+    x_max = np.max(lmks[:, :, 0])
+    y_max = np.max(lmks[:, :, 1])    
+    k = np.random.random_sample() * 0.2 + 0.2
+    x_min -= 0.4 * k * abs(x_max - x_min)
+    y_min -= 0.4 * k * abs(y_max - y_min)
+    x_max += 0.4 * k * abs(x_max - x_min)
+    y_max += 0.4 * k * abs(y_max - y_min)
+    image = image[int(y_min):int(y_max), int(x_min):int(x_max)]
+    return image

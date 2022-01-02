@@ -1,6 +1,6 @@
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from data_generator.image_preprocessing import image_loader
+from data_generator.image_preprocessing import augment, image_loader
 from data_generator.labels_preprocessing import label_loader
 from model.morhaple_face_model import PCA
 
@@ -40,9 +40,11 @@ class DataGenerator(Sequence):
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
+            parameters_3DMM = label_loader(image_id, self.labels, aspect_ratio)
+            lmks = self.pca(parameters_3DMM)
+            image = augment(image, lmks, self.input_shape)
             X.append(image)
-            parameters_3DDM = label_loader(image_id, self.labels, aspect_ratio)
-            batch_parameters_3DMM.append(parameters_3DDM)
+            batch_parameters_3DMM.append(parameters_3DMM)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
         Lc = self.pca(batch_parameters_3DMM)
@@ -54,9 +56,11 @@ class DataGenerator(Sequence):
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
             image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
+            parameters_3DMM = label_loader(image_id, self.labels, aspect_ratio)
+            lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
+            image = augment(image, lmks, self.input_shape)
             X.append(image)
-            parameters_3DDM = label_loader(image_id, self.labels, aspect_ratio)
-            batch_parameters_3DMM.append(parameters_3DDM)
+            batch_parameters_3DMM.append(parameters_3DMM)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
         Lc = self.pca(batch_parameters_3DMM)
