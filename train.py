@@ -22,7 +22,7 @@ training_data_generator, validation_data_generator = loading_generators(dataset=
       input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.01)
+optimizer = Nadam(learning_rate=0.08)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
@@ -53,6 +53,6 @@ print(f"The validation dataset has {len(validation_data_generator.list_IDs)} val
 model_fit = model.fit(
   x=training_data_generator,
   validation_data=validation_data_generator,
-  epochs=2000, 
+  epochs=200, 
   verbose=1,
   callbacks=[model_checkpoint_callback, reduce_lr, csv_logger])
