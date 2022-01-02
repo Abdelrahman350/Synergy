@@ -18,10 +18,21 @@ def loading_dictionaries(dataset='300w'):
     return IDs, labels
 
 def loading_generators(dataset='300w', input_shape=(224, 224, 3), batch_size=16, shuffle=True):
-    partition, labels = loading_dictionaries(dataset=dataset)
-    training_data_generator = DataGenerator(partition['train'], labels,\
-        batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+    if dataset=='all':
+        partition_train, labels_train = loading_dictionaries(dataset='300w')
+        partition_combined_train = partition_train['train'] + partition_train['valid']
+        training_data_generator = DataGenerator(partition_combined_train, labels_train,\
+            batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+        
+        partition_valid, labels_valid = loading_dictionaries(dataset='AFLW')
+        partition_combined_valid = partition_valid['train'] + partition_valid['valid']
+        validation_data_generator = DataGenerator(partition_combined_valid, labels_valid,\
+            batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+    else:    
+        partition, labels = loading_dictionaries(dataset=dataset)
+        training_data_generator = DataGenerator(partition['train'], labels,\
+            batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
 
-    validation_data_generator = DataGenerator(partition['valid'], labels,\
-        batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+        validation_data_generator = DataGenerator(partition['valid'], labels,\
+            batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
     return training_data_generator, validation_data_generator

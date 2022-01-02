@@ -18,7 +18,7 @@ if gpus:
     print(e)
 
 input_shape = (128, 128, 3)
-training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
+training_data_generator, validation_data_generator = loading_generators(dataset='all',\
       input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
@@ -48,9 +48,11 @@ reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
 
 csv_logger = CSVLogger("checkpoints/training.csv", append=False)
 
+print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
+print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.")
 model_fit = model.fit(
   x=training_data_generator,
   validation_data=validation_data_generator,
   epochs=2000, 
   verbose=1,
-  callbacks=[model_checkpoint_callback, reduce_lr])
+  callbacks=[model_checkpoint_callback, reduce_lr, csv_logger])
