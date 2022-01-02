@@ -148,10 +148,46 @@ def crop(image, lmks):
     y_min = np.min(lmks[:, :, 1])
     x_max = np.max(lmks[:, :, 0])
     y_max = np.max(lmks[:, :, 1])    
-    k = np.random.random_sample() * 0.2 + 0.2
-    x_min -= 0.4 * k * abs(x_max - x_min)
-    y_min -= 0.4 * k * abs(y_max - y_min)
-    x_max += 0.4 * k * abs(x_max - x_min)
-    y_max += 0.4 * k * abs(y_max - y_min)
-    image = image[int(y_min):int(y_max), int(x_min):int(x_max)]
+    roi_box = np.array([x_min, y_min, x_max, y_max])
+
+    # enlarge the bbox a little and do a square crop
+    HCenter = (roi_box[1] + roi_box[3])/2
+    WCenter = (roi_box[0] + roi_box[2])/2
+    side_len = roi_box[3]-roi_box[1]
+    margin = side_len * 1.2 // 2
+    roi_box[0], roi_box[1], roi_box[2], roi_box[3] = WCenter-margin, HCenter-margin, WCenter+margin, HCenter+margin
+    image = crop_img(image, roi_box)
     return image
+
+def crop_img(img, roi_box):
+    h, w = img.shape[:2]
+
+    sx, sy, ex, ey = [int(round(_)) for _ in roi_box]
+    dh, dw = ey - sy, ex - sx
+    if len(img.shape) == 3:
+        res = np.zeros((dh, dw, 3), dtype=np.uint8)
+    else:
+        res = np.zeros((dh, dw), dtype=np.uint8)
+    if sx < 0:
+        sx, dsx = 0, -sx
+    else:
+        dsx = 0
+
+    if ex > w:
+        ex, dex = w, dw - (ex - w)
+    else:
+        dex = dw
+
+    if sy < 0:
+        sy, dsy = 0, -sy
+    else:
+        dsy = 0
+
+    if ey > h:
+        ey, dey = h, dh - (ey - h)
+    else:
+        dey = dh
+
+    res[dsy:dey, dsx:dex] = img[sy:ey, sx:ex]
+    cv2.imwrite('trial.jpg', img[sy:ey, sx:ex]*255)
+    return res
