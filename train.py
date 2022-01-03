@@ -22,7 +22,7 @@ training_data_generator, validation_data_generator = loading_generators(dataset=
       input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.08)
+optimizer = Nadam(learning_rate=0.0001)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
@@ -35,6 +35,7 @@ loss_weights = {'Pm':0.02, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
 
+model.load_weights('checkpoints/model')
 model_checkpoint_callback = ModelCheckpoint(
    filepath="checkpoints/model",
    save_weights_only=True,
@@ -46,7 +47,7 @@ model_checkpoint_callback = ModelCheckpoint(
 reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
    min_lr=0.000001, verbose=1)
 
-csv_logger = CSVLogger("checkpoints/training.csv", append=False)
+csv_logger = CSVLogger("checkpoints/training.csv", append=True)
 
 print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
 print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
@@ -55,4 +56,5 @@ model_fit = model.fit(
   validation_data=validation_data_generator,
   epochs=200, 
   verbose=1,
+  initial_epoch=40,
   callbacks=[model_checkpoint_callback, reduce_lr, csv_logger])

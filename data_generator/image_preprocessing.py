@@ -4,9 +4,9 @@ import cv2
 def image_loader(image_id, dataset_path, input_shape):
     image_path = dataset_path + image_id + '.jpg'
     image = parse_image(image_path)
-    # image = colorjitter(image)
-    # image = noisy(image)
-    # image = filters(image)
+    image = colorjitter(image)
+    image = noisy(image)
+    image = filters(image)
     image, aspect_ratio = resize_image(image, input_shape)
     image_normalized = normalization(image)
     return image_normalized, aspect_ratio
@@ -189,5 +189,4 @@ def crop_img(img, roi_box):
         dey = dh
 
     res[dsy:dey, dsx:dex] = img[sy:ey, sx:ex]
-    cv2.imwrite('trial.jpg', img[sy:ey, sx:ex]*255)
     return res
