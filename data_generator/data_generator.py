@@ -40,10 +40,9 @@ class DataGenerator(Sequence):
         X = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape, self.type)
+            image = image_loader(image_id, self.dataset_path, self.input_shape, self.type)
             parameters_3DMM = label_loader(image_id, self.labels, self.type)
             lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
-            # image = augment(image, lmks, self.input_shape)
             X.append(image)
             batch_parameters_3DMM.append(parameters_3DMM)
         X = np.array(X)
