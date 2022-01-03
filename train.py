@@ -6,6 +6,8 @@ from losses import ParameterLoss, WingLoss
 from utils.loading_data import loading_generators
 from tensorflow.keras.optimizers import Adam, Nadam
 
+from utils.loading_data_augmented import loading_aug_generators
+
 gpus = tf.config.list_physical_devices('GPU')
 if gpus:
   # Restrict TensorFlow to only use the first GPU
@@ -17,9 +19,9 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (128, 128, 3)
-training_data_generator, validation_data_generator = loading_generators(dataset='all',\
-      input_shape=input_shape, batch_size=64, shuffle=True)
+input_shape = (120, 120, 3)
+training_data_generator, validation_data_generator = loading_aug_generators(input_shape=input_shape,\
+   batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.08)

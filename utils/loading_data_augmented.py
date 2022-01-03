@@ -1,7 +1,10 @@
+import json
 from pathlib import Path
 import pickle
 
 import numpy as np
+
+from data_generator.data_generator import DataGenerator
 
 def get_IDs():
     dictionary = {}
@@ -36,3 +39,23 @@ def load(fp):
         return np.load(fp)
     elif suffix == 'pkl':
         return pickle.load(open(fp, 'rb'))
+
+def loading_aug_dictionaries():
+    base_dir_ids = base_dir_labels = '../../300W_AFLW_Augmented/'
+    json_file_ids = base_dir_ids + 'IDs_augmented.json'
+    json_file_labels = base_dir_labels + 'labels_augmented.json'
+
+    with open(json_file_ids, 'r') as j:
+        IDs = json.loads(j.read())
+    with open(json_file_labels, 'r') as j:
+        labels = json.loads(j.read())
+    return IDs, labels
+
+def loading_aug_generators(input_shape=(224, 224, 3), batch_size=16, shuffle=True):   
+    partition, labels = loading_aug_dictionaries()
+    training_data_generator = DataGenerator(partition['train'], labels,\
+        batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+
+    validation_data_generator = DataGenerator(partition['valid'], labels,\
+        batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+    return training_data_generator, validation_data_generator
