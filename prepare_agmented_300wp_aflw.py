@@ -1,5 +1,5 @@
 from utils.data_utils.data_preparing_utils import dictionary_to_json
-from utils.loading_data_augmented import get_IDs, get_labels
+from utils.loading_data_augmented import get_IDs, get_labels, load
 
 IDs = get_IDs()
 labels = get_labels()
