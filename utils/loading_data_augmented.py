@@ -45,7 +45,7 @@ def load(fp):
         return pickle.load(open(fp, 'rb'))
 
 def loading_aug_dictionaries():
-    base_dir_ids = base_dir_labels = '../../300W_AFLW_Augmented/'
+    base_dir_ids = base_dir_labels = '../../Datasets/300W_AFLW_Augmented/'
     json_file_ids = base_dir_ids + 'IDs_augmented.json'
     json_file_labels = base_dir_labels + 'labels_augmented.json'
 
