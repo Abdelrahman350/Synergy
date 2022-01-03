@@ -5,14 +5,15 @@ from data_generator.labels_preprocessing import label_loader
 from model.morhaple_face_model import PCA
 
 class DataGenerator(Sequence):
-    def __init__(self, list_IDs, labels, batch_size=32,\
-         shuffle=True, dataset_path='../../Datasets/300W_AFLW_Augmented/'):
+    def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
+                 shuffle=True, dataset_path='../../Datasets/300W_AFLW/'):
         self.list_IDs = list_IDs
         self.labels = labels
         self.batch_size = batch_size
+        self.input_shape = input_shape
         self.shuffle = shuffle
         self.dataset_path = dataset_path
-        self.pca = PCA(input_shape=(120, 120, 3))
+        self.pca = PCA(input_shape)
         self.indices = np.arange(len(self.list_IDs))
         
     def __len__(self):
@@ -38,9 +39,10 @@ class DataGenerator(Sequence):
         X = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image = image_loader(image_id, self.dataset_path)
-            parameters_3DMM = label_loader(image_id, self.labels)
+            image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
+            parameters_3DMM = label_loader(image_id, self.labels, aspect_ratio)
             lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
+            image = augment(image, lmks, self.input_shape)
             X.append(image)
             batch_parameters_3DMM.append(parameters_3DMM)
         X = np.array(X)
