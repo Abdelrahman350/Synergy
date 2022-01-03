@@ -1,12 +1,16 @@
 import numpy as np
 import cv2
 
-def image_loader(image_id, dataset_path, input_shape):
-    image_path = dataset_path + image_id + '.jpg'
+def image_loader(image_id, dataset_path, input_shape, type='train'):
+    if type == 'train':
+        directory = 'train_aug_120x120/'
+    elif type == 'valid':
+        directory = 'aflw2000_data/'
+    image_path = dataset_path+directory+image_id
     image = parse_image(image_path)
-    # image = colorjitter(image)
-    # image = noisy(image)
-    # image = filters(image)
+    image = colorjitter(image)
+    image = noisy(image)
+    image = filters(image)
     image, aspect_ratio = resize_image(image, input_shape)
     image_normalized = normalization(image)
     return image_normalized, aspect_ratio

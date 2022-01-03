@@ -6,7 +6,7 @@ from model.morhaple_face_model import PCA
 
 class DataGenerator(Sequence):
     def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
-                 shuffle=True, dataset_path='../../Datasets/300W_AFLW/'):
+                 shuffle=True, type='train', dataset_path='../../Datasets/300W_AFLW_Augmented/'):
         self.list_IDs = list_IDs
         self.labels = labels
         self.batch_size = batch_size
@@ -15,6 +15,7 @@ class DataGenerator(Sequence):
         self.dataset_path = dataset_path
         self.pca = PCA(input_shape)
         self.indices = np.arange(len(self.list_IDs))
+        self.type = type
         
     def __len__(self):
         """Denotes the number of batches per epoch"""
@@ -39,10 +40,10 @@ class DataGenerator(Sequence):
         X = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape)
-            parameters_3DMM = label_loader(image_id, self.labels, aspect_ratio)
+            image, aspect_ratio = image_loader(image_id, self.dataset_path, self.input_shape, self.type)
+            parameters_3DMM = label_loader(image_id, self.labels, self.type)
             lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
-            image = augment(image, lmks, self.input_shape)
+            # image = augment(image, lmks, self.input_shape)
             X.append(image)
             batch_parameters_3DMM.append(parameters_3DMM)
         X = np.array(X)
