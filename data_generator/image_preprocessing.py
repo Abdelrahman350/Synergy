@@ -11,6 +11,16 @@ def image_loader(image_id, dataset_path, input_shape):
     image_normalized = normalization(image)
     return image_normalized, aspect_ratio
 
+def image_loader_aug(image_id, dataset_path, input_shape):
+    image_path = dataset_path + image_id
+    image = parse_image(image_path)
+    image = colorjitter(image)
+    image = noisy(image)
+    image = filters(image)
+    image, aspect_ratio = resize_image(image, input_shape)
+    image_normalized = normalization(image)
+    return image_normalized, aspect_ratio
+
 def parse_image(image_path):
     image_ = cv2.imread(image_path)
     image = image_.copy()

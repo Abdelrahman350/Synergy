@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 
 from data_generator.data_generator import DataGenerator
+from data_generator.data_generator_aug import DataGenerator_aug
 from utils.loading_data import loading_dictionaries
 
 def get_IDs():
@@ -57,8 +58,9 @@ def loading_aug_dictionaries():
 
 def loading_aug_generators(input_shape=(224, 224, 3), batch_size=16, shuffle=True):   
     partition_aug, labels_aug = loading_aug_dictionaries()
-    training_data_generator = DataGenerator(partition_aug['train'], labels_aug,\
-        batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+    training_data_generator = DataGenerator_aug(partition_aug['train'], labels_aug,\
+        batch_size=batch_size, input_shape=input_shape,\
+             shuffle=shuffle, dataset_path='../../Datasets/300W_AFLW_Augmented/')
 
     partition, labels = loading_dictionaries(dataset='AFLW')
     partition_combined = partition['train'] + partition['valid']
