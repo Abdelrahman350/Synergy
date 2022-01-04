@@ -5,11 +5,10 @@ def image_loader(image_id, dataset_path, input_shape):
     image_path = dataset_path + image_id + '.jpg'
     image = parse_image(image_path)
     image = colorjitter(image)
-    # image = noisy(image)
-    # image = filters(image)
+    image = noisy(image)
+    image = filters(image)
     image, aspect_ratio = resize_image(image, input_shape)
-    image_normalized = normalization(image)
-    return image_normalized, aspect_ratio
+    return image, aspect_ratio
 
 def parse_image(image_path):
     image_ = cv2.imread(image_path)
@@ -142,6 +141,7 @@ def filters(image_ori):
 def augment(image, lmks, input_shape):
     image = crop(image, lmks)
     image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
+    image = normalization(image)
     return image
 
 def crop(image, lmks):
@@ -189,5 +189,5 @@ def crop_img(img, roi_box):
     else:
         dey = dh
 
-    res = img[sy:ey, sx:ex]
+    res[dsy:dey, dsx:dex] = img[sy:ey, sx:ex]
     return res
