@@ -12,14 +12,14 @@ gpus = tf.config.list_physical_devices('GPU')
 if gpus:
   # Restrict TensorFlow to only use the first GPU
   try:
-    tf.config.set_visible_devices(gpus[0], 'GPU')
+    tf.config.set_visible_devices(gpus[1], 'GPU')
     logical_gpus = tf.config.list_logical_devices('GPU')
     print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
   except RuntimeError as e:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (128, 128, 3)
+input_shape = (120, 120, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
       input_shape=input_shape, batch_size=32, shuffle=True)
 
@@ -33,7 +33,9 @@ dataset_path='../../Datasets/300W_AFLW/'
 for id in list_ids:
   image_path = dataset_path + id + '.jpg'
   image = cv2.imread(image_path)
-  image = image / 255.0
+  image = image.astype(float)
+  image /= 127.5
+  image -= 1.0
   images_ori.append(image)
 
 model = Synergy(input_shape=input_shape)

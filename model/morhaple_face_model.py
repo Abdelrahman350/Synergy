@@ -26,8 +26,8 @@ class PCA(Layer):
         u_shp = self.parsing_npy('u_shp.npy')
         u_tex = self.parsing_npy('u_tex.npy')
         keypoints = self.parsing_npy('keypoints_sim.npy')
-        self.param_mean = self.parsing_pkl('param_300W_LP.pkl').get('param_mean')
-        self.param_std = self.parsing_pkl('param_300W_LP.pkl').get('param_std')
+        self.param_mean = self.parsing_pkl('param_whitening.pkl').get('param_mean')
+        self.param_std = self.parsing_pkl('param_whitening.pkl').get('param_std')
         u = u_exp + u_shp
         self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
         self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')

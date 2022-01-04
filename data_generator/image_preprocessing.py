@@ -5,8 +5,8 @@ def image_loader(image_id, dataset_path, input_shape):
     image_path = dataset_path + image_id + '.jpg'
     image = parse_image(image_path)
     image = colorjitter(image)
-    image = noisy(image)
-    image = filters(image)
+    # image = noisy(image)
+    # image = filters(image)
     image, aspect_ratio = resize_image(image, input_shape)
     image_normalized = normalization(image)
     return image_normalized, aspect_ratio
@@ -15,8 +15,8 @@ def image_loader_aug(image_id, dataset_path, input_shape):
     image_path = dataset_path + image_id
     image = parse_image(image_path)
     image = colorjitter(image)
-    image = noisy(image)
-    image = filters(image)
+    # image = noisy(image)
+    # image = filters(image)
     image, aspect_ratio = resize_image(image, input_shape)
     image_normalized = normalization(image)
     return image_normalized, aspect_ratio
@@ -27,8 +27,9 @@ def parse_image(image_path):
     return image
 
 def normalization(image):
-    image = image.astype(np.float32)
-    image /= 255.0
+    image = image.astype(float)
+    image /= 127.5
+    image -= 1.0
     return image
 
 def resize_image(image, input_shape=(224, 224)):
