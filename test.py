@@ -57,9 +57,9 @@ vertices_tf = pca(y_DMM)
 vertices_gt = vertices_tf.numpy()*450/128.0
 
 for i in range(len(list_ids)):
-  plot_landmarks(images_ori[i], vertices_pred[i], 'test_lmk_pred_'+str(i))
-  plot_landmarks(images_ori[i], vertices_gt[i], name='test_lmk_gt_'+str(i))
+  plot_landmarks(images[i], vertices_pred[i], 'test_lmk_pred_'+str(i))
+  plot_landmarks(images[i], vertices_gt[i], name='test_lmk_gt_'+str(i))
 
 for i in range(len(list_ids)):
-  plot_pose(images_ori[i], poses_pred[i], name='test_poses_pred_'+str(i))
-  plot_pose(images_ori[i], poses_gt[i], name='test_poses_gt_'+str(i))
+  plot_pose(images[i], poses_pred[i], name='test_poses_pred_'+str(i))
+  plot_pose(images[i], poses_gt[i], name='test_poses_gt_'+str(i))
