@@ -19,13 +19,23 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (128, 128, 3)
-training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
-      input_shape=input_shape, batch_size=32, shuffle=True)
+test = '300w'
+IMG_H = 128
 
-list_ids = ["AFLW2000-3D/AFLW2000/image00002", "AFLW2000-3D/AFLW2000/image00004",\
-  "AFLW2000-3D/AFLW2000/image00006", "AFLW2000-3D/AFLW2000/image00008",
-  "AFLW2000-3D/AFLW2000/image00010"]
+input_shape = (IMG_H, IMG_H, 3)
+if test == 'AFLW':
+  training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
+        input_shape=input_shape, batch_size=32, shuffle=True)
+  list_ids = ["AFLW2000-3D/AFLW2000/image00002", "AFLW2000-3D/AFLW2000/image00004",\
+    "AFLW2000-3D/AFLW2000/image00006", "AFLW2000-3D/AFLW2000/image00008",
+    "AFLW2000-3D/AFLW2000/image00010"]
+elif test == '300w':
+  training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
+        input_shape=input_shape, batch_size=32, shuffle=True)
+  list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
+      "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
+        "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
+
 images, y = training_data_generator.data_generation(list_ids)
 
 images_ori = []
@@ -34,8 +44,7 @@ for id in list_ids:
   image_path = dataset_path + id + '.jpg'
   image = cv2.imread(image_path)
   image = image.astype(float)
-  image = image / 127.5
-  image -= 1.0
+  image /= 255.0
   images_ori.append(image)
 
 model = Synergy(input_shape=input_shape)
@@ -51,10 +60,10 @@ poses_gt = y_DMM
 
 pca = PCA(input_shape)
 vertices_tf = pca(poses_pred)
-vertices_pred = vertices_tf.numpy()*450/128.0
+vertices_pred = vertices_tf.numpy()*450.0/input_shape[0]
 
 vertices_tf = pca(y_DMM)
-vertices_gt = vertices_tf.numpy()*450/128.0
+vertices_gt = vertices_tf.numpy()*450/input_shape[0]
 
 for i in range(len(list_ids)):
   plot_landmarks(images_ori[i], vertices_pred[i], 'test_lmk_pred_'+str(i))
