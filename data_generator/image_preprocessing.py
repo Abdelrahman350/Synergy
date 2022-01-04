@@ -17,8 +17,8 @@ def parse_image(image_path):
     return image
 
 def normalization(image):
-    image = image.astype(np.float32)
-    image /= 255.0
+    image /= 127.5
+    image -= 1
     return image
 
 def resize_image(image, input_shape=(224, 224)):
