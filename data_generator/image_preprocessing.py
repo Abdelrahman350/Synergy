@@ -17,6 +17,7 @@ def parse_image(image_path):
     return image
 
 def normalization(image):
+    image = image.astype(float)
     image /= 127.5
     image -= 1.0
     return image
