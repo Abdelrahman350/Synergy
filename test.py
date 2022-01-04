@@ -63,7 +63,7 @@ vertices_tf = pca(poses_pred)
 vertices_pred = vertices_tf.numpy()*450.0/input_shape[0]
 
 vertices_tf = pca(y_DMM)
-vertices_gt = vertices_tf.numpy()*450/input_shape[0]
+vertices_gt = vertices_tf.numpy()*450.0/input_shape[0]
 
 for i in range(len(list_ids)):
   plot_landmarks(images_ori[i], vertices_pred[i], 'test_lmk_pred_'+str(i))
