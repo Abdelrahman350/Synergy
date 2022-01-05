@@ -188,5 +188,4 @@ def crop_img(img, roi_box):
     else:
         dey = dh
     res[dsy:dey, dsx:dex] = img[sy:ey, sx:ex]
-    cv2.imwrite('u.jpg', res)
     return res
