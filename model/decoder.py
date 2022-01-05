@@ -100,7 +100,7 @@ class Landmarks_to_3DMM(Model):
         alpha_exp = tf.squeeze(alpha_exp, 1, name="Squeezing_alpha_exp")
         alpha_shp = tf.squeeze(alpha_shp, 1, name="Squeezing_alpha_shp")
 
-        Param_3D_hat = tf.concat((pose_3DMM, alpha_exp, alpha_shp), axis=-1)
+        Param_3D_hat = tf.concat((pose_3DMM, alpha_shp, alpha_exp), axis=-1)
         return Param_3D_hat
 
     def model(self):

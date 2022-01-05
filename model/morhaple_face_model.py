@@ -44,12 +44,11 @@ class PCA(Layer):
         alpha_exp = expand_dims(alpha_exp, -1)
         alpha_shp = expand_dims(alpha_shp, -1)
         pose_3DMM = cast(pose_3DMM, tf.float32)
-        alpha_exp = cast(alpha_exp, tf.float32)
         alpha_shp = cast(alpha_shp, tf.float32)
-
+        alpha_exp = cast(alpha_exp, tf.float32)
         vertices = add(self.u_base,\
-            add(matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
-                matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),\
+            add(matmul(self.w_shp_base, alpha_shp, name='1st_Matmul'),\
+                matmul(self.w_exp_base, alpha_exp, name='2nd_Matmul'), name='Inner_Add'),\
                     name='Outer_Add')
 
         vertices = self.reshape_vertices(vertices)

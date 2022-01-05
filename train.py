@@ -17,9 +17,9 @@ if gpus:
     # Visible devices must be set before GPUs have been initialized
     print(e)
 
-input_shape = (128, 128, 3)
+input_shape = (450, 450, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='all',\
-      input_shape=input_shape, batch_size=64, shuffle=True)
+      input_shape=input_shape, batch_size=5, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.01)
