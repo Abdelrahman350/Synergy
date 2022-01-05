@@ -43,7 +43,9 @@ dataset_path='../../Datasets/300W_AFLW/'
 for id in list_ids:
   image_path = dataset_path + id + '.jpg'
   image = cv2.imread(image_path)
-  image = image / 255.0
+  image = image.astype(float)
+  image /= 127.5
+  image -= 1
   images_ori.append(image)
 
 y_DMM = y['Pm']

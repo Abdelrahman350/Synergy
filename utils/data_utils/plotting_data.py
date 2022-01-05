@@ -38,7 +38,7 @@ def draw_landmarks(image_original, pt2d):
     pt2d = np.round(pt2d).astype(np.int32)
     for i in range(pt2d.shape[0]):
         start_point = pt2d[i]
-        cv2.circle(image, (start_point[0], start_point[1]), 3, (0, 0, 1), -1)
+        cv2.circle(image, (start_point[0], start_point[1]), 3, (-1,-1,1), -1)
         if i in end_list:
             continue
         end_point = pt2d[i+1]
