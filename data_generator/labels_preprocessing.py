@@ -2,7 +2,7 @@ import numpy as np
 from numpy import sin, cos, arctan2, arcsin
 import pickle
 
-def label_loader(image_id, labels, aspect_ratio):
+def label_loader(image_id, labels):
     pose = np.array(labels[image_id]['pose'])
     pose_3DMM = pose_to_3DMM(pose)
     alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
