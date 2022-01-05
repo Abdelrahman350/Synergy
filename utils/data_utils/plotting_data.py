@@ -27,9 +27,9 @@ def draw_axis(image_original, pitch, yaw, roll, tdx=None, tdy=None, size = 100):
     x3 = size * (sin(yaw)) + tdx
     y3 = size * (-cos(yaw) * sin(pitch)) + tdy
 
-    cv2.line(image, (int(tdx), int(tdy)), (int(x1),int(y1)), (0,0,1), 2)
-    cv2.line(image, (int(tdx), int(tdy)), (int(x2),int(y2)), (0,1,0), 2)
-    cv2.line(image, (int(tdx), int(tdy)), (int(x3),int(y3)), (1,0,0), 2)
+    cv2.line(image, (int(tdx), int(tdy)), (int(x1),int(y1)), (-1,-1,1), 2)
+    cv2.line(image, (int(tdx), int(tdy)), (int(x2),int(y2)), (-1,1,-1), 2)
+    cv2.line(image, (int(tdx), int(tdy)), (int(x3),int(y3)), (1,-1,-1), 2)
     return image
 
 def draw_landmarks(image_original, pt2d):
@@ -49,9 +49,13 @@ def draw_landmarks(image_original, pt2d):
 def plot_pose(image, label, name='output_axis'):
     label = denormalize(label)
     pitch, yaw, roll = param3DMM_to_pose(label[:12])
-    image = draw_axis(image, pitch, yaw, roll)     
-    cv2.imwrite('output/'+name+".jpg", image*255)
+    image = draw_axis(image, pitch, yaw, roll)
+    image += 1.0
+    image *= 127.5
+    cv2.imwrite('output/'+name+".jpg", image)
 
 def plot_landmarks(image, pt2d, name='output_landmarks'):
     image = draw_landmarks(image, pt2d)
-    cv2.imwrite('output/'+name+'.jpg', image*255)
+    image += 1.0
+    image *= 127.5
+    cv2.imwrite('output/'+name+'.jpg', image)

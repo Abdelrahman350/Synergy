@@ -4,9 +4,9 @@ import cv2
 def image_loader(image_id, dataset_path):
     image_path = dataset_path + image_id + '.jpg'
     image = parse_image(image_path)
-    image = colorjitter(image)
-    image = noisy(image)
-    image = filters(image)
+    # image = colorjitter(image)
+    # image = noisy(image)
+    # image = filters(image)
     return image
 
 def parse_image(image_path):
@@ -139,7 +139,7 @@ def filters(image_ori):
 
 def augment(image, lmks, input_shape):
     image = crop(image, lmks)
-    image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
+    # image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
     image = normalization(image)
     return image
 

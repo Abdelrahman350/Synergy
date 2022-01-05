@@ -18,7 +18,7 @@ if gpus:
     print(e)
 
 test = '300w'
-IMG_H = 128
+IMG_H = 450
 
 input_shape = (IMG_H, IMG_H, 3)
 
