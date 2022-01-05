@@ -13,7 +13,7 @@ class DataGenerator(Sequence):
         self.input_shape = input_shape
         self.shuffle = shuffle
         self.dataset_path = dataset_path
-        self.pca = PCA(input_shape)
+        self.pca = PCA((450, 450, 3))
         self.indices = np.arange(len(self.list_IDs))
         
     def __len__(self):
