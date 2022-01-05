@@ -1,4 +1,5 @@
 import tensorflow as tf
+from data_generator.data_generator import DataGenerator
 from model.synergy import Synergy
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
@@ -14,24 +15,17 @@ IMG_H = 450
 
 input_shape = (IMG_H, IMG_H, 3)
 
-if test == 'AFLW':
-  training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
-        input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = ["AFLW2000-3D/AFLW2000/image00002", "AFLW2000-3D/AFLW2000/image00004",\
-    "AFLW2000-3D/AFLW2000/image00006", "AFLW2000-3D/AFLW2000/image00008",
-    "AFLW2000-3D/AFLW2000/image00010"]
-elif test == '300w':
-  training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-        input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
-      "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
-        "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
-
-images, y = training_data_generator.data_generation(list_ids)
-
+train_dataset = DataGenerator(
+        root="../../Datasets/",
+        filelists='../../Datasets/3dmm_data/',
+        param_fp='3dmm_data/param_all_norm_v201.pkl',
+        gt_transform=False,
+        transform=None
+    )
 
 images_ori = []
-dataset_path='../../Datasets/300W_AFLW/'
+dataset_path='../../Datasets/300W_AFLW_Augmented/'
+list_ids = [0, 1, 2]
 for id in list_ids:
   image_path = dataset_path + id + '.jpg'
   image = cv2.imread(image_path)

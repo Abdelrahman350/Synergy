@@ -5,6 +5,7 @@ from data_generator.image_preprocessing import augment, image_loader
 from data_generator.labels_preprocessing import label_loader
 from model.morhaple_face_model import PCA
 from pathlib import Path
+import os.path as osp
 
 class DataGenerator(Sequence):
     def __init__(self, root, filelists, param_fp, gt_transform=False, transform=None, batch_size=8):
@@ -14,7 +15,8 @@ class DataGenerator(Sequence):
         self.gt_transform = gt_transform
         self.indices = np.arange(len(self.lines))
         self.batch_size = batch_size
-        
+        self.pca = PCA((450, 450, 3))
+
     def __len__(self):
         """Denotes the number of batches per epoch"""
         return int(np.floor(len(self.list_IDs) / self.batch_size))
@@ -24,6 +26,11 @@ class DataGenerator(Sequence):
         if self.shuffle == True:
             np.random.shuffle(self.indices)
     
+    def target_loader(self, index):
+        target_param = self.params[index]
+        target = target_param
+        return target
+
     def __getitem__(self, index):
         """Get a batch of data"""
         start_index = index * self.batch_size
@@ -38,12 +45,16 @@ class DataGenerator(Sequence):
         X = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image = image_loader(image_id, self.dataset_path)
-            parameters_3DMM = label_loader(image_id, self.labels)
-            lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
-            # image = augment(image, lmks, self.input_shape)
+            path = osp.join(self.root, self.lines[index])
+            image = image_loader(path)
+            label = self.target_loader(index)
+            if self.transform is not None:
+                if self.gt_transform:
+                    image, label = self.transform(image, label)
+                else:
+                    image = self.transform(image)
             X.append(image)
-            batch_parameters_3DMM.append(parameters_3DMM)
+            batch_parameters_3DMM.append(label)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
         Lc = self.pca(batch_parameters_3DMM)
@@ -54,12 +65,16 @@ class DataGenerator(Sequence):
         X = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image = image_loader(image_id, self.dataset_path)
-            parameters_3DMM = label_loader(image_id, self.labels)
-            lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
-            # image = augment(image, lmks, self.input_shape)
+            path = osp.join(self.root, self.lines[index])
+            image = image_loader(path)
+            label = self.target_loader(index)
+            if self.transform is not None:
+                if self.gt_transform:
+                    image, label = self.transform(image, label)
+                else:
+                    image = self.transform(image)
             X.append(image)
-            batch_parameters_3DMM.append(parameters_3DMM)
+            batch_parameters_3DMM.append(label)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
         Lc = self.pca(batch_parameters_3DMM)

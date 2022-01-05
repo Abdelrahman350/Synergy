@@ -1,17 +1,8 @@
 import numpy as np
 import cv2
 
-def image_loader(image_id, dataset_path):
-    image_path = dataset_path + image_id + '.jpg'
-    image = parse_image(image_path)
-    # image = colorjitter(image)
-    # image = noisy(image)
-    # image = filters(image)
-    return image
-
-def parse_image(image_path):
-    image_ = cv2.imread(image_path)
-    image = image_.copy()
+def image_loader(image_path):
+    image = cv2.imread(image_path)
     return image
 
 def normalization(image):
