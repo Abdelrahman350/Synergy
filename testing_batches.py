@@ -54,17 +54,17 @@ vertices_tf = pca(y_DMM)
 vertices = vertices_tf.numpy()*450.0/input_shape[0]
 
 for i in range(len(list_ids)):
-  plot_landmarks(images_ori[i], vertices[i], 'lmk_'+str(i))
+  plot_landmarks(images[i], vertices[i], 'lmk_'+str(i))
 
 for i in range(len(list_ids)):
-  plot_pose(images_ori[i], poses_gt[i], 'pose_'+str(i))
+  plot_pose(images[i], poses_gt[i], 'pose_'+str(i))
 
 model = Synergy(input_shape=input_shape)
 model.summary()
 
-model.save_weights("checkpoints/model_synergy")
-print()
+# model.save_weights("checkpoints/model_synergy")
+# print()
 
-model_test = Synergy(input_shape=input_shape)
-model_test.load_weights("checkpoints/model_synergy")
-print(model_test.summary())
+# model_test = Synergy(input_shape=input_shape)
+# model_test.load_weights("checkpoints/model_synergy")
+# print(model_test.summary())
