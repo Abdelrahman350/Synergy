@@ -1,21 +1,13 @@
 import tensorflow as tf
 from model.synergy import Synergy
+from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
 from utils.loading_data import loading_generators
 import cv2
 
-gpus = tf.config.list_physical_devices('GPU')
-if gpus:
-  # Restrict TensorFlow to only use the first GPU
-  try:
-    tf.config.set_visible_devices(gpus[0], 'GPU')
-    logical_gpus = tf.config.list_logical_devices('GPU')
-    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
-  except RuntimeError as e:
-    # Visible devices must be set before GPUs have been initialized
-    print(e)
+set_GPU()
 
 test = '300w'
 IMG_H = 450
