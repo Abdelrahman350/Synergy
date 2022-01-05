@@ -40,7 +40,7 @@ class PCA(Layer):
 
     def call(self, Param_3D):
         Param_3D = self.param_std*Param_3D + self.param_mean
-        pose_3DMM, alpha_exp, alpha_shp = Param_3D[:, :12], Param_3D[:, 12:22], Param_3D[:, 22:]
+        pose_3DMM, alpha_shp, alpha_exp = Param_3D[:, :12], Param_3D[:, 12:52], Param_3D[:, 52:]
         alpha_exp = expand_dims(alpha_exp, -1)
         alpha_shp = expand_dims(alpha_shp, -1)
         pose_3DMM = cast(pose_3DMM, tf.float32)
