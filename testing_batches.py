@@ -21,6 +21,7 @@ test = '300w'
 IMG_H = 128
 
 input_shape = (IMG_H, IMG_H, 3)
+
 if test == 'AFLW':
   training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
         input_shape=input_shape, batch_size=32, shuffle=True)
@@ -33,6 +34,9 @@ elif test == '300w':
   list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
       "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
         "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
+
+images, y = training_data_generator.data_generation(list_ids)
+
 
 images_ori = []
 dataset_path='../../Datasets/300W_AFLW/'
