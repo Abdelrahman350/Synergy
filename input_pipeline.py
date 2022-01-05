@@ -29,7 +29,6 @@ elif test == '300w':
 
 images, y = training_data_generator.data_generation(list_ids)
 
-
 images_ori = []
 dataset_path='../../Datasets/300W_AFLW/'
 for id in list_ids:
