@@ -1,20 +1,19 @@
+import pickle
 from tensorflow.keras.utils import Sequence
 import numpy as np
 from data_generator.image_preprocessing import augment, image_loader
 from data_generator.labels_preprocessing import label_loader
 from model.morhaple_face_model import PCA
+from pathlib import Path
 
 class DataGenerator(Sequence):
-    def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
-                 shuffle=True, dataset_path='../../Datasets/300W_AFLW/'):
-        self.list_IDs = list_IDs
-        self.labels = labels
+    def __init__(self, root, filelists, param_fp, gt_transform=False, transform=None, batch_size=8):
+        self.root = root
+        self.lines = Path(filelists).read_text().strip().split('\n')
+        self.params = np.array(_load(param_fp))
+        self.gt_transform = gt_transform
+        self.indices = np.arange(len(self.lines))
         self.batch_size = batch_size
-        self.input_shape = input_shape
-        self.shuffle = shuffle
-        self.dataset_path = dataset_path
-        self.pca = PCA((450, 450, 3))
-        self.indices = np.arange(len(self.list_IDs))
         
     def __len__(self):
         """Denotes the number of batches per epoch"""
@@ -70,3 +69,18 @@ class DataGenerator(Sequence):
         batch = [id]
         X, y = self.__data_generation(batch)
         return X[0], y[0]
+
+
+def _load(fp):
+    suffix = _get_suffix(fp)
+    if suffix == 'npy':
+        return np.load(fp)
+    elif suffix == 'pkl':
+        return pickle.load(open(fp, 'rb'))
+
+def _get_suffix(filename):
+    """a.jpg -> jpg"""
+    pos = filename.rfind('.')
+    if pos == -1:
+        return ''
+    return filename[pos + 1:]
