@@ -36,7 +36,7 @@ model_checkpoint_callback = ModelCheckpoint(
    save_best_only=True,
    verbose=1)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.1, patience=5,\
+reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.1, patience=3,\
    min_lr=0.000001, verbose=1)
 
 csv_logger = CSVLogger("checkpoints/training.csv", append=True)
