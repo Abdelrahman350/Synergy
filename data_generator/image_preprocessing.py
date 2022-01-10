@@ -26,7 +26,7 @@ def resize_image(image, input_shape=(224, 224)):
     resized_shape = image.shape
     aspect_0 = resized_shape[0]/float(original_shape[0])
     aspect_1 = resized_shape[1]/float(original_shape[1])
-    aspect_ratio = (aspect_0, aspect_1)
+    aspect_ratio = (aspect_0, aspect_1, 1)
     return image, aspect_ratio
 
 def colorjitter(image):
@@ -139,7 +139,7 @@ def filters(image_ori):
 
 def augment(image, lmks, input_shape):
     image = crop(image, lmks)
-    # image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
+    image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
     image = normalization(image)
     return image
 
@@ -157,7 +157,7 @@ def crop(image, lmks):
     margin = side_len * 1.2 // 2
     roi_box[0], roi_box[1], roi_box[2], roi_box[3] = WCenter-margin, HCenter-margin, WCenter+margin, HCenter+margin
     image = crop_img(image, roi_box)
-    return image
+    return image, roi_box
 
 def crop_img(img, roi_box):
     h, w = img.shape[:2]

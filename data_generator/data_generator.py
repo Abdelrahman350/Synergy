@@ -1,8 +1,10 @@
+import cv2
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from data_generator.image_preprocessing import augment, image_loader
-from data_generator.labels_preprocessing import label_loader
+from data_generator.image_preprocessing import augment, crop, image_loader, normalization, resize_image
+from data_generator.labels_preprocessing import label_loader, normalize, pose_to_3DMM
 from model.morhaple_face_model import PCA
+from os.path import join
 
 class DataGenerator(Sequence):
     def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
@@ -37,34 +39,34 @@ class DataGenerator(Sequence):
     def __data_generation(self, batch):
         # Initializing input data
         X = []
+        Lc = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image = image_loader(image_id, self.dataset_path)
+            image_path = join(self.dataset_path, image_id+'.jpg')
+            image = cv2.imread(image_path)
             parameters_3DMM = label_loader(image_id, self.labels)
-            lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
-            image = augment(image, lmks, self.input_shape)
+            parameters_3DMM = normalize(parameters_3DMM)
+            pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
+            image, roi_box = crop(image, pt3d)
+            image, aspect_ratio = resize_image(image, self.input_shape)
+            image = normalization(image)
+            # Label preprocessing
+            sx, sy, ex, ey = roi_box
+            parameters_3DMM = label_loader(image_id, self.labels)
+            parameters_3DMM[3] = parameters_3DMM[3] - sx
+            parameters_3DMM[7] = parameters_3DMM[7] + sy
+            parameters_3DMM = normalize(parameters_3DMM)
+            lmks = self.pca(np.expand_dims(parameters_3DMM, 0)).numpy() *  aspect_ratio
             X.append(image)
+            Lc.append(np.squeeze(lmks, axis=0))
             batch_parameters_3DMM.append(parameters_3DMM)
         X = np.array(X)
         batch_parameters_3DMM = np.array(batch_parameters_3DMM)
-        Lc = self.pca(batch_parameters_3DMM)
+        Lc = np.array(Lc)
         return X, {'Pm':batch_parameters_3DMM, 'Pm*':batch_parameters_3DMM, 'Lc':Lc, 'Lr':Lc}
 
     def data_generation(self, batch):
-        # Initializing input data
-        X = []
-        batch_parameters_3DMM = []
-        for index, image_id in enumerate(batch):
-            image = image_loader(image_id, self.dataset_path)
-            parameters_3DMM = label_loader(image_id, self.labels)
-            lmks = self.pca(np.expand_dims(parameters_3DMM, 0))
-            image = augment(image, lmks, self.input_shape)
-            X.append(image)
-            batch_parameters_3DMM.append(parameters_3DMM)
-        X = np.array(X)
-        batch_parameters_3DMM = np.array(batch_parameters_3DMM)
-        Lc = self.pca(batch_parameters_3DMM)
-        return X, {'Pm':batch_parameters_3DMM, 'Pm*':batch_parameters_3DMM, 'Lc':Lc, 'Lr':Lc}
+        return self.__data_generation(batch)
 
     def get_one_instance(self, id):
         batch = [id]

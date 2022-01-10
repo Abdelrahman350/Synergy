@@ -3,23 +3,16 @@ from model.synergy import Synergy
 
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger
 from losses import ParameterLoss, WingLoss
+from set_tensorflow_configs import set_GPU
 from utils.loading_data import loading_generators
 from tensorflow.keras.optimizers import Adam, Nadam
 
-gpus = tf.config.list_physical_devices('GPU')
-if gpus:
-  # Restrict TensorFlow to only use the first GPU
-  try:
-    tf.config.set_visible_devices(gpus[0], 'GPU')
-    logical_gpus = tf.config.list_logical_devices('GPU')
-    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
-  except RuntimeError as e:
-    # Visible devices must be set before GPUs have been initialized
-    print(e)
+set_GPU()
+IMG_H = 128
+input_shape = (IMG_H, IMG_H, 3)
 
-input_shape = (128, 128, 3)
 training_data_generator, validation_data_generator = loading_generators(dataset='all',\
-      input_shape=input_shape, batch_size=64, shuffle=True)
+      input_shape=input_shape, batch_size=32, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
 optimizer = Nadam(learning_rate=0.01)

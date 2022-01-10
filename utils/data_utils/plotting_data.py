@@ -3,10 +3,13 @@ import numpy as np
 from numpy import cos, sin
 from data_generator.labels_preprocessing import denormalize, param3DMM_to_pose
 
-def draw_axis(image_original, pitch, yaw, roll, tdx=None, tdy=None, size = 100):
+def draw_axis(image_original, pitch, yaw, roll, pt2d):
     # Referenced from HopeNet https://github.com/natanielruiz/deep-head-pose
     image = image_original.copy()
     pitch, yaw, roll = pitch, -yaw, roll
+
+    tdx = pt2d[30, 0]
+    tdy = pt2d[30, 1]
     if tdx != None and tdy != None:
         tdx = tdx
         tdy = tdy
@@ -14,6 +17,11 @@ def draw_axis(image_original, pitch, yaw, roll, tdx=None, tdy=None, size = 100):
         height, width = image.shape[:2]
         tdx = width / 2
         tdy = height / 2
+    
+    minx, maxx = np.min(pt2d[:, 0]), np.max(pt2d[:, 0])
+    miny, maxy = np.min(pt2d[:, 1]), np.max(pt2d[:, 1])
+    llength = np.sqrt((maxx - minx) * (maxy - miny))
+    size = llength * 0.5
 
     # X-Axis pointing to right, drawn in red.
     x1 = size * (cos(yaw) * cos(roll)) + tdx
@@ -46,10 +54,10 @@ def draw_landmarks(image_original, pt2d):
              (end_point[0], end_point[1]), (1, 1, 1), 1)
     return image
 
-def plot_pose(image, label, name='output_axis'):
+def plot_pose(image, label, pt2d, name='output_axis'):
     label = denormalize(label)
     pitch, yaw, roll = param3DMM_to_pose(label[:12])
-    image = draw_axis(image, pitch, yaw, roll)
+    image = draw_axis(image, pitch, yaw, roll, pt2d)
     image += 1.0
     image *= 127.5
     cv2.imwrite('output/'+name+".jpg", image)

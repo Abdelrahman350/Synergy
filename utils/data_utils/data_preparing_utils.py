@@ -5,7 +5,7 @@ import numpy as np
 import pickle
 from utils.data_utils.label_parameters import *
 
-path_to_dataset = '../../Datasets/'
+path_to_dataset = '../../Datasets/300W_AFLW/'
 
 def get_IDs(data, list_datasets=['300W_LP', 'AFLW2000']):
     dictionary = {}
