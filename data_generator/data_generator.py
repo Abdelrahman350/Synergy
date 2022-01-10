@@ -1,8 +1,8 @@
 import cv2
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from data_generator.image_preprocessing import augment, crop, image_loader, normalization, resize_image
-from data_generator.labels_preprocessing import label_loader, normalize, pose_to_3DMM
+from data_generator.image_preprocessing import colorjitter, crop, filters, gray_img, noisy, normalization, resize_image
+from data_generator.labels_preprocessing import label_loader, normalize
 from model.morhaple_face_model import PCA
 from os.path import join
 
@@ -49,6 +49,14 @@ class DataGenerator(Sequence):
             pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
             image, roi_box = crop(image, pt3d)
             image, aspect_ratio = resize_image(image, self.input_shape)
+            # Augment image
+            aug_type = np.random.choice(['color', 'gray', 'None'])
+            if aug_type == 'color':
+                image = colorjitter(image)
+                image = noisy(image)
+                image = filters(image)
+            elif aug_type == 'gray':
+                image = gray_img(image)
             image = normalization(image)
             # Label preprocessing
             sx, sy, ex, ey = roi_box

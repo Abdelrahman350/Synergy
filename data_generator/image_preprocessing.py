@@ -1,19 +1,6 @@
 import numpy as np
 import cv2
 
-def image_loader(image_id, dataset_path):
-    image_path = dataset_path + image_id + '.jpg'
-    image = parse_image(image_path)
-    # image = colorjitter(image)
-    # image = noisy(image)
-    # image = filters(image)
-    return image
-
-def parse_image(image_path):
-    image_ = cv2.imread(image_path)
-    image = image_.copy()
-    return image
-
 def normalization(image):
     image = image.astype(float)
     image /= 127.5
@@ -137,10 +124,9 @@ def filters(image_ori):
     else:
         return image_ori
 
-def augment(image, lmks, input_shape):
-    image = crop(image, lmks)
-    image = cv2.resize(image, input_shape[0:2], interpolation = cv2.INTER_AREA)
-    image = normalization(image)
+def gray_img(image):
+    img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.merge([img_gray, img_gray, img_gray])
     return image
 
 def crop(image, lmks):
