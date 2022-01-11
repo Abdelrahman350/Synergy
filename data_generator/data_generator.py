@@ -8,12 +8,13 @@ from os.path import join
 
 class DataGenerator(Sequence):
     def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
-                 shuffle=True, dataset_path='../../Datasets/300W_AFLW/'):
+                 shuffle=True, augmentation=True, dataset_path='../../Datasets/300W_AFLW/'):
         self.list_IDs = list_IDs
         self.labels = labels
         self.batch_size = batch_size
         self.input_shape = input_shape
         self.shuffle = shuffle
+        self.augmentation = augmentation
         self.dataset_path = dataset_path
         self.pca = PCA((450, 450, 3))
         self.indices = np.arange(len(self.list_IDs))
@@ -49,14 +50,17 @@ class DataGenerator(Sequence):
             pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
             image, roi_box = crop(image, pt3d)
             image, aspect_ratio = resize_image(image, self.input_shape)
+            
             # Augment image
-            aug_type = np.random.choice(['color', 'gray', 'None'])
-            if aug_type == 'color':
-                image = colorjitter(image)
-                image = noisy(image)
-                image = filters(image)
-            elif aug_type == 'gray':
-                image = gray_img(image)
+            if self.augmentation:
+                aug_type = np.random.choice(['color', 'gray', 'None'])
+                if aug_type == 'color':
+                    image = colorjitter(image)
+                    image = noisy(image)
+                    image = filters(image)
+                elif aug_type == 'gray':
+                    image = gray_img(image)
+            
             image = normalization(image)
             # Label preprocessing
             sx, sy, ex, ey = roi_box
