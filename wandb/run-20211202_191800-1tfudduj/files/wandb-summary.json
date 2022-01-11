@@ -1,1 +1,0 @@
-{"epoch": 3, "training loss": 1870.7025146484375, "validation loss": 1862.955810546875, "lr": "<keras.optimizer_v2.learning_rate_schedule.ExponentialDecay object at 0x7f320aeda7c0>", "_runtime": 2551, "_timestamp": 1638468031, "_step": 3, "_wandb": {"runtime": 2770}}
