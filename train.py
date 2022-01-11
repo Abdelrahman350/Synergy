@@ -10,6 +10,8 @@ from tensorflow.keras.optimizers import Adam, Nadam
 set_GPU()
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
+load_model = False
+model_path = "checkpoints/model"
 
 training_data_generator, validation_data_generator = loading_generators(dataset='all',\
       input_shape=input_shape, batch_size=32, shuffle=True)
@@ -26,10 +28,14 @@ losses = {
 
 loss_weights = {'Pm':0.02, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
+
+if load_model:
+   model.load_weights(model_path)
+
 print(model.summary())
 
 model_checkpoint_callback = ModelCheckpoint(
-   filepath="checkpoints/model",
+   filepath=model_path,
    save_weights_only=True,
    monitor='val_Pm_loss',
    mode='min',
@@ -46,6 +52,7 @@ print(f"The validation dataset has {len(validation_data_generator.list_IDs)} val
 model_fit = model.fit(
   x=training_data_generator,
   validation_data=validation_data_generator,
-  epochs=200, 
+  epochs=100, 
   verbose=1,
   callbacks=[model_checkpoint_callback, reduce_lr, csv_logger])
+print("Finished Training.")
