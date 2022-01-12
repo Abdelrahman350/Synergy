@@ -11,7 +11,7 @@ import cv2
 set_GPU()
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
-model_path = "checkpoints/model"
+model_path = "checkpoints/model_huber"
 test = "AFLW"
 
 if test == 'AFLW':
@@ -74,4 +74,7 @@ for i in range(len(list_ids)):
 
 for i in range(len(list_ids)):
   plot_pose(images[i], poses_gt[i], vertices_gt[i], name='test_poses_gt_'+str(i))
-  plot_pose(images[i], poses_pred[i], vertices_pred[i], name='test_poses_pred_'+str(i))
+  try:
+    plot_pose(images[i], poses_pred[i], vertices_pred[i], name='test_poses_pred_'+str(i))
+  except:
+    print(f"Pose prediction for image {list_ids[i]} failed.")

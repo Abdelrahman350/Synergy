@@ -11,13 +11,13 @@ set_GPU()
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 load_model = False
-model_path = "checkpoints/model"
+model_path = "checkpoints/model_huber"
 
 training_data_generator, validation_data_generator = loading_generators(dataset='all',\
-      input_shape=input_shape, batch_size=32, shuffle=True)
+      input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
-optimizer = Nadam(learning_rate=0.01)
+optimizer = Nadam(learning_rate=0.001)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
