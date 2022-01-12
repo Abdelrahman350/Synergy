@@ -70,7 +70,5 @@ for i in range(len(list_ids)):
   plot_landmarks(images[i], vertices_pred[i], 'test_lmk_pred_'+str(i))
 
 for i in range(len(list_ids)):
-  print()
   plot_pose(images_ori[i], poses_gt[i], vertices_gt[i], name='test_poses_gt_'+str(i))
   plot_pose(images_ori[i], poses_pred[i], vertices_pred[i], name='test_poses_pred_'+str(i))
-  print()
