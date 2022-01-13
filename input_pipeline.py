@@ -3,6 +3,7 @@ from model.synergy import Synergy
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from utils.loading_data import loading_generators
+import cv2
 
 set_GPU()
 IMG_H = 128
@@ -38,10 +39,12 @@ poses_gt = y_DMM
 vertices = y['Lc']
 
 for i in range(len(list_ids)):
-  plot_landmarks(images_ori[i], vertices[i], 'lmk_'+str(i))
+  image = plot_landmarks(images_ori[i], vertices[i])
+  cv2.imwrite('lmk_'+str(i), image)
 
 for i in range(len(list_ids)):
-  plot_pose(images_ori[i], poses_gt[i], vertices[i], 'pose_'+str(i))
+  image = plot_pose(images_ori[i], poses_gt[i], vertices[i])
+  cv2.imwrite('pose_'+str(i), image)
 
 model = Synergy(input_shape=input_shape)
 model.summary()
