@@ -54,7 +54,7 @@ for id in list_ids:
 model = Synergy(input_shape=input_shape)
 
 print(model.summary())
-model.load_weights("checkpoints/model")
+model.load_weights(model_path)
 
 DMM = model.predict(images)
 poses_pred = DMM['Pm']
