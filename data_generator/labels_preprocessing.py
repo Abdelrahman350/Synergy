@@ -91,8 +91,8 @@ def resize_landmarks(pt2d, aspect_ratio):
     return pt2d
 
 def normalize(parameters_3DMM):
-    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:62]
-    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:62]
+    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
+    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
     parameters_3DMM = (parameters_3DMM - param_mean) / param_std
     return parameters_3DMM
 
