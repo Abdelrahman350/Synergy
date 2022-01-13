@@ -40,11 +40,11 @@ vertices = y['Lc']
 
 for i in range(len(list_ids)):
   image = plot_landmarks(images_ori[i], vertices[i])
-  cv2.imwrite('lmk_'+str(i)+'.jpg', image)
+  cv2.imwrite('output/lmk_'+str(i)+'.jpg', image)
 
 for i in range(len(list_ids)):
   image = plot_pose(images_ori[i], poses_gt[i], vertices[i])
-  cv2.imwrite('pose_'+str(i)+'.jpg', image)
+  cv2.imwrite('output/pose_'+str(i)+'.jpg', image)
 
 model = Synergy(input_shape=input_shape)
 model.summary()
