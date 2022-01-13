@@ -54,16 +54,16 @@ def draw_landmarks(image_original, pt2d):
              (end_point[0], end_point[1]), (1, 1, 1), 1)
     return image
 
-def plot_pose(image, label, pt2d, name='output_axis'):
+def plot_pose(image, label, pt2d):
     label = denormalize(label)
     pitch, yaw, roll = param3DMM_to_pose(label[:12])
     image = draw_axis(image, pitch, yaw, roll, pt2d)
     image += 1.0
     image *= 127.5
-    cv2.imwrite('output/'+name+".jpg", image)
+    return image
 
-def plot_landmarks(image, pt2d, name='output_landmarks'):
+def plot_landmarks(image, pt2d):
     image = draw_landmarks(image, pt2d)
     image += 1.0
     image *= 127.5
-    cv2.imwrite('output/'+name+'.jpg', image)
+    return image
