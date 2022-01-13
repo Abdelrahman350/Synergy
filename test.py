@@ -4,7 +4,7 @@ from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from model.synergy import Synergy
 
 from model.morhaple_face_model import PCA
-from losses import ParameterLoss, WingLoss
+import numpy as np
 from utils.loading_data import loading_generators
 import cv2
 
@@ -17,7 +17,8 @@ test = "AFLW"
 if test == 'AFLW':
   training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
         input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = ["AFLW2000-3D/AFLW2000/image01986", "AFLW2000-3D/AFLW2000/image00405",
+  list_ids = [
+"AFLW2000-3D/AFLW2000/image01986", "AFLW2000-3D/AFLW2000/image00405", "AFLW2000-3D/AFLW2000/image02650",
 "AFLW2000-3D/AFLW2000/image00291", "AFLW2000-3D/AFLW2000/image02522", "AFLW2000-3D/AFLW2000/image04269", 
 "AFLW2000-3D/AFLW2000/image03515", "AFLW2000-3D/AFLW2000/image02183", "AFLW2000-3D/AFLW2000/image04102",
 "AFLW2000-3D/AFLW2000/image01079", "AFLW2000-3D/AFLW2000/image00187", "AFLW2000-3D/AFLW2000/image00359",
@@ -31,7 +32,7 @@ if test == 'AFLW':
 "AFLW2000-3D/AFLW2000/image01449", "AFLW2000-3D/AFLW2000/image00922", "AFLW2000-3D/AFLW2000/image03375", 
 "AFLW2000-3D/AFLW2000/image01688", "AFLW2000-3D/AFLW2000/image02038", "AFLW2000-3D/AFLW2000/image03479", 
 "AFLW2000-3D/AFLW2000/image01110", "AFLW2000-3D/AFLW2000/image03897", "AFLW2000-3D/AFLW2000/image01649", 
-"AFLW2000-3D/AFLW2000/image03561", "AFLW2000-3D/AFLW2000/image00809", "AFLW2000-3D/AFLW2000/image00060",]
+"AFLW2000-3D/AFLW2000/image02598", "AFLW2000-3D/AFLW2000/image00809", "AFLW2000-3D/AFLW2000/image00060",]
 elif test == '300w':
   training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
         input_shape=input_shape, batch_size=32, shuffle=True)
@@ -69,12 +70,19 @@ vertices_pred = vertices_tf.numpy()
 vertices_gt = y['Lc']
 
 for i in range(len(list_ids)):
-  plot_landmarks(images[i], vertices_gt[i], name='test_lmk_gt_'+str(i))
-  plot_landmarks(images[i], vertices_pred[i], 'test_lmk_pred_'+str(i))
+  gt = plot_landmarks(images[i], vertices_gt[i])
+  pred = plot_landmarks(images[i], vertices_pred[i])
+  comb = np.concatenate((gt, pred), axis=1)
+  cv2.imwrite(f'output/test_{i}_landmarks.jpg', comb)
 
 for i in range(len(list_ids)):
-  plot_pose(images[i], poses_gt[i], vertices_gt[i], name='test_poses_gt_'+str(i))
+  gt = plot_pose(images[i], poses_gt[i], vertices_gt[i])
+  pred = np.zeros_like(gt)
   try:
-    plot_pose(images[i], poses_pred[i], vertices_pred[i], name='test_poses_pred_'+str(i))
+    pred = plot_pose(images[i], poses_pred[i], vertices_pred[i])
   except:
-    print(f"Pose prediction for image {list_ids[i]} failed.")
+    print(f"\nPose prediction for image #{i}: {list_ids[i]} failed.")
+    print("GT_param = ", poses_gt[i][:9])
+    print("Pred_param = ", poses_pred[i][:9])
+  comb = np.concatenate((gt, pred), axis=1)
+  cv2.imwrite(f'output/test_{i}_poses.jpg', comb)

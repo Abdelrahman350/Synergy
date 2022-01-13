@@ -78,6 +78,13 @@ def pose_3DMM_to_sRt(label):
     alpha_Shape = parameters_3DMM[:, 22:]
     return s, R, t, alpha_exp, alpha_Shape
 
+def isRotationMatrix(R) :
+    Rt = np.transpose(R)
+    shouldBeIdentity = np.dot(Rt, R)
+    I = np.identity(3, dtype = R.dtype)
+    n = np.linalg.norm(I - shouldBeIdentity)
+    return n < 1e-6
+
 def resize_landmarks(pt2d, aspect_ratio):
     pt2d[:, 0] = pt2d[:, 0] * aspect_ratio[0]
     pt2d[:, 1] = pt2d[:, 1] * aspect_ratio[1]
