@@ -104,3 +104,13 @@ def denormalize(parameters_3DMM):
 def parsing_pkl(file):
     pca_dir = '3dmm_data/'
     return pickle.load(open(pca_dir+file, 'rb'))
+
+def normalize_dicts(labels):
+    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
+    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
+    for parameters_3DMM in labels.values():
+        parameters_3DMM['Pose'] = (parameters_3DMM['Pose'] - param_mean[:12]) / param_std[:12]
+        parameters_3DMM['Shape_Para'] = (parameters_3DMM['Shape_Para']\
+             - param_mean[12:52]) / param_std[12:52]
+        parameters_3DMM['Exp_Para'] = (parameters_3DMM['Exp_Para'] - param_mean[52:]) / param_std[52:]
+    return labels

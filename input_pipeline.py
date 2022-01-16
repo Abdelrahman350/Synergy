@@ -6,7 +6,7 @@ from utils.loading_data import loading_generators
 import cv2
 
 set_GPU()
-IMG_H = 224
+IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 
 test = '300W'

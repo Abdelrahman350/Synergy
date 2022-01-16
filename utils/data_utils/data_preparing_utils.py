@@ -1,6 +1,6 @@
 import json
 import pandas as pd
-from data_generator.labels_preprocessing import pose_to_3DMM
+from data_generator.labels_preprocessing import normalize_dicts, pose_to_3DMM
 import numpy as np
 import pickle
 from utils.data_utils.label_parameters import *
@@ -78,7 +78,7 @@ def create_labels_json(data, dataset=['300W_LP']):
     param_62_std = np.concatenate((Pose_std, Shape_Para_std, Exp_Para_std), axis=0)
     dictionary = {'param_mean':param_62_mean, 'param_std':param_62_std}
     pickle.dump(dictionary, open(path_to_dataset+"param_"+dataset[0]+".pkl", "wb"))
-    # labels = normalize_dicts(labels)
+    labels = normalize_dicts(labels)
     dictionary_to_json(labels, path_to_dataset+'labels_'+dataset[0])
 
 def pose_to_param3DMM(row):
