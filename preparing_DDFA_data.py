@@ -105,18 +105,3 @@ poses = np.concatenate((dictionary[img_id]['Pose'],\
      dictionary[img_id]['Shape_Para'], dictionary[img_id]['Exp_Para']), axis=-1)
 image = plot_pose(image, poses)
 cv2.imwrite('try.jpg', image)
-
-list_aflw_path = join(dataset_path, 'aflw2000_data/AFLW2000-3D_crop.list')
-list_aflw = Path(list_aflw_path).read_text().strip().split('\n')
-print(len(list_aflw))
-list_skip_path = join(dataset_path, 'aflw2000_data/eval/ALFW2000-3D_pose_3ANG_skip.npy')
-list_skip = np.load(list_skip_path).tolist()
-print(len(list_skip))
-aflw = []
-for i in range(len(list_aflw)):
-    if i in list_skip:
-        continue
-    image_id = list_aflw[i]
-    aflw.append('AFLW2000-3D/AFLW2000/'+image_id)
-print(len(aflw))
-print(aflw[0])

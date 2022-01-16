@@ -4,6 +4,8 @@ from data_generator.labels_preprocessing import pose_to_3DMM
 import numpy as np
 import pickle
 from utils.data_utils.label_parameters import *
+from pathlib import Path
+from os.path import join
 
 path_to_dataset = '../../Datasets/300W_AFLW/'
 
@@ -11,8 +13,10 @@ def get_IDs(data, list_datasets=['300W_LP', 'AFLW2000']):
     dictionary = {}
     dictionary['train'] = []
     dictionary['valid'] = []
-    
+    aflw_ids = get_AFLW2000_IDs()
     for index, row in data.iterrows():
+        if 'AFLW2000' in list_datasets and row['image'] not in aflw_ids:
+            continue
         if row['type'] == 'train' and row['dataset'] in list_datasets:
             dictionary['train'].append(row['image'])
         if row['type'] == 'val' and row['dataset'] in list_datasets:
@@ -85,3 +89,17 @@ def get_mean_std(data, feature):
     mean = np.mean(data[feature].tolist(), axis=0)
     std = np.std(data[feature].tolist(), axis=0)
     return mean, std
+
+def get_AFLW2000_IDs():
+    dataset_path = "../../Datasets/300W_AFLW_Augmented"
+    list_aflw_path = join(dataset_path, 'aflw2000_data/AFLW2000-3D_crop.list')
+    list_aflw = Path(list_aflw_path).read_text().strip().split('\n')
+    list_skip_path = join(dataset_path, 'aflw2000_data/eval/ALFW2000-3D_pose_3ANG_skip.npy')
+    list_skip = np.load(list_skip_path).tolist()
+    aflw = []
+    for i in range(len(list_aflw)):
+        if i in list_skip:
+            continue
+        image_id = list_aflw[i]
+        aflw.append('AFLW2000-3D/AFLW2000/'+image_id)
+    return aflw

@@ -17,9 +17,9 @@ def loading_dictionaries(dataset='300w'):
         labels = json.loads(j.read())
     return IDs, labels
 
-def loading_generators(dataset='300w', input_shape=(224, 224, 3), batch_size=16, shuffle=True):
+def loading_generators(dataset='300W', input_shape=(224, 224, 3), batch_size=16, shuffle=True):
     if dataset=='all':
-        partition_train, labels_train = loading_dictionaries(dataset='300w')
+        partition_train, labels_train = loading_dictionaries(dataset='300W')
         partition_combined_train = partition_train['train'] + partition_train['valid']
         training_data_generator = DataGenerator(partition_combined_train, labels_train,\
             batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
