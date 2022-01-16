@@ -3,8 +3,7 @@ from numpy import sin, cos, arctan2, arcsin
 import pickle
 
 def label_loader(image_id, labels):
-    pose = np.array(labels[image_id]['pose'])
-    pose_3DMM = pose_to_3DMM(pose)
+    pose_3DMM = np.array(labels[image_id]['Pose'])
     alpha_shp = np.ravel(np.array(labels[image_id]['Shape_Para']).T)
     alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
     parameters_3DMM = np.concatenate((pose_3DMM, alpha_shp, alpha_exp), axis=0)

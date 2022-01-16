@@ -72,8 +72,8 @@ def to_dictionary(row):
     dir = 'train_aug_120x120/'
     label = {}
     label['pose'] = row['pose']
-    label['Exp_Para'] = row['Exp_Para']
     label['Shape_Para'] = row['Shape_Para']
+    label['Exp_Para'] = row['Exp_Para']
     dictionary[dir+row['image_ID']] = label
     
 
@@ -101,7 +101,7 @@ img_id = 'train_aug_120x120/' + data.iloc[i]['image_ID']
 img_path = join(dataset_path, img_id)
 
 image = cv2.imread(img_path)
-poses = np.concatenate((dictionary[img_id]['pose'],\
+poses = np.concatenate((dictionary[img_id]['Pose'],\
      dictionary[img_id]['Shape_Para'], dictionary[img_id]['Exp_Para']), axis=-1)
 image = plot_pose(image, poses)
 cv2.imwrite('try.jpg', image)

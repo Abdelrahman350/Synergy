@@ -4,3 +4,4 @@ import pandas as pd
 data = pd.read_csv("../../Datasets/300W_AFLW/train_test_split_ALL.csv")
 
 create_labels_json(data, dataset=['300W_LP'])
+create_labels_json(data, dataset=['AFLW2000'])

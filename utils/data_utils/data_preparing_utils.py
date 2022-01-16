@@ -24,14 +24,14 @@ def get_labels(dictionary):
     print('Start Parsing train files')
     for idx in dictionary['train']:
         label = {}
-        label['pose'] = get_pose_from_mat(path_to_dataset+idx)
+        label['Pose'] = pose_to_3DMM(get_pose_from_mat(path_to_dataset+idx))
         label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
         label['Shape_Para'] = get_Shape_Para_from_mat(path_to_dataset+idx)
         labels[idx] = label
     print('Start Parsing valid files')
     for idx in dictionary['valid']:
         label = {}
-        label['pose'] = get_pose_from_mat(path_to_dataset+idx)
+        label['Pose'] = pose_to_3DMM(get_pose_from_mat(path_to_dataset+idx))
         label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
         label['Shape_Para'] = get_Shape_Para_from_mat(path_to_dataset+idx)
         labels[idx] = label
@@ -66,20 +66,19 @@ def create_labels_json(data, dataset=['300W_LP']):
     IDs = get_IDs(data, dataset)
     dictionary_to_json(IDs, path_to_dataset+'IDs_'+dataset[0])
     labels = get_labels(IDs)
-    dictionary_to_json(labels, path_to_dataset+'labels_'+dataset[0])
     data = pd.DataFrame(labels).transpose()
-    data = data.apply(pose_to_param3DMM, axis=1)
-    param3DMM_mean, param3DMM_std = get_mean_std(data, 'param3DMM')
+    Pose_mean, Pose_std = get_mean_std(data, 'Pose')
     Shape_Para_mean, Shape_Para_std = get_mean_std(data, 'Shape_Para')
     Exp_Para_mean, Exp_Para_std = get_mean_std(data, 'Exp_Para')
-    pose_mean, pose_std = get_mean_std(data, 'pose')
-    param_62_mean = np.concatenate((param3DMM_mean, Shape_Para_mean, Exp_Para_mean), axis=0)
-    param_62_std = np.concatenate((param3DMM_std, Shape_Para_std, Exp_Para_std), axis=0)
+    param_62_mean = np.concatenate((Pose_mean, Shape_Para_mean, Exp_Para_mean), axis=0)
+    param_62_std = np.concatenate((Pose_std, Shape_Para_std, Exp_Para_std), axis=0)
     dictionary = {'param_mean':param_62_mean, 'param_std':param_62_std}
     pickle.dump(dictionary, open(path_to_dataset+"param_"+dataset[0]+".pkl", "wb"))
+    # labels = normalize_dicts(labels)
+    dictionary_to_json(labels, path_to_dataset+'labels_'+dataset[0])
 
 def pose_to_param3DMM(row):
-    row['param3DMM'] = pose_to_3DMM(row['pose'])
+    row['param3DMM'] = pose_to_3DMM(row['Pose'])
     return row
 
 def get_mean_std(data, feature):
