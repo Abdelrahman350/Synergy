@@ -85,6 +85,10 @@ labellist = "3dmm_data/param_all_norm_v201.pkl"
 labellist_path = join(dataset_path, labellist)
 
 list_IDs = Path(filelist_path).read_text().strip().split('\n')
+json_IDs = ['train_aug_120x120/'+ x for x in list_IDs]
+file_name = join(dataset_path, 'IDs_DDFA')
+dictionary_to_json(json_IDs, file_name)
+
 list_labels = pickle.load(open(labellist_path, 'rb')).tolist()
 
 data = pd.DataFrame(list(zip(list_IDs, list_labels)), columns=['image_ID', 'param3DMM'])
