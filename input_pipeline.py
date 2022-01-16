@@ -13,15 +13,16 @@ test = '300W'
 if test == 'AFLW':
   training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
         input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = ["AFLW2000-3D/AFLW2000/image00002", "AFLW2000-3D/AFLW2000/image00004",\
-    "AFLW2000-3D/AFLW2000/image00006", "AFLW2000-3D/AFLW2000/image00008",
-    "AFLW2000-3D/AFLW2000/image00010"]
+  list_ids = ["AFLW2000-3D/AFLW2000/image00002.jpg", "AFLW2000-3D/AFLW2000/image00004.jpg",\
+    "AFLW2000-3D/AFLW2000/image00006.jpg", "AFLW2000-3D/AFLW2000/image00008.jpg",
+    "AFLW2000-3D/AFLW2000/image00010.jpg"]
 elif test == '300W':
   training_data_generator, validation_data_generator = loading_generators(dataset='300W',\
         input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
-      "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
-        "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
+  list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2.jpg",\
+     "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0.jpg", "300W-LP/300W_LP/AFW/AFW_4512714865_1_3.jpg",\
+        "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13.jpg",\
+           "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4.jpg"]
 training_data_generator.augmentation = False
 images, y = training_data_generator.data_generation(list_ids)
 

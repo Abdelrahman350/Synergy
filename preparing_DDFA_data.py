@@ -64,14 +64,14 @@ def plot_pose(image, label):
 def column_refractor(row):
     row['Shape_Para'] = np.array(row['param3DMM'][12:52], dtype=np.float)
     row['Exp_Para'] = np.array(row['param3DMM'][52:62], dtype=np.float)
-    row['pose'] = np.array(row['param3DMM'][0:12], dtype=np.float)
+    row['Pose'] = np.array(row['param3DMM'][0:12], dtype=np.float)
     return row
 
 def to_dictionary(row):
     label = {}
     dir = 'train_aug_120x120/'
     label = {}
-    label['pose'] = row['pose']
+    label['Pose'] = row['Pose']
     label['Shape_Para'] = row['Shape_Para']
     label['Exp_Para'] = row['Exp_Para']
     dictionary[dir+row['image_ID']] = label
@@ -116,6 +116,7 @@ aflw = []
 for i in range(len(list_aflw)):
     if i in list_skip:
         continue
-    aflw.append(list_aflw[i])
+    image_id = list_aflw[i]
+    aflw.append('AFLW2000-3D/AFLW2000/'+image_id)
 print(len(aflw))
 print(aflw[0])

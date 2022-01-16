@@ -43,7 +43,7 @@ class DataGenerator(Sequence):
         Lc = []
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
-            image_path = join(self.dataset_path, image_id+'.jpg')
+            image_path = join(self.dataset_path, image_id)
             image = cv2.imread(image_path)
             parameters_3DMM = label_loader(image_id, self.labels)
             parameters_3DMM = normalize(parameters_3DMM)

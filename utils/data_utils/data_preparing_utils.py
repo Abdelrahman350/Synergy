@@ -14,9 +14,9 @@ def get_IDs(data, list_datasets=['300W_LP', 'AFLW2000']):
     
     for index, row in data.iterrows():
         if row['type'] == 'train' and row['dataset'] in list_datasets:
-            dictionary['train'].append(row['image'].split('.')[0])
+            dictionary['train'].append(row['image'])
         if row['type'] == 'val' and row['dataset'] in list_datasets:
-            dictionary['valid'].append(row['image'].split('.')[0])
+            dictionary['valid'].append(row['image'])
     return dictionary
 
 def get_labels(dictionary):
