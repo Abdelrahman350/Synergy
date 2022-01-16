@@ -62,9 +62,9 @@ def plot_pose(image, label):
     return image
 
 def column_refractor(row):
-    row['Shape_Para'] = np.array(row['param3DMM'][12:52], dtype=np.float)
-    row['Exp_Para'] = np.array(row['param3DMM'][52:62], dtype=np.float)
-    row['Pose'] = np.array(row['param3DMM'][0:12], dtype=np.float)
+    row['Shape_Para'] = np.array(row['param3DMM'][12:52], dtype=np.float32)
+    row['Exp_Para'] = np.array(row['param3DMM'][52:62], dtype=np.float32)
+    row['Pose'] = np.array(row['param3DMM'][0:12], dtype=np.float32)
     return row
 
 def to_dictionary(row):
@@ -75,7 +75,6 @@ def to_dictionary(row):
     label['Shape_Para'] = row['Shape_Para']
     label['Exp_Para'] = row['Exp_Para']
     dictionary[dir+row['image_ID']] = label
-    
 
 dataset_path = "../../Datasets/300W_AFLW_Augmented"
 filelist = "3dmm_data/train_aug_120x120.list.train"
@@ -84,8 +83,8 @@ filelist_path = join(dataset_path, filelist)
 labellist = "3dmm_data/param_all_norm_v201.pkl"
 labellist_path = join(dataset_path, labellist)
 
-list_IDs = Path(filelist_path).read_text().strip().split('\n')[0:5]
-list_labels = pickle.load(open(labellist_path, 'rb')).tolist()[0:5]
+list_IDs = Path(filelist_path).read_text().strip().split('\n')
+list_labels = pickle.load(open(labellist_path, 'rb')).tolist()
 
 data = pd.DataFrame(list(zip(list_IDs, list_labels)), columns=['image_ID', 'param3DMM'])
 data = data.apply(column_refractor, axis=1)
@@ -94,7 +93,7 @@ dictionary = {}
 
 data.apply(to_dictionary, axis=1)
 
-print(dictionary)
+# print(dictionary)
 
 i = 0
 img_id = 'train_aug_120x120/' + data.iloc[i]['image_ID']
@@ -104,4 +103,4 @@ image = cv2.imread(img_path)
 poses = np.concatenate((dictionary[img_id]['Pose'],\
      dictionary[img_id]['Shape_Para'], dictionary[img_id]['Exp_Para']), axis=-1)
 image = plot_pose(image, poses)
-cv2.imwrite('try.jpg', image)
+# cv2.imwrite('try.jpg', image)
