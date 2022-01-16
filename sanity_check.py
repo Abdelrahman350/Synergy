@@ -5,7 +5,9 @@ from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 
 from model.morhaple_face_model import PCA
+import numpy as np
 from utils.loading_data import loading_generators
+import cv2
 from tensorflow.keras.optimizers import Adam, Nadam
 
 set_GPU()
@@ -34,7 +36,7 @@ losses = {
 loss_weights = {'Pm':0.02, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
 model.compile(optimizer, losses, loss_weights=loss_weights)
 print(model.summary())
-model.fit(images, y, verbose=1, epochs=1000)
+model.fit(images, y, verbose=1, epochs=100)
 
 DMM = model.predict(images)
 
@@ -51,9 +53,19 @@ vertices_tf = pca(y_DMM)
 vertices_gt = vertices_tf.numpy()
 
 for i in range(len(list_ids)):
-  plot_landmarks(images[i], vertices_pred[i], 'sanity_lmk_pred_'+str(i))
-  plot_landmarks(images[i], vertices_gt[i], name='sanity_lmk_gt_'+str(i))
+  gt = plot_landmarks(images[i], vertices_gt[i])
+  pred = plot_landmarks(images[i], vertices_pred[i])
+  comb = np.concatenate((gt, pred), axis=1)
+  cv2.imwrite(f'output/sanity_{i}_landmarks.jpg', comb)
 
 for i in range(len(list_ids)):
-  plot_pose(images[i], poses_pred[i], vertices_pred[i], name='sanity_poses_pred_'+str(i))
-  plot_pose(images[i], poses_gt[i], vertices_gt[i], name='sanity_poses_gt_'+str(i))
+  gt = plot_pose(images[i], poses_gt[i], vertices_gt[i])
+  pred = np.zeros_like(gt)
+  try:
+    pred = plot_pose(images[i], poses_pred[i], vertices_pred[i])
+  except:
+    print(f"\nPose prediction for image #{i}: {list_ids[i]} failed.")
+    print("GT_param = ", poses_gt[i][:9])
+    print("Pred_param = ", poses_pred[i][:9])
+  comb = np.concatenate((gt, pred), axis=1)
+  cv2.imwrite(f'output/sanity_{i}_poses.jpg', comb)

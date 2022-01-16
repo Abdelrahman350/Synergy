@@ -140,7 +140,7 @@ def crop(image, lmks):
     HCenter = (roi_box[1] + roi_box[3])/2
     WCenter = (roi_box[0] + roi_box[2])/2
     side_len = roi_box[3]-roi_box[1]
-    margin = side_len * 1.4 // 2
+    margin = side_len * 1.2 // 2
     roi_box[0], roi_box[1], roi_box[2], roi_box[3] = WCenter-margin, HCenter-margin, WCenter+margin, HCenter+margin
     image = crop_img(image, roi_box)
     return image, roi_box

@@ -41,13 +41,13 @@ class Landmarks_to_3DMM(Model):
         self.bn6 = BatchNormalization(name='Decoder_BatchNormalization_6')
         self.relu_6 = ReLU(name='Decoder_ReLU_6')
 
-        # Regressing expression parameters
-        self.conv7 = Conv1D(filters=10, kernel_size=1, name='Decoder_Conv1D_7')
+        # Regressing shape parameters
+        self.conv7 = Conv1D(filters=40, kernel_size=1, name='Decoder_Conv1D_7')
         self.bn7 = BatchNormalization(name='Decoder_BatchNormalization_7')
         self.relu_7 = ReLU(name='Decoder_ReLU_7')
-        
-        # Regressing shape parameters
-        self.conv8 = Conv1D(filters=40, kernel_size=1, name='Decoder_Conv1D_8')
+
+        # Regressing expression parameters
+        self.conv8 = Conv1D(filters=10, kernel_size=1, name='Decoder_Conv1D_8')
         self.bn8 = BatchNormalization(name='Decoder_BatchNormalization_8')
         self.relu_8 = ReLU(name='Decoder_ReLU_8')
 
@@ -86,21 +86,21 @@ class Landmarks_to_3DMM(Model):
         X = self.bn6(X)
         pose_3DMM = self.relu_6(X)
 
-        # Regressing expression parameters
+        # Regressing shape parameters
         X = self.conv7(global_features)
         X = self.bn7(X)
-        alpha_exp = self.relu_7(X)
+        alpha_shp = self.relu_7(X)
 
-        # Regressing shape parameters
+        # Regressing expression parameters
         X = self.conv8(global_features)
         X = self.bn8(X)
-        alpha_shp = self.relu_8(X)
+        alpha_exp = self.relu_8(X)
         
         pose_3DMM = tf.squeeze(pose_3DMM, 1, name="Squeezing_pose3DMM")
-        alpha_exp = tf.squeeze(alpha_exp, 1, name="Squeezing_alpha_exp")
         alpha_shp = tf.squeeze(alpha_shp, 1, name="Squeezing_alpha_shp")
+        alpha_exp = tf.squeeze(alpha_exp, 1, name="Squeezing_alpha_exp")
 
-        Param_3D_hat = tf.concat((pose_3DMM, alpha_exp, alpha_shp), axis=-1)
+        Param_3D_hat = tf.concat((pose_3DMM, alpha_shp, alpha_exp), axis=-1)
         return Param_3D_hat
 
     def model(self):

@@ -17,11 +17,12 @@ class Synergy(Model):
             self.dropOut_pose = Dropout(0.2, name='pose_dropout')
             self.dense_pose = Dense(name='pose_3DMM', units=12)
 
+            self.dropOut_shp = Dropout(0.2, name='shp_dropout')
+            self.dense_shp = Dense(name='alpha_shp', units=40)
+
             self.dropOut_exp = Dropout(0.2, name='exp_dropout')
             self.dense_exp = Dense(name='alpha_exp', units=10)
 
-            self.dropOut_shp = Dropout(0.2, name='shp_dropout')
-            self.dense_shp = Dense(name='alpha_shp', units=40)
             self.morphable_model = PCA(input_shape=input_shape, name='Morphable_layer')
 
             self.encoder = MAFA(num_points=num_points)
@@ -36,15 +37,15 @@ class Synergy(Model):
             X_pose = self.dropOut_pose(X)
             pose_3DMM = self.dense_pose(X_pose)
 
-            X_exp = self.dropOut_exp(X)
-            alpha_exp = self.dense_exp(X_exp)
-
             X_shp = self.dropOut_shp(X)
             alpha_shp = self.dense_shp(X_shp)
 
-            Param_3D = tf.concat((pose_3DMM, alpha_exp, alpha_shp), axis=-1)
+            X_exp = self.dropOut_exp(X)
+            alpha_exp = self.dense_exp(X_exp)
+
+            Param_3D = tf.concat((pose_3DMM, alpha_shp, alpha_exp), axis=-1)
             Lc = self.morphable_model(Param_3D)
-            point_residual = self.encoder(Lc, Z, Param_3D[:, 12:22], Param_3D[:, 22:])
+            point_residual = self.encoder(Lc, Z, Param_3D[:, 12:52], Param_3D[:, 52:])
             Lr = tf.add(0.05*point_residual, Lc, name='point_residual')
             Param_3D_hat = self.decoder(Lr)
             Lg = self.paramLoss(Param_3D, Param_3D_hat)
@@ -67,10 +68,10 @@ class Synergy(Model):
                         'GlobalAvgBooling': self.GlobalAvgBooling,
                         'dropOut_pose': self.dropOut_pose,
                         'dense_pose': self.dense_pose,
-                        'dropOut_exp': self.dropOut_exp,
-                        'dense_exp': self.dense_exp,
                         'dropOut_shp': self.dropOut_shp,
                         'dense_shp': self.dense_shp,
+                        'dropOut_exp': self.dropOut_exp,
+                        'dense_exp': self.dense_exp,
                         'morphable_model': self.morphable_model,
                         'encoder': self.encoder,
                         'decoder': self.decoder,

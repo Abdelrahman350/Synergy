@@ -52,10 +52,10 @@ class MAFA(Model):
         self.bn9 = BatchNormalization(name='Encoder_BatchNormalization_9')
         self.Lr = ReLU(name='Encoder_Lr')
 
-    def call(self, Lc, Z, alpha_exp, alpha_shp):
+    def call(self, Lc, Z, alpha_shp, alpha_exp):
         Z = tf.expand_dims(Z, 1, name='Expanding_Z')
-        alpha_exp = tf.expand_dims(alpha_exp, 1, name='Expanding_alphaExp')
         alpha_shp = tf.expand_dims(alpha_shp, 1, name='Expanding_alphaShp')
+        alpha_exp = tf.expand_dims(alpha_exp, 1, name='Expanding_alphaExp')
 
         # First hidden layer
         X = self.conv1(Lc)
@@ -90,7 +90,7 @@ class MAFA(Model):
         
         # Aggregate point features and global features
         concate = concatenate([global_features,\
-             Z, alpha_exp, alpha_shp], axis=-1, name='Encoder_Concate_Global_Features')
+             Z, alpha_shp, alpha_exp], axis=-1, name='Encoder_Concate_Global_Features')
         concate_repeat = tf.tile(concate,\
              (1, self.num_points, 1), name='Encoder_Repeat_Global_Features')
         aggregate = concatenate([point_features, concate_repeat], name='Encoder_aggregate')
@@ -119,7 +119,7 @@ class MAFA(Model):
     def model(self):
         Lc = Input(shape=(68, 3), name='Landmarks')
         Z = Input(shape=(1280,), name='Z')
-        alpha_exp = Input(shape=(10,), name='alpha_exp')
         alpha_shp = Input(shape=(40,), name='alpha_shp')
-        return Model(inputs=[Lc, Z, alpha_exp, alpha_shp],\
-             outputs=self.call(Lc, Z, alpha_exp, alpha_shp))
+        alpha_exp = Input(shape=(10,), name='alpha_exp')
+        return Model(inputs=[Lc, Z, alpha_shp, alpha_exp],\
+             outputs=self.call(Lc, Z, alpha_shp, alpha_exp))

@@ -12,26 +12,26 @@ class PCA(Layer):
         self.pca_dir = pca_dir
         self.height = 450
         self.u_base = 0
-        self.w_exp_base = 0
         self.w_shp_base = 0
+        self.w_exp_base = 0
         self.aspect_ratio = expand_dims(
             constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]),\
                 0, name='aspect_ratio')
 
     def build(self, batch_input_shape):
-        w_exp = self.parsing_npy('w_exp_sim.npy')
         w_shp = self.parsing_npy('w_shp_sim.npy')
+        w_exp = self.parsing_npy('w_exp_sim.npy')
         w_tex = self.parsing_npy('w_tex_sim.npy')
-        u_exp = self.parsing_npy('u_exp.npy')
         u_shp = self.parsing_npy('u_shp.npy')
+        u_exp = self.parsing_npy('u_exp.npy')
         u_tex = self.parsing_npy('u_tex.npy')
         keypoints = self.parsing_npy('keypoints_sim.npy')
         self.param_mean = self.parsing_pkl('param_300W_LP.pkl').get('param_mean')
         self.param_std = self.parsing_pkl('param_300W_LP.pkl').get('param_std')
-        u = u_exp + u_shp
+        u = u_shp + u_exp
         self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
-        self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
         self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints], 'w_shp_base')
+        self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
         
         self.reshape_vertices = Reshape((self.num_landmarks, 3))
         self.reshape_pose = Reshape((3, 4))
@@ -40,12 +40,12 @@ class PCA(Layer):
 
     def call(self, Param_3D):
         Param_3D = self.param_std*Param_3D + self.param_mean
-        pose_3DMM, alpha_exp, alpha_shp = Param_3D[:, :12], Param_3D[:, 12:22], Param_3D[:, 22:]
+        pose_3DMM, alpha_shp, alpha_exp = Param_3D[:, :12], Param_3D[:, 12:52], Param_3D[:, 52:]
         alpha_exp = expand_dims(alpha_exp, -1)
         alpha_shp = expand_dims(alpha_shp, -1)
         pose_3DMM = cast(pose_3DMM, tf.float32)
-        alpha_exp = cast(alpha_exp, tf.float32)
         alpha_shp = cast(alpha_shp, tf.float32)
+        alpha_exp = cast(alpha_exp, tf.float32)
 
         vertices = add(self.u_base,\
             add(matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
@@ -65,8 +65,8 @@ class PCA(Layer):
         "pca_dir": self.pca_dir,
         "height": self.height,
         "u_base": self.u_base,
-        "w_exp_base": self.w_exp_base,
         "w_shp_base": self.w_shp_base,
+        "w_exp_base": self.w_exp_base,
         "aspect_ratio": self.aspect_ratio}
 
     def parsing_npy(self, file):

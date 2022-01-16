@@ -70,11 +70,11 @@ def create_labels_json(data, dataset=['300W_LP']):
     data = pd.DataFrame(labels).transpose()
     data = data.apply(pose_to_param3DMM, axis=1)
     param3DMM_mean, param3DMM_std = get_mean_std(data, 'param3DMM')
-    Exp_Para_mean, Exp_Para_std = get_mean_std(data, 'Exp_Para')
     Shape_Para_mean, Shape_Para_std = get_mean_std(data, 'Shape_Para')
+    Exp_Para_mean, Exp_Para_std = get_mean_std(data, 'Exp_Para')
     pose_mean, pose_std = get_mean_std(data, 'pose')
-    param_62_mean = np.concatenate((param3DMM_mean, Exp_Para_mean, Shape_Para_mean), axis=0)
-    param_62_std = np.concatenate((param3DMM_std, Exp_Para_std, Shape_Para_std), axis=0)
+    param_62_mean = np.concatenate((param3DMM_mean, Shape_Para_mean, Exp_Para_mean), axis=0)
+    param_62_std = np.concatenate((param3DMM_std, Shape_Para_std, Exp_Para_std), axis=0)
     dictionary = {'param_mean':param_62_mean, 'param_std':param_62_std}
     pickle.dump(dictionary, open(path_to_dataset+"param_"+dataset[0]+".pkl", "wb"))
 

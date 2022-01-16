@@ -5,9 +5,9 @@ import pickle
 def label_loader(image_id, labels):
     pose = np.array(labels[image_id]['pose'])
     pose_3DMM = pose_to_3DMM(pose)
-    alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
     alpha_shp = np.ravel(np.array(labels[image_id]['Shape_Para']).T)
-    parameters_3DMM = np.concatenate((pose_3DMM, alpha_exp, alpha_shp), axis=0)
+    alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
+    parameters_3DMM = np.concatenate((pose_3DMM, alpha_shp, alpha_exp), axis=0)
     return parameters_3DMM
 
 def pose_to_3DMM(pose):
@@ -74,9 +74,9 @@ def pose_3DMM_to_sRt(label):
     t = np.expand_dims(T[:, -1], -1)
     s = t[-1].copy()
     t[-1] = 0
-    alpha_exp = parameters_3DMM[:, 12:22]
-    alpha_Shape = parameters_3DMM[:, 22:]
-    return s, R, t, alpha_exp, alpha_Shape
+    alpha_Shape = parameters_3DMM[:, 12:52]
+    alpha_exp = parameters_3DMM[:, 52:]
+    return s, R, t, alpha_Shape, alpha_exp
 
 def isRotationMatrix(R) :
     Rt = np.transpose(R)
