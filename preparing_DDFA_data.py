@@ -2,6 +2,7 @@ from pathlib import Path
 from os.path import join
 import pickle
 from tkinter import image_names
+from unittest import skip
 import pandas as pd
 import cv2
 from numpy import cos, sin
@@ -49,8 +50,8 @@ def parsing_pkl(file):
     return pickle.load(open(pca_dir+file, 'rb'))
 
 def denormalize(parameters_3DMM):
-    param_mean = parsing_pkl('param_whitening.pkl').get('param_mean')
-    param_std = parsing_pkl('param_whitening.pkl').get('param_std')
+    param_mean = parsing_pkl('param_whitening.pkl').get('param_mean')[:62]
+    param_std = parsing_pkl('param_whitening.pkl').get('param_std')[:62]
     parameters_3DMM = parameters_3DMM*param_std + param_mean
     return parameters_3DMM
 
@@ -60,6 +61,22 @@ def plot_pose(image, label):
     image = draw_axis(image, pitch, yaw, roll)
     return image
 
+def column_refractor(row):
+    row['Shape_Para'] = np.array(row['param3DMM'][12:52], dtype=np.float)
+    row['Exp_Para'] = np.array(row['param3DMM'][52:62], dtype=np.float)
+    row['pose'] = np.array(row['param3DMM'][0:12], dtype=np.float)
+    return row
+
+def to_dictionary(row):
+    label = {}
+    dir = 'train_aug_120x120/'
+    label = {}
+    label['pose'] = row['pose']
+    label['Exp_Para'] = row['Exp_Para']
+    label['Shape_Para'] = row['Shape_Para']
+    dictionary[dir+row['image_ID']] = label
+    
+
 dataset_path = "../../Datasets/300W_AFLW_Augmented"
 filelist = "3dmm_data/train_aug_120x120.list.train"
 filelist_path = join(dataset_path, filelist)
@@ -67,19 +84,38 @@ filelist_path = join(dataset_path, filelist)
 labellist = "3dmm_data/param_all_norm_v201.pkl"
 labellist_path = join(dataset_path, labellist)
 
-list_IDs = Path(filelist_path).read_text().strip().split('\n')
-list_labels = pickle.load(open(labellist_path, 'rb')).tolist()
+list_IDs = Path(filelist_path).read_text().strip().split('\n')[0:5]
+list_labels = pickle.load(open(labellist_path, 'rb')).tolist()[0:5]
 
-data = pd.DataFrame(list(zip(list_IDs, list_labels)), columns=['image_ID', 'Param'])
+data = pd.DataFrame(list(zip(list_IDs, list_labels)), columns=['image_ID', 'param3DMM'])
+data = data.apply(column_refractor, axis=1)
 
-i = 200
-img_id = list_IDs[i]
-img_path = dataset_path + '/train_aug_120x120/' + img_id
+dictionary = {}
+
+data.apply(to_dictionary, axis=1)
+
+print(dictionary)
+
+i = 0
+img_id = 'train_aug_120x120/' + data.iloc[i]['image_ID']
+img_path = join(dataset_path, img_id)
 
 image = cv2.imread(img_path)
-label = list_labels[i]
-poses = label
-
+poses = np.concatenate((dictionary[img_id]['pose'],\
+     dictionary[img_id]['Shape_Para'], dictionary[img_id]['Exp_Para']), axis=-1)
 image = plot_pose(image, poses)
 cv2.imwrite('try.jpg', image)
-print(data.head())
+
+list_aflw_path = join(dataset_path, 'aflw2000_data/AFLW2000-3D_crop.list')
+list_aflw = Path(list_aflw_path).read_text().strip().split('\n')
+print(len(list_aflw))
+list_skip_path = join(dataset_path, 'aflw2000_data/eval/ALFW2000-3D_pose_3ANG_skip.npy')
+list_skip = np.load(list_skip_path).tolist()
+print(len(list_skip))
+aflw = []
+for i in range(len(list_aflw)):
+    if i in list_skip:
+        continue
+    aflw.append(list_aflw[i])
+print(len(aflw))
+print(aflw[0])
