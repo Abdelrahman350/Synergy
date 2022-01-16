@@ -5,7 +5,7 @@ from model.synergy import Synergy
 
 from model.morhaple_face_model import PCA
 import numpy as np
-from utils.loading_data import loading_generators
+from utils.loading_data import loading_generators, loading_test_examples
 import cv2
 
 set_GPU()
@@ -14,32 +14,7 @@ input_shape = (IMG_H, IMG_H, 3)
 model_path = "checkpoints/model_huber"
 test = "AFLW"
 
-if test == 'AFLW':
-  training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
-        input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = [
-"AFLW2000-3D/AFLW2000/image01986", "AFLW2000-3D/AFLW2000/image00405", "AFLW2000-3D/AFLW2000/image02650",
-"AFLW2000-3D/AFLW2000/image00291", "AFLW2000-3D/AFLW2000/image02522", "AFLW2000-3D/AFLW2000/image04269", 
-"AFLW2000-3D/AFLW2000/image03515", "AFLW2000-3D/AFLW2000/image02183", "AFLW2000-3D/AFLW2000/image04102",
-"AFLW2000-3D/AFLW2000/image01079", "AFLW2000-3D/AFLW2000/image00187", "AFLW2000-3D/AFLW2000/image00359",
-"AFLW2000-3D/AFLW2000/image04188", "AFLW2000-3D/AFLW2000/image02243", "AFLW2000-3D/AFLW2000/image00053",
-"AFLW2000-3D/AFLW2000/image02213", "AFLW2000-3D/AFLW2000/image04004", "AFLW2000-3D/AFLW2000/image03043", 
-"AFLW2000-3D/AFLW2000/image01366", "AFLW2000-3D/AFLW2000/image02782", "AFLW2000-3D/AFLW2000/image02664",
-"AFLW2000-3D/AFLW2000/image00741", "AFLW2000-3D/AFLW2000/image00771", "AFLW2000-3D/AFLW2000/image00062", 
-"AFLW2000-3D/AFLW2000/image00554", "AFLW2000-3D/AFLW2000/image03077", "AFLW2000-3D/AFLW2000/image03705", 
-"AFLW2000-3D/AFLW2000/image02597", "AFLW2000-3D/AFLW2000/image01981", "AFLW2000-3D/AFLW2000/image03273", 
-"AFLW2000-3D/AFLW2000/image02918", "AFLW2000-3D/AFLW2000/image03640", "AFLW2000-3D/AFLW2000/image01427", 
-"AFLW2000-3D/AFLW2000/image01449", "AFLW2000-3D/AFLW2000/image00922", "AFLW2000-3D/AFLW2000/image03375", 
-"AFLW2000-3D/AFLW2000/image01688", "AFLW2000-3D/AFLW2000/image02038", "AFLW2000-3D/AFLW2000/image03479", 
-"AFLW2000-3D/AFLW2000/image01110", "AFLW2000-3D/AFLW2000/image03897", "AFLW2000-3D/AFLW2000/image01649", 
-"AFLW2000-3D/AFLW2000/image02598", "AFLW2000-3D/AFLW2000/image00809", "AFLW2000-3D/AFLW2000/image00060",]
-elif test == '300w':
-  training_data_generator, validation_data_generator = loading_generators(dataset='300w',\
-        input_shape=input_shape, batch_size=32, shuffle=True)
-  list_ids = ["300W-LP/300W_LP/AFW/AFW_134212_1_2", "300W-LP/300W_LP/HELEN_Flip/HELEN_1269874180_1_0",\
-      "300W-LP/300W_LP/AFW/AFW_4512714865_1_3", "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0737_13",
-        "300W-LP/300W_LP/LFPW_Flip/LFPW_image_train_0047_4"]
-
+list_ids, training_data_generator, validation_data_generator = loading_test_examples(test, input_shape)
 training_data_generator.augmentation = False
 images, y = training_data_generator.data_generation(list_ids)
 
