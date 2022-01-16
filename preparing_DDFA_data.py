@@ -8,6 +8,7 @@ import cv2
 from numpy import cos, sin
 import numpy as np
 from data_generator.labels_preprocessing import param3DMM_to_pose
+from utils.data_utils.data_preparing_utils import dictionary_to_json
 from utils.data_utils.plotting_data import plot_pose
 
 def draw_axis(image_original, pitch, yaw, roll):
@@ -92,7 +93,8 @@ data = data.apply(column_refractor, axis=1)
 dictionary = {}
 
 data.apply(to_dictionary, axis=1)
-
+file_name = join(dataset_path, 'labels_DDFA')
+dictionary_to_json(dictionary, file_name)
 # print(dictionary)
 
 i = 0
