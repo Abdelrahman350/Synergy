@@ -44,11 +44,12 @@ def loading_generators(dataset='300W', input_shape=(224, 224, 3), batch_size=16,
         partition_valid, labels_valid = loading_dictionaries(dataset='AFLW')
         partition_combined_valid = partition_valid['train'] + partition_valid['valid']
         validation_data_generator = DataGenerator(partition_combined_valid, labels_valid,\
-            batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
+            batch_size=batch_size, input_shape=input_shape, shuffle=shuffle,\
+                dataset_path='../../Datasets/300W_AFLW_Augmented/')
     else:    
         partition, labels = loading_dictionaries(dataset=dataset)
         training_data_generator = DataGenerator(partition, labels, batch_size=batch_size,\
-             input_shape=input_shape, shuffle=shuffle, dataset_path='../../Datasets/300W_AFLW_Augmented/')
+             input_shape=input_shape, shuffle=shuffle)
 
         validation_data_generator = DataGenerator(partition['valid'], labels,\
             batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
