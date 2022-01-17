@@ -21,7 +21,7 @@ images, y = training_data_generator.data_generation(list_ids)
 images_ori = []
 dataset_path='../../Datasets/300W_AFLW/'
 for id in list_ids:
-  image_path = dataset_path + id + '.jpg'
+  image_path = dataset_path + id
   image = cv2.imread(image_path)
   image = image.astype(float)
   image /= 255.0
