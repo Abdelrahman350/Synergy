@@ -62,18 +62,6 @@ def rotationMatrix_to_EulerAngles(R):
             pitch = -roll + arctan2(-R[1, 0], -R[2, 0])
     return pitch, yaw, roll
 
-def pose_3DMM_to_sRt(label):
-    parameters_3DMM = label_to_3DMM(label)
-    pose_3DMM = parameters_3DMM[:, 0:12]
-    T = pose_3DMM.reshape((3, 4))
-    R = T[:, 0:3]
-    t = np.expand_dims(T[:, -1], -1)
-    s = t[-1].copy()
-    t[-1] = 0
-    alpha_Shape = parameters_3DMM[:, 12:52]
-    alpha_exp = parameters_3DMM[:, 52:]
-    return s, R, t, alpha_Shape, alpha_exp
-
 def isRotationMatrix(R):
     Rt = np.transpose(R)
     shouldBeIdentity = np.dot(Rt, R)
