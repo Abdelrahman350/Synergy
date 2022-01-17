@@ -39,9 +39,6 @@ def param3DMM_to_pose(pose_3DMM):
     T = pose_3DMM.reshape((3, 4))
     R = T[:, 0:3]
     return rotationMatrix_to_EulerAngles(R)
-
-def label_to_3DMM(label):
-    return label[0]
     
 def rotationMatrix_to_EulerAngles(R):
     ''' compute three Euler angles from a Rotation Matrix. 
@@ -77,7 +74,7 @@ def pose_3DMM_to_sRt(label):
     alpha_exp = parameters_3DMM[:, 52:]
     return s, R, t, alpha_Shape, alpha_exp
 
-def isRotationMatrix(R) :
+def isRotationMatrix(R):
     Rt = np.transpose(R)
     shouldBeIdentity = np.dot(Rt, R)
     I = np.identity(3, dtype = R.dtype)
