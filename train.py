@@ -13,7 +13,7 @@ input_shape = (IMG_H, IMG_H, 3)
 load_model = False
 model_path = "checkpoints/model"
 
-training_data_generator, validation_data_generator = loading_generators(dataset='DDFA',\
+training_data_generator, validation_data_generator = loading_generators(dataset='all',\
       input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)

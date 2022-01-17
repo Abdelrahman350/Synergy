@@ -77,7 +77,7 @@ def create_labels_json(data, dataset=['300W_LP']):
     param_62_mean = np.concatenate((Pose_mean, Shape_Para_mean, Exp_Para_mean), axis=0)
     param_62_std = np.concatenate((Pose_std, Shape_Para_std, Exp_Para_std), axis=0)
     dictionary = {'param_mean':param_62_mean, 'param_std':param_62_std}
-    pickle.dump(dictionary, open(path_to_dataset+"param_"+dataset[0]+".pkl", "wb"))
+    pickle.dump(dictionary, open("3dmm_data/"+"param_"+dataset[0]+".pkl", "wb"))
     labels = normalize_dicts(labels)
     dictionary_to_json(labels, path_to_dataset+'labels_'+dataset[0])
 
