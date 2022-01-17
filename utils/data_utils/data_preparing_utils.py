@@ -29,15 +29,15 @@ def get_labels(dictionary):
     for idx in dictionary['train']:
         label = {}
         label['Pose'] = pose_to_3DMM(get_pose_from_mat(path_to_dataset+idx))
-        label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
         label['Shape_Para'] = get_Shape_Para_from_mat(path_to_dataset+idx)
+        label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
         labels[idx] = label
     print('Start Parsing valid files')
     for idx in dictionary['valid']:
         label = {}
         label['Pose'] = pose_to_3DMM(get_pose_from_mat(path_to_dataset+idx))
-        label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
         label['Shape_Para'] = get_Shape_Para_from_mat(path_to_dataset+idx)
+        label['Exp_Para'] = get_Exp_Para_from_mat(path_to_dataset+idx)
         labels[idx] = label
     return labels
 
