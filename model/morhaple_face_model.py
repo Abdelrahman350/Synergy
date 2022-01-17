@@ -150,6 +150,7 @@ class Reconstruct_Vertex(Layer):
         vertices = matmul(R, vertices) + expand_dims(t, -1)
         vertices = tf.constant([[[0], [self.height+1], [0.0]]], dtype=tf.float32) - vertices
         vertices = vertices * tf.constant([[-1.0], [1.0], [-1.0]], dtype=tf.float32)
+        vertices = tf.transpose(vertices, perm=[0,2,1])
         return vertices
     
     def parsing_npy(self, file):
