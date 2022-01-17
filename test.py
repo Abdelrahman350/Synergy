@@ -12,7 +12,7 @@ set_GPU()
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 model_path = "checkpoints/model"
-test = "all"
+test = "AFLW"
 
 list_ids, training_data_generator, validation_data_generator = loading_test_examples(test, input_shape)
 training_data_generator.augmentation = False
