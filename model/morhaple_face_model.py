@@ -104,3 +104,66 @@ class PCA(Layer):
     
     def resize_landmarks(self, pt2d):
         return pt2d*self.aspect_ratio
+
+
+class Reconstruct_Vertex(Layer):
+    def __init__(self, num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
+        super(Reconstruct_Vertex, self).__init__(**kwargs)
+        self.num_landmarks = num_landmarks
+        self.pca_dir = pca_dir
+        self.u_base = 0
+        self.w_shp_base = 0
+        self.w_exp_base = 0
+        self.height = 120
+    
+    def build(self, batch_input_shape):
+        w_shp = self.parsing_npy('w_shp_sim.npy')
+        w_exp = self.parsing_npy('w_exp_sim.npy')
+        w_tex = self.parsing_npy('w_tex_sim.npy')
+        u_shp = self.parsing_npy('u_shp.npy')
+        u_exp = self.parsing_npy('u_exp.npy')
+        u_tex = self.parsing_npy('u_tex.npy')
+        keypoints = self.parsing_npy('keypoints_sim.npy')
+        self.param_mean = self.parsing_pkl('param_whitening.pkl').get('param_mean')[:62]
+        self.param_std = self.parsing_pkl('param_whitening.pkl').get('param_std')[:62]
+        u = u_shp + u_exp
+        self.u_base = self.convert_npy_to_tensor(u[keypoints], 'u_base')
+        self.w_shp_base = self.convert_npy_to_tensor(w_shp[keypoints], 'w_shp_base')
+        self.w_exp_base = self.convert_npy_to_tensor(w_exp[keypoints], 'w_exp_base')
+        self.reshape_pose = Reshape((3, 4))
+        self.reshape_vertices = Reshape((self.num_landmarks, 3))
+        super(Reconstruct_Vertex, self).build(batch_input_shape)
+    
+    def call(self, Param_3D):
+        Param_3D = self.param_std*Param_3D + self.param_mean
+        pose_3DMM, alpha_shp, alpha_exp = Param_3D[:, :12], Param_3D[:, 12:52], Param_3D[:, 52:]
+        alpha_exp = expand_dims(alpha_exp, -1)
+        alpha_shp = expand_dims(alpha_shp, -1)
+        pose_3DMM = cast(pose_3DMM, tf.float32)
+        alpha_shp = cast(alpha_shp, tf.float32)
+        alpha_exp = cast(alpha_exp, tf.float32)
+        s, R, t = self.pose_3DMM_to_sRt(pose_3DMM)
+
+        vertices = add(self.u_base, add(matmul(self.w_exp_base, alpha_exp, name='1st_Matmul'),\
+            matmul(self.w_shp_base, alpha_shp, name='2nd_Matmul'), name='Inner_Add'),name='Outer_Add')
+        vertices = tf.transpose(self.reshape_vertices(vertices), perm=[0,2,1])
+        vertices = matmul(R, vertices) + expand_dims(t, -1)
+        vertices = tf.constant([[[0], [self.height+1], [0.0]]], dtype=tf.float32) - vertices
+        vertices = vertices * tf.constant([[-1.0], [1.0], [-1.0]], dtype=tf.float32)
+        return vertices
+    
+    def parsing_npy(self, file):
+        return np.load(self.pca_dir+file)
+    
+    def parsing_pkl(self, file):
+        return pickle.load(open(self.pca_dir+file, 'rb'))
+    
+    def convert_npy_to_tensor(self, npy_array, name):
+        return constant(npy_array, dtype=tf.float32, name=name)
+    
+    def pose_3DMM_to_sRt(self, pose_3DMM):
+        T = self.reshape_pose(pose_3DMM)
+        R = T[:, :, 0:3]
+        t = T[:, :, -1]
+        s = t[:, -1]
+        return s, R, t
