@@ -35,9 +35,22 @@ def eulerAngles_to_RotationMatrix(theta):
     R = Rx.dot(Ry).dot(Rz)
     return R
 
+def P2sRt(P):
+    t3d = P[:, 3]
+    R1 = P[0:1, :3]
+    R2 = P[1:2, :3]
+    norm_R1 = np.linalg.norm(R1)
+    norm_R2 = np.linalg.norm(R2)
+    s = (norm_R1 + norm_R2) / 2.0
+    r1 = R1 / norm_R1
+    r2 = R2 / norm_R2
+    r3 = np.cross(r1, r2)
+    R = np.concatenate((r1, r2, r3), 0)
+    return s, R, t3d
+
 def param3DMM_to_pose(pose_3DMM):
-    T = pose_3DMM.reshape((3, 4))
-    R = T[:, 0:3]
+    P = pose_3DMM.reshape((3, 4))
+    s, R, t3d = P2sRt(P)
     return rotationMatrix_to_EulerAngles(R)
     
 def rotationMatrix_to_EulerAngles(R):
