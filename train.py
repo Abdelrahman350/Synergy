@@ -15,7 +15,7 @@ if not path.exists(f'checkpoints/'):
   os.makedirs(f'checkpoints/')
 model_path = "checkpoints/model"
 
-training_data_generator, validation_data_generator = loading_generators(dataset='all',\
+training_data_generator, validation_data_generator = loading_generators(dataset='DDFA',\
       input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
