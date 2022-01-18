@@ -1,5 +1,5 @@
 import json
-from data_generator.data_generator import DataGenerator
+from data_generator.data_generator import DataGenerator, DataGenerator_DDFA
 
 def loading_dictionaries(dataset='300w'):
     base_dir_ids = base_dir_labels = 'None'
@@ -38,7 +38,7 @@ def loading_generators(dataset='300W', input_shape=(224, 224, 3), batch_size=16,
             batch_size=batch_size, input_shape=input_shape, shuffle=shuffle)
     elif dataset=='DDFA':
         partition_train, labels_train = loading_dictionaries(dataset='DDFA')
-        training_data_generator = DataGenerator(partition_train, labels_train,\
+        training_data_generator = DataGenerator_DDFA(partition_train, labels_train,\
             batch_size=batch_size, input_shape=input_shape, shuffle=shuffle,\
                 dataset_path='../../Datasets/300W_AFLW_Augmented/')
 
