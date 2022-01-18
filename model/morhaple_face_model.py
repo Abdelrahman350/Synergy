@@ -5,17 +5,17 @@ import numpy as np
 import pickle
 
 class PCA(Layer):
-    def __init__(self, input_shape=(224, 224, 3),\
-         num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
+    def __init__(self, input_shape=(128, 128, 3), height=450.0,\
+        num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
         super(PCA, self).__init__(**kwargs)
         self.num_landmarks = num_landmarks
         self.pca_dir = pca_dir
-        self.height = 450
+        self.height = height
         self.u_base = 0
         self.w_shp_base = 0
         self.w_exp_base = 0
         self.aspect_ratio = expand_dims(
-            constant([input_shape[0]/450.0, input_shape[1]/450.0, 1]),\
+            constant([input_shape[0]/self.height, input_shape[1]/self.height, 1]),\
                 0, name='aspect_ratio')
 
     def build(self, batch_input_shape):
