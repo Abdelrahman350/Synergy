@@ -52,5 +52,6 @@ for i in range(len(list_ids)):
   wfp = pose_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, image)
 
-model = Synergy(input_shape=input_shape)
+morphable = 'DDFA' if test=='DDFA' else 'pca'
+model = Synergy(input_shape=input_shape, morphable=morphable)
 model.summary()
