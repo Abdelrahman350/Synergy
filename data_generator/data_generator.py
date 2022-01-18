@@ -94,7 +94,7 @@ class DataGenerator_DDFA(Sequence):
         self.shuffle = shuffle
         self.augmentation = augmentation
         self.dataset_path = dataset_path
-        self.pca = Reconstruct_Vertex()
+        self.pca = Reconstruct_Vertex((120, 120, 3))
         self.indices = np.arange(len(self.list_IDs))
         
     def __len__(self):

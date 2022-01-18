@@ -1,4 +1,4 @@
-import tensorflow as tf
+from data_generator.labels_preprocessing import denormalize, denormalize_DDFA
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from model.synergy import Synergy
@@ -7,6 +7,8 @@ from model.morhaple_face_model import PCA
 import numpy as np
 from utils.loading_data import loading_generators, loading_test_examples
 import cv2
+import os
+from os import path
 
 set_GPU()
 IMG_H = 128
@@ -44,11 +46,21 @@ vertices_pred = vertices_tf.numpy()
 
 vertices_gt = y['Lc']
 
+lmks_output_path = 'inference_output/landmarks/'
+pose_output_path = 'inference_output/poses/'
+if not path.exists(f'inference_output/'):
+  os.makedirs(f'inference_output/')
+if not path.exists(lmks_output_path):
+  os.makedirs(lmks_output_path)
+if not path.exists(pose_output_path):
+  os.makedirs(pose_output_path)
+
 for i in range(len(list_ids)):
   gt = plot_landmarks(images[i], vertices_gt[i])
   pred = plot_landmarks(images[i], vertices_pred[i])
   comb = np.concatenate((gt, pred), axis=1)
-  cv2.imwrite(f'output/test_{i}_landmarks.jpg', comb)
+  wfp = lmks_output_path+list_ids[i].split('/')[-1]
+  cv2.imwrite(wfp, comb)
 
 for i in range(len(list_ids)):
   gt = plot_pose(images[i], poses_gt[i], vertices_gt[i])
@@ -61,3 +73,17 @@ for i in range(len(list_ids)):
     print("Pred_param = ", poses_pred[i][:9])
   comb = np.concatenate((gt, pred), axis=1)
   cv2.imwrite(f'output/test_{i}_poses.jpg', comb)
+
+for i in range(len(list_ids)):
+  if test == 'DDFA':
+    pose_gt = denormalize_DDFA(poses_gt[i])
+    pose_pred = denormalize_DDFA(poses_pred[i])
+  else:
+    pose_gt = denormalize(poses_gt[i])
+    pose_pred = denormalize(poses_pred[i])
+
+  gt = plot_pose(images[i], pose_gt, vertices_gt[i])
+  pred = plot_pose(images[i], pose_pred, vertices_pred[i])
+  comb = np.concatenate((gt, pred), axis=1)
+  wfp = pose_output_path+list_ids[i].split('/')[-1]
+  cv2.imwrite(wfp, image)

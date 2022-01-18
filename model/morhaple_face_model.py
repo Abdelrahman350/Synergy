@@ -15,8 +15,7 @@ class PCA(Layer):
         self.w_shp_base = 0
         self.w_exp_base = 0
         self.aspect_ratio = expand_dims(
-            constant([input_shape[0]/self.height, input_shape[1]/self.height, 1]),\
-                0, name='aspect_ratio')
+            constant([input_shape[0]/self.height,input_shape[1]/self.height,1]), 0, name='aspect_ratio')
 
     def build(self, batch_input_shape):
         w_shp = self.parsing_npy('w_shp_sim.npy')
@@ -107,7 +106,7 @@ class PCA(Layer):
 
 
 class Reconstruct_Vertex(Layer):
-    def __init__(self, num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
+    def __init__(self, input_shape=(128, 128, 3), num_landmarks=68, pca_dir = '3dmm_data/', **kwargs):
         super(Reconstruct_Vertex, self).__init__(**kwargs)
         self.num_landmarks = num_landmarks
         self.pca_dir = pca_dir
@@ -115,6 +114,8 @@ class Reconstruct_Vertex(Layer):
         self.w_shp_base = 0
         self.w_exp_base = 0
         self.height = 120
+        self.aspect_ratio = expand_dims(
+            constant([input_shape[0]/self.height,input_shape[1]/self.height,1]), 0, name='aspect_ratio')
     
     def build(self, batch_input_shape):
         w_shp = self.parsing_npy('w_shp_sim.npy')
@@ -151,6 +152,7 @@ class Reconstruct_Vertex(Layer):
         vertices = tf.constant([[[0], [self.height+1], [0.0]]], dtype=tf.float32) - vertices
         vertices = vertices * tf.constant([[-1.0], [1.0], [-1.0]], dtype=tf.float32)
         vertices = tf.transpose(vertices, perm=[0,2,1])
+        vertices = self.resize_landmarks(vertices)
         return vertices
     
     def parsing_npy(self, file):
@@ -168,3 +170,6 @@ class Reconstruct_Vertex(Layer):
         t = T[:, :, -1]
         s = t[:, -1]
         return s, R, t
+    
+    def resize_landmarks(self, pt2d):
+        return pt2d*self.aspect_ratio

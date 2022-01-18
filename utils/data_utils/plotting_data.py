@@ -55,7 +55,6 @@ def draw_landmarks(image_original, pt2d):
     return image
 
 def plot_pose(image, label, pt2d):
-    label = denormalize(label)
     pitch, yaw, roll = param3DMM_to_pose(label[:12])
     image = draw_axis(image, pitch, yaw, roll, pt2d)
     image += 1.0

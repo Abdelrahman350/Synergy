@@ -94,8 +94,14 @@ def normalize(parameters_3DMM):
     return parameters_3DMM
 
 def denormalize(parameters_3DMM):
-    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
-    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
+    param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:62]
+    param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:62]
+    parameters_3DMM = parameters_3DMM*param_std + param_mean
+    return parameters_3DMM
+
+def denormalize_DDFA(parameters_3DMM):
+    param_mean = parsing_pkl('param_whitening.pkl').get('param_mean')[:62]
+    param_std = parsing_pkl('param_whitening.pkl').get('param_std')[:62]
     parameters_3DMM = parameters_3DMM*param_std + param_mean
     return parameters_3DMM
 
