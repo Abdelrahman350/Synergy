@@ -86,4 +86,4 @@ for i in range(len(list_ids)):
   pred = plot_pose(images[i], pose_pred, vertices_pred[i])
   comb = np.concatenate((gt, pred), axis=1)
   wfp = pose_output_path+list_ids[i].split('/')[-1]
-  cv2.imwrite(wfp, image)
+  cv2.imwrite(wfp, comb)
