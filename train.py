@@ -9,12 +9,13 @@ from os import path
 
 set_GPU()
 dataset = 'DDFA'
+param_loss = '_mse'
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 load_model = False
 if not path.exists(f'checkpoints/'):
   os.makedirs(f'checkpoints/')
-model_path = "checkpoints/model_" + dataset
+model_path = "checkpoints/" +"Synergy_" + dataset + param_loss
 morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
 training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
