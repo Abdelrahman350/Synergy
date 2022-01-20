@@ -124,6 +124,8 @@ class DataGenerator_DDFA(Sequence):
             image_path = join(self.dataset_path, image_id)
             image = cv2.imread(image_path)
             parameters_3DMM = label_loader(image_id, self.labels)
+            pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
+            image, roi_box = crop(image, pt3d)
             image, aspect_ratio = resize_image(image, self.input_shape)
             
             # Augment image
@@ -138,6 +140,10 @@ class DataGenerator_DDFA(Sequence):
             
             image = normalization(image)
             # Label preprocessing
+            sx, sy, ex, ey = roi_box
+            parameters_3DMM[3] = parameters_3DMM[3] - sx/self.pca.param_std[3]
+            parameters_3DMM[7] = parameters_3DMM[7] + sy/self.pca.param_std[7]
+            
             lmks = self.pca(np.expand_dims(parameters_3DMM, 0)).numpy() *  aspect_ratio
             X.append(image)
             Lc.append(np.squeeze(lmks, axis=0))
