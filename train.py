@@ -8,14 +8,15 @@ import os
 from os import path
 
 set_GPU()
+dataset = 'DDFA'
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 load_model = False
 if not path.exists(f'checkpoints/'):
   os.makedirs(f'checkpoints/')
-model_path = "checkpoints/model"
+model_path = "checkpoints/model_" + dataset
 
-training_data_generator, validation_data_generator = loading_generators(dataset='DDFA',\
+training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
       input_shape=input_shape, batch_size=64, shuffle=True)
 
 model = Synergy(input_shape=input_shape)
