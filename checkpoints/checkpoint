@@ -1,2 +1,2 @@
-model_checkpoint_path: "model"
-all_model_checkpoint_paths: "model"
+model_checkpoint_path: "Synergy_DDFA_mse"
+all_model_checkpoint_paths: "Synergy_DDFA_mse"
