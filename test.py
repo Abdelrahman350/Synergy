@@ -63,18 +63,6 @@ for i in range(len(list_ids)):
   cv2.imwrite(wfp, comb)
 
 for i in range(len(list_ids)):
-  gt = plot_pose(images[i], poses_gt[i], vertices_gt[i])
-  pred = np.zeros_like(gt)
-  try:
-    pred = plot_pose(images[i], poses_pred[i], vertices_pred[i])
-  except:
-    print(f"\nPose prediction for image #{i}: {list_ids[i]} failed.")
-    print("GT_param = ", poses_gt[i][:9])
-    print("Pred_param = ", poses_pred[i][:9])
-  comb = np.concatenate((gt, pred), axis=1)
-  cv2.imwrite(f'output/test_{i}_poses.jpg', comb)
-
-for i in range(len(list_ids)):
   if test == 'DDFA':
     pose_gt = denormalize_DDFA(poses_gt[i])
     pose_pred = denormalize_DDFA(poses_pred[i])

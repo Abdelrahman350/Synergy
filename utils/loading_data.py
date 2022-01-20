@@ -26,7 +26,7 @@ def loading_dictionaries(dataset='300w'):
     return IDs, labels
 
 def loading_generators(dataset='300W', input_shape=(224, 224, 3), batch_size=16, shuffle=True):
-    if dataset=='all':
+    if dataset=='300W_AFLW':
         partition_train, labels_train = loading_dictionaries(dataset='300W')
         partition_combined_train = partition_train['train'] + partition_train['valid']
         training_data_generator = DataGenerator(partition_combined_train, labels_train,\
