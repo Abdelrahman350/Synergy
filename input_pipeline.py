@@ -8,11 +8,12 @@ import os
 from os import path
 
 set_GPU()
+dataset = 'DDFA'
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
-test = 'DDFA'
+morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
-list_ids, training_data_generator, validation_data_generator = loading_test_examples(test, input_shape)
+list_ids, training_data_generator, validation_data_generator = loading_test_examples(dataset, input_shape)
 training_data_generator.augmentation = False
 images, y = training_data_generator.data_generation(list_ids)
 
@@ -44,7 +45,7 @@ for i in range(len(list_ids)):
   cv2.imwrite(wfp, image)
 
 for i in range(len(list_ids)):
-  if test == 'DDFA':
+  if dataset == 'DDFA':
     pose = denormalize_DDFA(poses_gt[i])
   else:
     pose = denormalize(poses_gt[i])
@@ -52,6 +53,5 @@ for i in range(len(list_ids)):
   wfp = pose_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, image)
 
-morphable = 'DDFA' if test=='DDFA' else 'pca'
 model = Synergy(input_shape=input_shape, morphable=morphable)
 model.summary()
