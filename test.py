@@ -3,9 +3,9 @@ from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from model.synergy import Synergy
 
-from model.morhaple_face_model import PCA
+from model.morhaple_face_model import PCA, Reconstruct_Vertex
 import numpy as np
-from utils.loading_data import loading_generators, loading_test_examples
+from utils.loading_data import loading_test_examples
 import cv2
 import os
 from os import path
@@ -14,20 +14,23 @@ set_GPU()
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 model_path = "checkpoints/Synergy_DDFA_mse"
+test = 'DDFA'
 dataset = "AFLW"
-morphable = 'DDFA' if dataset=='DDFA' else 'pca'
+morphable = 'DDFA' if test=='DDFA' else 'pca'
 
 list_ids, training_data_generator, validation_data_generator = loading_test_examples(dataset, input_shape)
 training_data_generator.augmentation = False
 images, y = training_data_generator.data_generation(list_ids)
 
 images_ori = []
-dataset_path='../../Datasets/300W_AFLW/'
+dataset_path='../../Datasets/300W_AFLW_Augmented/' if\
+   dataset=='DDFA' else '../../Datasets/300W_AFLW/'
 for id in list_ids:
   image_path = dataset_path + id
   image = cv2.imread(image_path)
   image = image.astype(float)
-  image /= 255.0
+  image /= 127.5
+  image -= 1.0
   images_ori.append(image)
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
@@ -41,7 +44,7 @@ poses_pred = DMM['Pm']
 y_DMM = y['Pm']
 poses_gt = y_DMM
 
-pca = PCA(input_shape)
+pca = Reconstruct_Vertex(input_shape) if test=='DDFA' else PCA(input_shape)
 vertices_tf = pca(poses_pred)
 vertices_pred = vertices_tf.numpy()
 
