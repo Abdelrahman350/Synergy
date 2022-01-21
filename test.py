@@ -50,10 +50,10 @@ vertices_pred = vertices_tf.numpy()
 
 vertices_gt = y['Lc']
 
-lmks_output_path = 'inference_output/landmarks/'
-pose_output_path = 'inference_output/poses/'
-if not path.exists(f'inference_output/'):
-  os.makedirs(f'inference_output/')
+lmks_output_path = 'test_output/landmarks/'
+pose_output_path = 'test_output/poses/'
+if not path.exists(f'test_output/'):
+  os.makedirs(f'test_output/')
 if not path.exists(lmks_output_path):
   os.makedirs(lmks_output_path)
 if not path.exists(pose_output_path):

@@ -21,7 +21,6 @@ morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
       input_shape=input_shape, batch_size=64, shuffle=True)
 
-
 model = Synergy(input_shape=input_shape, morphable=morphable)
 optimizer = Adam(learning_rate=0.001)
 
