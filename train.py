@@ -23,7 +23,7 @@ training_data_generator, validation_data_generator = loading_generators(dataset=
 
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
-optimizer = Adam(learning_rate=0.01)
+optimizer = Adam(learning_rate=0.001)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
