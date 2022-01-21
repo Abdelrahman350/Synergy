@@ -49,7 +49,7 @@ print(model.summary())
 model_checkpoint_callback = ModelCheckpoint(
    filepath=model_path,
    save_weights_only=True,
-   monitor='val_Pm_loss',
+   monitor='Pm_loss',
    mode='min',
    save_best_only=True,
    verbose=1)
@@ -57,15 +57,15 @@ model_checkpoint_callback = ModelCheckpoint(
 reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
    min_lr=0.00001, verbose=1)
 
-print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
-print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
+print(f"\nThe training dataset has {len(images)} training images.")
 model_fit = model.fit(
   x=images,
   y=y,
-  epochs=100, 
+  epochs=1000, 
   verbose=1,
   callbacks=[model_checkpoint_callback, reduce_lr])
 print("Finished Training.")
+model.load_weights(model_path)
 
 DMM = model.predict(images)
 
