@@ -5,7 +5,9 @@ from model.morhaple_face_model import PCA, Reconstruct_Vertex
 from model.encoder import MAFA
 from model.decoder import Landmarks_to_3DMM
 from tensorflow.keras import Model
-from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense
+from tensorflow.keras.initializers import GlorotNormal
+from tensorflow.keras.regularizers import L1L2
 
 class Synergy(Model):
       def __init__(self, input_shape, num_classes=62, num_points=68, morphable='pca', **kwargs):
@@ -14,14 +16,15 @@ class Synergy(Model):
             self.mobileNet = create_MobileNetV2(input_shape=input_shape, classes=num_classes)
             self.GlobalAvgBooling = GlobalAveragePooling2D(name='Global_Avg_Pooling')
           
-            self.dropOut_pose = Dropout(0.2, name='pose_dropout')
-            self.dense_pose = Dense(name='pose_3DMM', units=12)
-
-            self.dropOut_shp = Dropout(0.2, name='shp_dropout')
-            self.dense_shp = Dense(name='alpha_shp', units=40)
-
-            self.dropOut_exp = Dropout(0.2, name='exp_dropout')
-            self.dense_exp = Dense(name='alpha_exp', units=10)
+            self.dense_pose = Dense(name='pose_3DMM', units=12, kernel_initializer=GlorotNormal(),\
+                   bias_initializer=GlorotNormal(), kernel_regularizer=L1L2(0.2,0.5),\
+                          bias_regularizer=L1L2(0.2,0.5))
+            self.dense_shp = Dense(name='alpha_shp', units=40, kernel_initializer=GlorotNormal(),\
+                   bias_initializer=GlorotNormal(), kernel_regularizer=L1L2(0.2,0.5),\
+                          bias_regularizer=L1L2(0.2,0.5))
+            self.dense_exp = Dense(name='alpha_exp', units=10, kernel_initializer=GlorotNormal(),\
+                   bias_initializer=GlorotNormal(), kernel_regularizer=L1L2(0.2,0.5),\
+                          bias_regularizer=L1L2(0.2,0.5))
 
             model = Reconstruct_Vertex if morphable=='DDFA' else PCA
             self.morphable_model = model(input_shape=input_shape, name='Morphable_layer')
@@ -35,14 +38,9 @@ class Synergy(Model):
             X = self.GlobalAvgBooling(X)
             Z = tf.identity(X, name='Global_Average_Pooling')
 
-            X_pose = self.dropOut_pose(X)
-            pose_3DMM = self.dense_pose(X_pose)
-
-            X_shp = self.dropOut_shp(X)
-            alpha_shp = self.dense_shp(X_shp)
-
-            X_exp = self.dropOut_exp(X)
-            alpha_exp = self.dense_exp(X_exp)
+            pose_3DMM = self.dense_pose(X)
+            alpha_shp = self.dense_shp(X)
+            alpha_exp = self.dense_exp(X)
 
             Param_3D = tf.concat((pose_3DMM, alpha_shp, alpha_exp), axis=-1)
             Lc = self.morphable_model(Param_3D)

@@ -2,33 +2,45 @@ import tensorflow as tf
 from tensorflow.keras.layers import Input, Conv1D, BatchNormalization 
 from tensorflow.keras.layers import ReLU, GlobalMaxPool1D, Reshape
 from tensorflow.keras import Model
+from tensorflow.keras.initializers import GlorotNormal
+from tensorflow.keras.regularizers import L1L2
 
 class Landmarks_to_3DMM(Model):
     def __init__(self, num_points=68, **kwargs):
         super(Landmarks_to_3DMM, self).__init__(**kwargs, name="Landmarks_to_3DMM")
         self.num_points = num_points
         # First hidden layer
-        self.conv1 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_1')
+        self.conv1 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_1',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn1 = BatchNormalization(name='Decoder_BatchNormalization_1')
         self.relu1 = ReLU(name='Decoder_ReLU_1')
         
         # Second hidden layer
-        self.conv2 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_2')
+        self.conv2 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_2',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn2 = BatchNormalization(name='Decoder_BatchNormalization_2')
         self.relu2 = ReLU(name='Decoder_ReLU_2')
         
         # Third hidden layer
-        self.conv3 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_3')
+        self.conv3 = Conv1D(filters=64, kernel_size=1, name='Decoder_Conv1D_3',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn3 = BatchNormalization(name='Decoder_BatchNormalization_3')
         self.relu3 = ReLU(name='Decoder_ReLU_3')
         
         # Fourth hidden layer
-        self.conv4 = Conv1D(filters=128, kernel_size=1, name='Decoder_Conv1D_4')
+        self.conv4 = Conv1D(filters=128, kernel_size=1, name='Decoder_Conv1D_4',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn4 = BatchNormalization(name='Decoder_BatchNormalization_4')
         self.relu4 = ReLU(name='Decoder_ReLU_4')
         
         # Fifth hidden layer
-        self.conv5 = Conv1D(filters=1024, kernel_size=1, name='Decoder_Conv1D_5')
+        self.conv5 = Conv1D(filters=1024, kernel_size=1, name='Decoder_Conv1D_5',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn5 = BatchNormalization(name='Decoder_BatchNormalization_5')
         self.relu5 = ReLU(name='Decoder_ReLU_5')
         
@@ -37,17 +49,23 @@ class Landmarks_to_3DMM(Model):
         self.reshape = Reshape((1, -1))
 
         # Regressing pose parameters
-        self.conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6')
+        self.conv6 = Conv1D(filters=12, kernel_size=1, name='Decoder_Conv1D_6',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn6 = BatchNormalization(name='Decoder_BatchNormalization_6')
         self.relu_6 = ReLU(name='Decoder_ReLU_6')
 
         # Regressing shape parameters
-        self.conv7 = Conv1D(filters=40, kernel_size=1, name='Decoder_Conv1D_7')
+        self.conv7 = Conv1D(filters=40, kernel_size=1, name='Decoder_Conv1D_7',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn7 = BatchNormalization(name='Decoder_BatchNormalization_7')
         self.relu_7 = ReLU(name='Decoder_ReLU_7')
 
         # Regressing expression parameters
-        self.conv8 = Conv1D(filters=10, kernel_size=1, name='Decoder_Conv1D_8')
+        self.conv8 = Conv1D(filters=10, kernel_size=1, name='Decoder_Conv1D_8',\
+             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
+                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
         self.bn8 = BatchNormalization(name='Decoder_BatchNormalization_8')
         self.relu_8 = ReLU(name='Decoder_ReLU_8')
 
