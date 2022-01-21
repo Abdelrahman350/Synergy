@@ -30,7 +30,7 @@ for id in list_ids:
   image /= 255.0
   images_ori.append(image)
 
-model = Synergy(input_shape=input_shape, )
+model = Synergy(input_shape=input_shape, morphable=morphable)
 
 print(model.summary())
 model.load_weights(model_path)
