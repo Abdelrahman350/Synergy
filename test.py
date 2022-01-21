@@ -13,10 +13,11 @@ from os import path
 set_GPU()
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
-model_path = "checkpoints/model"
-test = "AFLW"
+model_path = "checkpoints/Synergy_DDFA_mse"
+dataset = "AFLW"
+morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
-list_ids, training_data_generator, validation_data_generator = loading_test_examples(test, input_shape)
+list_ids, training_data_generator, validation_data_generator = loading_test_examples(dataset, input_shape)
 training_data_generator.augmentation = False
 images, y = training_data_generator.data_generation(list_ids)
 
@@ -29,7 +30,7 @@ for id in list_ids:
   image /= 255.0
   images_ori.append(image)
 
-model = Synergy(input_shape=input_shape)
+model = Synergy(input_shape=input_shape, )
 
 print(model.summary())
 model.load_weights(model_path)
@@ -63,7 +64,7 @@ for i in range(len(list_ids)):
   cv2.imwrite(wfp, comb)
 
 for i in range(len(list_ids)):
-  if test == 'DDFA':
+  if dataset == 'DDFA':
     pose_gt = denormalize_DDFA(poses_gt[i])
     pose_pred = denormalize_DDFA(poses_pred[i])
   else:
