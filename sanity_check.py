@@ -16,7 +16,7 @@ IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 model_path = "checkpoints/Synergy_DDFA_mse"
 test = 'DDFA'
-dataset = "AFLW"
+dataset = "DDFA"
 morphable = 'DDFA' if test=='DDFA' else 'pca'
 load_model = False
 
@@ -57,16 +57,14 @@ model_checkpoint_callback = ModelCheckpoint(
 reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
    min_lr=0.00001, verbose=1)
 
-csv_logger = CSVLogger(model_path+".csv", append=True)
-
 print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
 print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
 model_fit = model.fit(
-  x=training_data_generator,
-  validation_data=validation_data_generator,
+  x=images,
+  y=y,
   epochs=100, 
   verbose=1,
-  callbacks=[model_checkpoint_callback, reduce_lr, csv_logger])
+  callbacks=[model_checkpoint_callback, reduce_lr])
 print("Finished Training.")
 
 DMM = model.predict(images)
