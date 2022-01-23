@@ -3,11 +3,12 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import expand_dims, cast, constant, add, matmul
 from tensorflow.keras.metrics import Metric, mean_absolute_error
-from tensorflow.keras.layers import Layer, Reshape
+from tensorflow.keras.layers import Reshape
 
 class OrientationMAE(Metric):
-    def __init__(self, **kwargs):
+    def __init__(self, mode='avg', **kwargs):
         super(OrientationMAE, self).__init__(**kwargs)
+        self.mode = mode
         self.reshape_pose = Reshape((3, 4))
         self.pitch = self.add_weight("Pitch", initializer='zeros')
         self.yaw = self.add_weight("Yaw", initializer='zeros')
@@ -17,11 +18,11 @@ class OrientationMAE(Metric):
     def update_state(self, y_true, y_pred, sample_weight=None):
         y_true = self.denormalize(y_true)[:, :12]
         y_pred = self.denormalize(y_pred)[:, :12]
-        pitch_true, yaw_true, roll_true = self.param3DMM_to_pose(y_true)
-        pitch_pred, yaw_pred, roll_pred = self.param3DMM_to_pose(y_pred)
-        pitch_metric = mean_absolute_error(pitch_true, pitch_pred)
-        yaw_metric = mean_absolute_error(yaw_true, yaw_pred)
-        roll_metric = mean_absolute_error(roll_true, roll_pred)
+        angles_true = self.param3DMM_to_pose(y_true)
+        angles_pred = self.param3DMM_to_pose(y_pred)
+        pitch_metric = mean_absolute_error(angles_true[0, :], angles_pred[0, :])
+        yaw_metric = mean_absolute_error(angles_true[1, :], angles_pred[1, :])
+        roll_metric = mean_absolute_error(angles_true[2, :], angles_pred[2, :])
 
         self.pitch.assign_add(pitch_metric)
         self.yaw.assign_add(yaw_metric)
@@ -33,7 +34,15 @@ class OrientationMAE(Metric):
         yaw = self.yaw / self.count
         roll = self.roll / self.count
         avg = (pitch + yaw + roll) / 3.0
-        return pitch, yaw, roll, avg
+
+        if self.mode == 'avg':
+            return avg
+        elif self.mode == 'pitch':
+            return pitch
+        elif self.mode == 'yaw':
+            return yaw
+        elif self.mode == 'roll':
+            return roll
 
     def denormalize(self, parameters_3DMM):
         param_mean = self.parsing_pkl('param_300W_LP.pkl').get('param_mean')[:62]
@@ -59,13 +68,14 @@ class OrientationMAE(Metric):
     
     def P2sRt(self, P):
         t3d = P[:, :, 3]
-        R1 = P[:, 0:1, :3]
-        R2 = P[:, 1:2, :3]
+        R_ = P[:, :, 0:3]
+        R1 = R_[:, 0]
+        R2 = R_[:, 1]
         norm_R1 = tf.linalg.norm(R1, axis=[-2,-1])
         norm_R2 = tf.linalg.norm(R2, axis=[-2,-1])
         s = (norm_R1 + norm_R2) / 2.0
-        r1 = R1 / norm_R1
-        r2 = R2 / norm_R2
+        r1 = expand_dims(R1 / norm_R1, 1)
+        r2 = expand_dims(R2 / norm_R2, 1)
         r3 = tf.linalg.cross(r1, r2)
         R = tf.concat((r1, r2, r3), 1)
         return s, R, t3d
@@ -85,8 +95,8 @@ class OrientationMAE(Metric):
             return pitch, yaw, roll
         def branch_two(R):
             cond_2 =  R[:, 0, 2] == -1
-            pitch, yaw, roll = tf.where(cond_2, branch_three(R), branch_four(R))
-            return pitch, yaw, roll
+            angles = tf.where(cond_2, branch_three(R), branch_four(R))
+            return angles
         def branch_three(R):
             roll = tf.squeeze(tf.matmul(tf.transpose(tf.matmul(R,\
                  tf.zeros((1, 3, 1))), perm=(0, 2, 1)), tf.zeros((1, 3, 1))), [-1, -2])
@@ -102,5 +112,5 @@ class OrientationMAE(Metric):
         r1 = R[:, 0, 2] != 1
         r2 = R[:, 0, 2] != -1
         cond_1 =  tf.math.logical_and(r1, r2)
-        pitch, yaw, roll = tf.where(cond_1, branch_one(R), branch_two(R))
-        return pitch, yaw, roll
+        angles = tf.where(cond_1, branch_one(R), branch_two(R))
+        return angles
