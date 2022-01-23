@@ -20,9 +20,10 @@ morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
 training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
       input_shape=input_shape, batch_size=64, shuffle=True)
+training_data_generator.augmentation = False
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
-optimizer = Adam(learning_rate=0.001)
+optimizer = Nadam(learning_rate=0.08)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
@@ -42,12 +43,12 @@ print(model.summary())
 model_checkpoint_callback = ModelCheckpoint(
    filepath=model_path,
    save_weights_only=True,
-   monitor='val_Pm_loss',
+   monitor='val_loss',
    mode='min',
    save_best_only=True,
    verbose=1)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_Pm_loss', factor=0.5, patience=5,\
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=2,\
    min_lr=0.00001, verbose=1)
 
 csv_logger = CSVLogger(model_path+".csv", append=True)

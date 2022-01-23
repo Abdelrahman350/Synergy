@@ -2,42 +2,30 @@ import tensorflow as tf
 from tensorflow.keras.layers import Input, Conv1D, BatchNormalization 
 from tensorflow.keras.layers import ReLU, MaxPool1D, concatenate
 from tensorflow.keras import Model
-from tensorflow.keras.initializers import GlorotNormal
-from tensorflow.keras.regularizers import L1L2
 
 class MAFA(Model):
     def __init__(self, num_points=68, **kwargs):
         super(MAFA, self).__init__(**kwargs, name='MAFA')
         self.num_points = num_points
-        self.conv1 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_1',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv1 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_1')
         self.bn1 = BatchNormalization(name='Encoder_BatchNormalization_1')
         self.relu1 = ReLU(name='Encoder_ReLU_1')
 
-        self.conv2 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_2',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv2 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_2')
         self.bn2 = BatchNormalization(name='Encoder_BatchNormalization_2')
         self.relu2 = ReLU(name='Encoder_ReLU_2')
 
-        self.conv3 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_3',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv3 = Conv1D(filters=64, kernel_size=1, name='Encoder_Conv1D_3')
         self.bn3 = BatchNormalization(name='Encoder_BatchNormalization_3')
         self.relu3 = ReLU(name='Encoder_ReLU_3')
 
         # Fourth hidden layer
-        self.conv4 = Conv1D(filters=128, kernel_size=1, name='Encoder_Conv1D_4',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv4 = Conv1D(filters=128, kernel_size=1, name='Encoder_Conv1D_4')
         self.bn4 = BatchNormalization(name='Encoder_BatchNormalization_4')
         self.relu4 = ReLU(name='Encoder_ReLU_4')
 
         # Fifth hidden layer
-        self.conv5 = Conv1D(filters=1024, kernel_size=1, name='Encoder_Conv1D_5',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv5 = Conv1D(filters=1024, kernel_size=1, name='Encoder_Conv1D_5')
         self.bn5 = BatchNormalization(name='Encoder_BatchNormalization_5')
         self.relu5 = ReLU(name='Encoder_ReLU_5')
 
@@ -45,30 +33,22 @@ class MAFA(Model):
         self.global_features = MaxPool1D(pool_size=num_points, name='Encoder_MaxPool1D')
         
         # Sixth layer
-        self.conv6 = Conv1D(filters=512, kernel_size=1, name='Encoder_Conv1D_6',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv6 = Conv1D(filters=512, kernel_size=1, name='Encoder_Conv1D_6')
         self.bn6 = BatchNormalization(name='Encoder_BatchNormalization_6')
         self.relu6 = ReLU(name='Encoder_ReLU_6')
 
         # Seventh layer
-        self.conv7 = Conv1D(filters=256, kernel_size=1, name='Encoder_Conv1D_7',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv7 = Conv1D(filters=256, kernel_size=1, name='Encoder_Conv1D_7')
         self.bn7 = BatchNormalization(name='Encoder_BatchNormalization_7')
         self.relu7 = ReLU(name='Encoder_ReLU_7')
 
         # Eighth layer
-        self.conv8 = Conv1D(filters=128, kernel_size=1, name='Encoder_Conv1D_8',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv8 = Conv1D(filters=128, kernel_size=1, name='Encoder_Conv1D_8')
         self.bn8 = BatchNormalization(name='Encoder_BatchNormalization_8')
         self.relu8 = ReLU(name='Encoder_ReLU_8')
 
         # Ninth layer
-        self.conv9 = Conv1D(filters=3, kernel_size=1, name='Encoder_Conv1D_9',\
-             kernel_initializer=GlorotNormal(), bias_initializer=GlorotNormal(),\
-                  kernel_regularizer=L1L2(0.2,0.5), bias_regularizer=L1L2(0.2,0.5))
+        self.conv9 = Conv1D(filters=3, kernel_size=1, name='Encoder_Conv1D_9')
         self.bn9 = BatchNormalization(name='Encoder_BatchNormalization_9')
         self.Lr = ReLU(name='Encoder_Lr')
 
