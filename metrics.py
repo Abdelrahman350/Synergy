@@ -68,11 +68,10 @@ class OrientationMAE(Metric):
     
     def P2sRt(self, P):
         t3d = P[:, :, 3]
-        R_ = P[:, :, 0:3]
-        R1 = R_[:, 0]
-        R2 = R_[:, 1]
-        norm_R1 = tf.linalg.norm(R1, axis=[-2,-1])
-        norm_R2 = tf.linalg.norm(R2, axis=[-2,-1])
+        R1 = P[:, 0, 0:3]
+        R2 = P[:, 1, 0:3]
+        norm_R1 = tf.expand_dims(tf.linalg.norm(R1, axis=-1), -1)
+        norm_R2 = tf.expand_dims(tf.linalg.norm(R2, axis=-1), -1)
         s = (norm_R1 + norm_R2) / 2.0
         r1 = expand_dims(R1 / norm_R1, 1)
         r2 = expand_dims(R2 / norm_R2, 1)
