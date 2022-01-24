@@ -8,7 +8,7 @@ import os
 from os import path
 
 set_GPU()
-dataset = 'DDFA'
+dataset = 'AFLW'
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 morphable = 'DDFA' if dataset=='DDFA' else 'pca'
