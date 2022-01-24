@@ -18,8 +18,8 @@ class OrientationMAE(Metric):
     def update_state(self, y_true, y_pred, sample_weight=None):
         y_true = self.denormalize(y_true)[:, :12]
         y_pred = self.denormalize(y_pred)[:, :12]
-        angles_true = self.param3DMM_to_pose(y_true)
-        angles_pred = self.param3DMM_to_pose(y_pred)
+        angles_true = self.param3DMM_to_pose(y_true)*180/np.pi
+        angles_pred = self.param3DMM_to_pose(y_pred)*180/np.pi
         pitch_metric = mean_absolute_error(angles_true[0, :], angles_pred[0, :])
         yaw_metric = mean_absolute_error(angles_true[1, :], angles_pred[1, :])
         roll_metric = mean_absolute_error(angles_true[2, :], angles_pred[2, :])
