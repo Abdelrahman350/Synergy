@@ -21,14 +21,14 @@ morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
 training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
       input_shape=input_shape, batch_size=64, shuffle=True)
-training_data_generator.augmentation = False
+training_data_generator.augmentation = True
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
 optimizer = SGD(learning_rate=0.08, momentum=0.9, nesterov=True)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'Pm*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
+  'Pm*': ParameterLoss(name='loss_Param_S2', mode='normal'),
   'Lc': WingLoss(name='loss_LMK_f0'),
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }
@@ -55,10 +55,10 @@ model_checkpoint_callback = ModelCheckpoint(
    save_best_only=True,
    verbose=1)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=2,\
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3,\
    min_lr=0.00001, verbose=1)
 
-csv_logger = CSVLogger(model_path+".csv", append=True)
+csv_logger = CSVLogger(model_path+".csv", append=False)
 
 print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
 print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
