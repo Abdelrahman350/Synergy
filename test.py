@@ -41,14 +41,12 @@ model.load_weights(model_path)
 DMM = model.predict(images)
 poses_pred = DMM['Pm']
 
-y_DMM = y['Pm']
-poses_gt = y_DMM
+poses_gt = y['Pm']
+vertices_gt = y['Lc']
 
 pca = Reconstruct_Vertex(input_shape) if test=='DDFA' else PCA(input_shape)
 vertices_tf = pca(poses_pred)
 vertices_pred = vertices_tf.numpy()
-
-vertices_gt = y['Lc']
 
 lmks_output_path = 'test_output/landmarks/'
 pose_output_path = 'test_output/poses/'
