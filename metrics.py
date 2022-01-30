@@ -27,7 +27,7 @@ class OrientationMAE(Metric):
         self.pitch.assign_add(pitch_metric)
         self.yaw.assign_add(yaw_metric)
         self.roll.assign_add(roll_metric)
-        self.count.assign_add(tf.cast(tf.size(y_true), tf.float32))
+        self.count.assign_add(tf.cast(tf.shape(y_true)[0], tf.float32))
     
     def result(self):
         pitch = self.pitch / self.count
