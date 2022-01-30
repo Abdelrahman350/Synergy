@@ -46,14 +46,15 @@ class DataGenerator(Sequence):
         batch_parameters_3DMM = []
         for index, image_id in enumerate(batch):
             image_path = join(self.dataset_path, image_id)
-            theta_aug = np.array([0, 0, 50]) * np.pi/180
-            R_aug = eulerAngles_to_RotationMatrix(theta_aug)
-
             image = cv2.imread(image_path)
-            # image
+
+            # Image roll rotation augmentation
+            roll_angle = np.random.randint(low=-360, high=360)
+            theta_aug = np.array([0, 0, roll_angle]) * np.pi/180
+            R_aug = eulerAngles_to_RotationMatrix(theta_aug)
             (h, w) = image.shape[:2]
             (cX, cY) = (w // 2, h // 2)
-            # rotate our image by 45 degrees around the center of the image
+            # rotate our image by theta degrees around the center in the roll direction
             M = cv2.getRotationMatrix2D((cX, cY), -theta_aug[2]*180/np.pi, 1.0)
             image = cv2.warpAffine(image, M, (w, h))
             parameters_3DMM = label_loader(image_id, self.labels)
@@ -61,7 +62,7 @@ class DataGenerator(Sequence):
             P = parameters_3DMM[:12].reshape((3, 4))
             R_rot = P[:, 0:3]
             t_rot = P[:, 3]
-            R_new = R_aug @ R_rot
+            R_new = R_aug.dot(R_rot)
             t = np.array([
                 cX*(1-np.cos(theta_aug[2]))+cY*np.sin(theta_aug[2]),
                 cY*(1-np.cos(theta_aug[2]))-cX*np.sin(theta_aug[2]),
@@ -72,14 +73,17 @@ class DataGenerator(Sequence):
             P[:, 3] = t_new
             parameters_3DMM[:12] = P.reshape((-1, 12))
             parameters_3DMM = normalize(parameters_3DMM)
+            
+            # Face crop augmentation
             pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
             image, roi_box = crop(image, pt3d)
             image, aspect_ratio = resize_image(image, self.input_shape)
             # Label preprocessing
-            sx, sy, ex, ey = roi_box
+            sx, sy, _, _ = roi_box
             parameters_3DMM[3] = parameters_3DMM[3] - sx/self.pca.param_std[3]
             parameters_3DMM[7] = parameters_3DMM[7] + sy/self.pca.param_std[7]
-            # Augment image
+            
+            # Augment image color and illumination
             if self.augmentation:
                 aug_type = np.random.choice(['color', 'gray', 'None'])
                 if aug_type == 'color':
