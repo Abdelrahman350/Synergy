@@ -1,0 +1,721 @@
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.0}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start compressed model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Fully quantized metrics: {'mymetric': 0.0}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Accuracy drop: {'mymetric': 0.0}
+INFO:compression.pipeline.pipeline:Finished: AccuracyAwareQuantization
+ ===========================================================================
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.0}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.0}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.0}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.0}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.36254499975884846}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start compressed model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Fully quantized metrics: {'mymetric': 0.36204359935687025}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Accuracy drop: {'mymetric': 0.0005014004019782137}
+INFO:compression.pipeline.pipeline:Finished: AccuracyAwareQuantization
+ ===========================================================================
+INFO:app.run:Output log dir: ./scrfd/model_int8
+INFO:app.run:Creating pipeline:
+ Algorithm: AccuracyAwareQuantization
+ Parameters:
+	preset                     : performance
+	stat_subset_size           : 640
+	target_device              : CPU
+	model_type                 : None
+	dump_intermediate_model    : False
+	exec_log_dir               : ./scrfd/model_int8
+ ===========================================================================
+INFO:compression.statistics.collector:Start computing statistics for algorithms : AccuracyAwareQuantization
+INFO:compression.statistics.collector:Computing statistics finished
+INFO:compression.pipeline.pipeline:Start algorithm: AccuracyAwareQuantization
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start original model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Baseline metrics: {'mymetric': 0.36254499975884846}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start quantization
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithm : ActivationChannelAlignment
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.default.algorithm:Start computing statistics for algorithms : MinMaxQuantization,FastBiasCorrection
+INFO:compression.algorithms.quantization.default.algorithm:Computing statistics finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Start compressed model inference
+INFO:compression.engines.ac_engine:Start inference of 3226 images
+INFO:compression.engines.ac_engine:Inference finished
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Fully quantized metrics: {'mymetric': 0.36204359935687025}
+INFO:compression.algorithms.quantization.accuracy_aware.algorithm:Accuracy drop: {'mymetric': 0.0005014004019782137}
+INFO:compression.pipeline.pipeline:Finished: AccuracyAwareQuantization
+ ===========================================================================
