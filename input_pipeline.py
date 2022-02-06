@@ -1,13 +1,10 @@
 from data_generator.labels_preprocessing import denormalize_param, denormalize_DDFA, param3DMM_to_pose
-from model.synergy import Synergy
-from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from utils.loading_data import loading_test_examples
 import cv2
 import os
 from os import path
 
-set_GPU()
 dataset = 'AFLW'
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
@@ -54,6 +51,3 @@ for i in range(len(list_ids)):
   image = plot_pose(images_ori[i], theta, vertices[i])
   wfp = pose_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, image)
-
-model = Synergy(input_shape=input_shape, morphable=morphable)
-model.summary()

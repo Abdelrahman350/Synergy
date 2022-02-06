@@ -3,10 +3,10 @@ import numpy as np
 from numpy import expand_dims, reshape, matmul, squeeze, multiply, transpose
 
 def predict_lmks(param_3DMM, roi_box):
-    lmks = squeeze(PCA()(param_3DMM), 0)
+    lmks = squeeze(PCA(input_shape=(450, 450, 3))(param_3DMM), 0)
     sx, sy, ex, ey = roi_box
-    scale_x = (ex - sx) / 128
-    scale_y = (ey - sy) / 128
+    scale_x = (ex - sx) / 450
+    scale_y = (ey - sy) / 450
     lmks[:, 0] = lmks[:, 0] * scale_x + sx
     lmks[:, 1] = lmks[:, 1] * scale_y + sy
     s = (scale_x + scale_y) / 2
@@ -50,7 +50,6 @@ class PCA(object):
         vertices = self.u_base + matmul(self.w_exp_base, alpha_exp) + matmul(self.w_shp_base, alpha_shp)
         vertices = reshape(vertices, (self.num_landmarks, 3))
         T, t = self.transform_matrix(pose_3DMM)
-        print(T.shape, t.shape, matmul(vertices, T.transpose()).shape, matmul(vertices, T).shape)
         vertices = matmul(vertices, transpose(T, axes=(0, 2, 1))) + expand_dims(t, 1)
         vertices = self.resize_landmarks(vertices)
         return vertices
