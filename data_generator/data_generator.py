@@ -5,8 +5,9 @@ from data_generator.image_preprocessing import colorjitter, crop, filters, gray_
 from data_generator.image_preprocessing import noisy, resize_image
 from data_generator.labels_preprocessing import denormalize_param, label_loader, normalize_param
 from data_generator.labels_preprocessing import eulerAngles_to_RotationMatrix
-from model.morhaple_face_model import PCA, Reconstruct_Vertex
 from os.path import join
+
+from utils.inference_utils import PCA
 
 class DataGenerator(Sequence):
     def __init__(self, list_IDs, labels, batch_size=32, input_shape=(128, 128, 3),
@@ -18,8 +19,7 @@ class DataGenerator(Sequence):
         self.shuffle = shuffle
         self.augmentation = augmentation
         self.dataset_path = dataset_path
-        self.pca = PCA((450, 450, 3)) if \
-            dataset_path=='../../Datasets/300W_AFLW/' else Reconstruct_Vertex((120, 120, 3))
+        self.pca = PCA((450, 450, 3))
         self.indices = np.arange(len(self.list_IDs))
         
     def __len__(self):
@@ -95,7 +95,7 @@ class DataGenerator(Sequence):
                     image = gray_img(image)
 
             image = normalize_image(image)
-            lmks = self.pca(np.expand_dims(parameters_3DMM, 0)).numpy() *  aspect_ratio
+            lmks = self.pca(np.expand_dims(parameters_3DMM, 0)) *  aspect_ratio
             X.append(image)
             Lc.append(np.squeeze(lmks, axis=0))
             batch_parameters_3DMM.append(parameters_3DMM)
