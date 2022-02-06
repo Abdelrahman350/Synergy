@@ -38,13 +38,13 @@ print(model.summary())
 model.load_weights(model_path)
 
 DMM = model.predict(images)
-poses_pred = DMM['Pm']
+param3DMM_pred = DMM['Pm']
 
-poses_gt = y['Pm']
+param3DMM_gt = y['Pm']
 vertices_gt = y['Lc']
 
 pca = Reconstruct_Vertex(input_shape) if test=='DDFA' else PCA(input_shape)
-vertices_tf = pca(poses_pred)
+vertices_tf = pca(param3DMM_pred)
 vertices_pred = vertices_tf.numpy()
 
 lmks_output_path = 'test_output/landmarks/'
@@ -65,11 +65,11 @@ for i in range(len(list_ids)):
 
 for i in range(len(list_ids)):
   if dataset == 'DDFA':
-    pose_gt = denormalize_DDFA(poses_gt[i])
-    pose_pred = denormalize_DDFA(poses_pred[i])
+    pose_gt = denormalize_DDFA(param3DMM_gt[i])
+    pose_pred = denormalize_DDFA(param3DMM_pred[i])
   else:
-    pose_gt = denormalize_param(poses_gt[i])
-    pose_pred = denormalize_param(poses_pred[i])
+    pose_gt = denormalize_param(param3DMM_gt[i])
+    pose_pred = denormalize_param(param3DMM_pred[i])
   
   theta_gt = param3DMM_to_pose(pose_gt)
   theta_pred = param3DMM_to_pose(pose_pred)
