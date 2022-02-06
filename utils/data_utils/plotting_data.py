@@ -62,7 +62,11 @@ def plot_pose(image, label, pt2d):
     return image
 
 def plot_landmarks(image, pt2d):
-    image = draw_landmarks(image, pt2d)
+    if np.ndim(pt2d) == 2:
+        image = draw_landmarks(image, pt2d)
+    elif np.ndim(pt2d) == 3:
+        for i in range(np.shape(pt2d)[0]):
+            image = draw_landmarks(image, pt2d[i])
     image += 1.0
     image *= 127.5
     return image
