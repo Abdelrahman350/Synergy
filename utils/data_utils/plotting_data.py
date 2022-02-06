@@ -56,7 +56,7 @@ def draw_landmarks(image_original, pt2d):
     return image
 
 def plot_pose(image, theta, pt2d):
-    if np.ndim(theta) == 1 and not theta:
+    if np.ndim(theta) == 1 and theta:
         pitch, yaw, roll = theta
         image = draw_axis(image, pitch, yaw, roll, pt2d)
     elif np.ndim(theta) == 2:
