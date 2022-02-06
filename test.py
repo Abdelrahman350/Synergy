@@ -1,4 +1,5 @@
-from data_generator.labels_preprocessing import denormalize, denormalize_DDFA
+from data_generator.image_preprocessing import normalize_image
+from data_generator.labels_preprocessing import denormalize_param, denormalize_DDFA, param3DMM_to_pose
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from model.synergy import Synergy
@@ -28,9 +29,7 @@ dataset_path='../../Datasets/300W_AFLW_Augmented/' if\
 for id in list_ids:
   image_path = dataset_path + id
   image = cv2.imread(image_path)
-  image = image.astype(float)
-  image /= 127.5
-  image -= 1.0
+  image = normalize_image(image)
   images_ori.append(image)
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
@@ -49,13 +48,13 @@ vertices_tf = pca(poses_pred)
 vertices_pred = vertices_tf.numpy()
 
 lmks_output_path = 'test_output/landmarks/'
-pose_output_path = 'test_output/poses/'
+poses_output_path = 'test_output/poses/'
 if not path.exists(f'test_output/'):
   os.makedirs(f'test_output/')
 if not path.exists(lmks_output_path):
   os.makedirs(lmks_output_path)
-if not path.exists(pose_output_path):
-  os.makedirs(pose_output_path)
+if not path.exists(poses_output_path):
+  os.makedirs(poses_output_path)
 
 for i in range(len(list_ids)):
   gt = plot_landmarks(images[i], vertices_gt[i])
@@ -69,11 +68,13 @@ for i in range(len(list_ids)):
     pose_gt = denormalize_DDFA(poses_gt[i])
     pose_pred = denormalize_DDFA(poses_pred[i])
   else:
-    pose_gt = denormalize(poses_gt[i])
-    pose_pred = denormalize(poses_pred[i])
-
-  gt = plot_pose(images[i], pose_gt, vertices_gt[i])
-  pred = plot_pose(images[i], pose_pred, vertices_pred[i])
+    pose_gt = denormalize_param(poses_gt[i])
+    pose_pred = denormalize_param(poses_pred[i])
+  
+  theta_gt = param3DMM_to_pose(pose_gt)
+  theta_pred = param3DMM_to_pose(pose_pred)
+  gt = plot_pose(images[i], theta_gt, vertices_gt[i])
+  pred = plot_pose(images[i], theta_pred, vertices_pred[i])
   comb = np.concatenate((gt, pred), axis=1)
-  wfp = pose_output_path+list_ids[i].split('/')[-1]
+  wfp = poses_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, comb)

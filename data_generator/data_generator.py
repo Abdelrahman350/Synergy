@@ -1,9 +1,9 @@
 import cv2
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from data_generator.image_preprocessing import colorjitter, crop, filters, gray_img
-from data_generator.image_preprocessing import noisy, normalization, resize_image
-from data_generator.labels_preprocessing import denormalize, label_loader, normalize
+from data_generator.image_preprocessing import colorjitter, crop, filters, gray_img, normalize_image
+from data_generator.image_preprocessing import noisy, resize_image
+from data_generator.labels_preprocessing import denormalize_param, label_loader, normalize_param
 from data_generator.labels_preprocessing import eulerAngles_to_RotationMatrix
 from model.morhaple_face_model import PCA, Reconstruct_Vertex
 from os.path import join
@@ -59,7 +59,7 @@ class DataGenerator(Sequence):
             M = cv2.getRotationMatrix2D((cX, cY), -theta_aug[2]*180/np.pi, 1.0)
             image = cv2.warpAffine(image, M, (w, h))
             parameters_3DMM = label_loader(image_id, self.labels)
-            parameters_3DMM = denormalize(parameters_3DMM)
+            parameters_3DMM = denormalize_param(parameters_3DMM)
             P = parameters_3DMM[:12].reshape((3, 4))
             R_rot = P[:, 0:3]
             t_rot = P[:, 3]
@@ -73,7 +73,7 @@ class DataGenerator(Sequence):
             P[:, 0:3] = R_new
             P[:, 3] = t_new
             parameters_3DMM[:12] = P.reshape((-1, 12))
-            parameters_3DMM = normalize(parameters_3DMM)
+            parameters_3DMM = normalize_param(parameters_3DMM)
             
             # Face crop augmentation
             pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
@@ -94,7 +94,7 @@ class DataGenerator(Sequence):
                 elif aug_type == 'gray':
                     image = gray_img(image)
 
-            image = normalization(image)
+            image = normalize_image(image)
             lmks = self.pca(np.expand_dims(parameters_3DMM, 0)).numpy() *  aspect_ratio
             X.append(image)
             Lc.append(np.squeeze(lmks, axis=0))

@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 from numpy import cos, sin
-from data_generator.labels_preprocessing import denormalize, param3DMM_to_pose
+from data_generator.image_preprocessing import denormalize_image
+from data_generator.labels_preprocessing import param3DMM_to_pose
 
 def draw_axis(image_original, pitch, yaw, roll, pt2d):
     # Referenced from HopeNet https://github.com/natanielruiz/deep-head-pose
@@ -54,11 +55,15 @@ def draw_landmarks(image_original, pt2d):
              (end_point[0], end_point[1]), (1, 1, 1), 1)
     return image
 
-def plot_pose(image, label, pt2d):
-    pitch, yaw, roll = param3DMM_to_pose(label[:12])
-    image = draw_axis(image, pitch, yaw, roll, pt2d)
-    image += 1.0
-    image *= 127.5
+def plot_pose(image, theta, pt2d):
+    if np.ndim(theta) == 1 and not theta:
+        pitch, yaw, roll = theta
+        image = draw_axis(image, pitch, yaw, roll, pt2d)
+    elif np.ndim(theta) == 2:
+        for i in range(np.shape(theta)[0]):
+            pitch, yaw, roll = theta[i]
+            image = draw_axis(image, pitch, yaw, roll, pt2d[i])
+    image = denormalize_image(image)
     return image
 
 def plot_landmarks(image, pt2d):
@@ -67,6 +72,5 @@ def plot_landmarks(image, pt2d):
     elif np.ndim(pt2d) == 3:
         for i in range(np.shape(pt2d)[0]):
             image = draw_landmarks(image, pt2d[i])
-    image += 1.0
-    image *= 127.5
+    image = denormalize_image(image)
     return image

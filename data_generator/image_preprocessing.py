@@ -1,10 +1,15 @@
 import numpy as np
 import cv2
 
-def normalization(image):
+def normalize_image(image):
     image = image.astype(float)
     image /= 127.5
     image -= 1.0
+    return image
+
+def denormalize_image(image):
+    image += 1.0
+    image *= 127.5
     return image
 
 def resize_image(image, input_shape=(224, 224)):

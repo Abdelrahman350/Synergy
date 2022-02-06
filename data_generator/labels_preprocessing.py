@@ -49,6 +49,7 @@ def P2sRt(P):
     return s, R, t3d
 
 def param3DMM_to_pose(pose_3DMM):
+    pose_3DMM = np.array(pose_3DMM[:12])
     P = pose_3DMM.reshape((3, 4))
     s, R, t3d = P2sRt(P)
     return rotationMatrix_to_EulerAngles(R)
@@ -73,7 +74,8 @@ def rotationMatrix_to_EulerAngles(R):
         else:
             yaw = -np.pi / 2
             pitch = -roll + arctan2(-R[1, 0], -R[2, 0])
-    return pitch, yaw, roll
+    theta = [pitch, yaw, roll]
+    return theta
 
 def isRotationMatrix(R):
     Rt = np.transpose(R)
@@ -87,13 +89,13 @@ def resize_landmarks(pt2d, aspect_ratio):
     pt2d[:, 1] = pt2d[:, 1] * aspect_ratio[1]
     return pt2d
 
-def normalize(parameters_3DMM):
+def normalize_param(parameters_3DMM):
     param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
     param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
     parameters_3DMM = (parameters_3DMM - param_mean) / param_std
     return parameters_3DMM
 
-def denormalize(parameters_3DMM):
+def denormalize_param(parameters_3DMM):
     param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:62]
     param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:62]
     parameters_3DMM = parameters_3DMM*param_std + param_mean

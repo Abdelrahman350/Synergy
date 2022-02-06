@@ -1,4 +1,4 @@
-from data_generator.labels_preprocessing import denormalize, denormalize_DDFA
+from data_generator.labels_preprocessing import denormalize_param, denormalize_DDFA, param3DMM_to_pose
 from model.synergy import Synergy
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
@@ -48,8 +48,10 @@ for i in range(len(list_ids)):
   if dataset == 'DDFA':
     pose = denormalize_DDFA(poses_gt[i])
   else:
-    pose = denormalize(poses_gt[i])
-  image = plot_pose(images_ori[i], pose, vertices[i])
+    pose = denormalize_param(poses_gt[i])
+  
+  theta = param3DMM_to_pose(pose)
+  image = plot_pose(images_ori[i], theta, vertices[i])
   wfp = pose_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, image)
 

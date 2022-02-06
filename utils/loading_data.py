@@ -60,6 +60,7 @@ def loading_test_examples(test, input_shape):
         training_data_generator, validation_data_generator = loading_generators(dataset='AFLW',\
                 input_shape=input_shape, batch_size=32, shuffle=True)
         list_ids = [
+            "AFLW2000-3D/AFLW2000/image00002.jpg", "AFLW2000-3D/AFLW2000/image00004.jpg", 
             "AFLW2000-3D/AFLW2000/image01986.jpg", "AFLW2000-3D/AFLW2000/image00405.jpg", 
             "AFLW2000-3D/AFLW2000/image02650.jpg", "AFLW2000-3D/AFLW2000/image00291.jpg", 
             "AFLW2000-3D/AFLW2000/image02522.jpg", "AFLW2000-3D/AFLW2000/image04269.jpg", 
