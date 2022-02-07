@@ -11,7 +11,7 @@ input_shape = (IMG_H, IMG_H, 3)
 morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
 list_ids, training_data_generator, validation_data_generator = loading_test_examples(dataset, input_shape)
-training_data_generator.augmentation = False
+training_data_generator.augmentation = True
 images, y = training_data_generator.data_generation(list_ids)
 
 images_ori = []
