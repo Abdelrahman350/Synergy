@@ -65,7 +65,6 @@ class Synergy(Model):
             return {**base_config, 
                         'input_shape': self.input_shape_,
                         'backbone': self.mobileNet,
-                        'flatten': self.flatten,
                         'GlobalAvgBooling': self.GlobalAvgBooling,
                         'dropOut_pose': self.dropOut_pose,
                         'dense_pose': self.dense_pose,
