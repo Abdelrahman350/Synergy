@@ -19,8 +19,8 @@ set_GPU()
 def main(args):
     IMG_H = 128
     input_shape = (IMG_H, IMG_H, 3)
-    model_path = "checkpoints/Synergy_300W_AFLW_mse"
-    plot_bboxes = True
+    model_path = "checkpoints/Synergy"
+    plot_bboxes = False
 
     model = Synergy(input_shape=input_shape, morphable='pca')
     print(model.summary())
@@ -68,8 +68,8 @@ def main(args):
             prediction = model.predict(image)
             param_3DMM = prediction['Pm']
             lmks = np.squeeze(PCA(input_shape=input_shape)(param_3DMM), 0) * 1/aspect_ratio
-            lmks[:, 0] += rect[0]
-            lmks[:, 1] += rect[1]
+            lmks[:, 0] += roi_box[0]
+            lmks[:, 1] += roi_box[1]
 
             pose = denormalize_param(param_3DMM)
             angels = param3DMM_to_pose(pose[:, :12])
