@@ -1,4 +1,5 @@
 from data_generator.labels_preprocessing import denormalize_param, denormalize_DDFA, param3DMM_to_pose
+from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from utils.loading_data import loading_test_examples
 import cv2
@@ -11,7 +12,7 @@ input_shape = (IMG_H, IMG_H, 3)
 morphable = 'DDFA' if dataset=='DDFA' else 'pca'
 
 list_ids, training_data_generator, validation_data_generator = loading_test_examples(dataset, input_shape)
-training_data_generator.augmentation = True
+training_data_generator.augmentation = False
 images, y = training_data_generator.data_generation(list_ids)
 
 images_ori = []
@@ -51,3 +52,16 @@ for i in range(len(list_ids)):
   image = plot_pose(images_ori[i], theta, vertices[i])
   wfp = pose_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, image)
+
+# model = Synergy(input_shape=input_shape, morphable=morphable)
+# model.predict(np.zeros((1, 128, 128, 3)))
+# print(model.summary())
+# model.save_weights('Synergy.h5')
+# model.save_weights('Synergy')
+
+# model_2 = Synergy(input_shape=input_shape, morphable=morphable)
+# model_2.predict(np.zeros((1, 128, 128, 3)))
+# model_2.load_weights('Synergy')
+# model_3 = Synergy(input_shape=input_shape, morphable=morphable)
+# model_3.predict(np.zeros((1, 128, 128, 3)))
+# model_3.load_weights('Synergy.h5')
