@@ -44,10 +44,11 @@ class DataGenerator(Sequence):
         # Initializing input data
         X = []
         Lc = []
-        batch_parameters_3DMM = []
+        batch_param_3D = []
         for index, image_id in enumerate(batch):
             image_path = join(self.dataset_path, image_id)
             image = cv2.imread(image_path)
+            Param_3D = label_loader(image_id, self.labels)
 
             # Image roll rotation augmentation
             roll_angle = np.random.randint(low=-360, high=360)
@@ -58,9 +59,8 @@ class DataGenerator(Sequence):
             # rotate our image by theta degrees around the center in the roll direction
             M = cv2.getRotationMatrix2D((cX, cY), -theta_aug[2]*180/np.pi, 1.0)
             image = cv2.warpAffine(image, M, (w, h))
-            parameters_3DMM = label_loader(image_id, self.labels)
-            parameters_3DMM = denormalize_param(parameters_3DMM)
-            P = parameters_3DMM[:12].reshape((3, 4))
+            Param_3D_den = denormalize_param(Param_3D)
+            P = Param_3D_den[:12].reshape((3, 4))
             R_rot = P[:, 0:3]
             t_rot = P[:, 3]
             R_new = R_aug.dot(R_rot)
@@ -72,17 +72,17 @@ class DataGenerator(Sequence):
             t_new = R_aug.dot(t_rot.T-t)
             P[:, 0:3] = R_new
             P[:, 3] = t_new
-            parameters_3DMM[:12] = P.reshape((-1, 12))
-            parameters_3DMM = normalize_param(parameters_3DMM)
+            Param_3D_den[:12] = P.reshape((-1, 12))
+            Param_3D = normalize_param(Param_3D_den)
             
             # Face crop augmentation
-            pt3d = self.pca(np.expand_dims(parameters_3DMM, 0))
+            pt3d = self.pca(np.expand_dims(Param_3D, 0))
             image, roi_box = crop(image, pt3d)
             image, aspect_ratio = resize_image(image, self.input_shape)
             # Label preprocessing
             sx, sy, _, _ = roi_box
-            parameters_3DMM[3] = parameters_3DMM[3] - sx/self.pca.param_std[3]
-            parameters_3DMM[7] = parameters_3DMM[7] + sy/self.pca.param_std[7]
+            Param_3D[3] = Param_3D[3] - sx/self.pca.param_std[3]
+            Param_3D[7] = Param_3D[7] + sy/self.pca.param_std[7]
             
             # Augment image color and illumination
             if self.augmentation:
@@ -95,14 +95,14 @@ class DataGenerator(Sequence):
                     image = gray_img(image)
 
             image = normalize_image(image)
-            lmks = self.pca(np.expand_dims(parameters_3DMM, 0)) *  aspect_ratio
+            lmks = self.pca(np.expand_dims(Param_3D, 0)) *  aspect_ratio
             X.append(image)
             Lc.append(np.squeeze(lmks, axis=0))
-            batch_parameters_3DMM.append(parameters_3DMM)
+            batch_param_3D.append(Param_3D)
         X = np.array(X)
-        batch_parameters_3DMM = np.array(batch_parameters_3DMM)
+        batch_param_3D = np.array(batch_param_3D)
         Lc = np.array(Lc)
-        return X, {'Pm':batch_parameters_3DMM, 'Pm*':batch_parameters_3DMM, 'Lc':Lc, 'Lr':Lc}
+        return X, {'Pm':batch_param_3D, 'Pm*':batch_param_3D, 'Lc':Lc, 'Lr':Lc}
 
     def data_generation(self, batch):
         return self.__data_generation(batch)
