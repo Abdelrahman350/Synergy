@@ -58,7 +58,7 @@ class DataGenerator(Sequence):
             (cX, cY) = (w // 2, h // 2)
             # rotate our image by theta degrees around the center in the roll direction
             M = cv2.getRotationMatrix2D((cX, cY), -theta_aug[2]*180/np.pi, 1.0)
-            image = cv2.warpAffine(image, M, (w, h))
+            image = cv2.warpAffine(image, M, (w, h), image.shape)
             Param_3D_den = denormalize_param(Param_3D)
             P = Param_3D_den[:12].reshape((3, 4))
             R_rot = P[:, 0:3]
@@ -78,12 +78,12 @@ class DataGenerator(Sequence):
             # Face crop augmentation
             pt3d = self.pca(np.expand_dims(Param_3D, 0))
             image, roi_box = crop(image, pt3d)
-            image, aspect_ratio = resize_image(image, self.input_shape)
             # Label preprocessing
             sx, sy, _, _ = roi_box
             Param_3D[3] = Param_3D[3] - sx/self.pca.param_std[3]
             Param_3D[7] = Param_3D[7] + sy/self.pca.param_std[7]
             
+            image, aspect_ratio = resize_image(image, self.input_shape)
             # Augment image color and illumination
             if self.augmentation:
                 aug_type = np.random.choice(['color', 'gray', 'None'])
