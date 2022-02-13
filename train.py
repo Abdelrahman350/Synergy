@@ -8,6 +8,8 @@ from tensorflow.keras.optimizers import Adam, Nadam, SGD
 import os
 from os import path
 
+from utils.plot_history import plot_history
+
 set_GPU()
 dataset = '300W_AFLW'
 param_loss = '_mse'
@@ -85,3 +87,4 @@ model_fit = model.fit(
   verbose=1,
   callbacks=[model_checkpoint_tf, model_checkpoint_h5, reduce_lr, csv_logger, Pm_checkpoint_tf])
 print("Finished Training.")
+plot_history('Synergy')

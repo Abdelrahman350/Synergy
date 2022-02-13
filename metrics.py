@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow import expand_dims, constant
 from tensorflow.keras.metrics import Metric, mean_absolute_error
 from tensorflow.keras.layers import Reshape
+from tensorflow import abs, reduce_mean
 
 class OrientationMAE(Metric):
     def __init__(self, mode='avg', **kwargs):
@@ -20,9 +21,9 @@ class OrientationMAE(Metric):
         y_pred = self.denormalize(y_pred)[:, :12]
         angles_true = self.param3DMM_to_pose(y_true)*180/np.pi
         angles_pred = self.param3DMM_to_pose(y_pred)*180/np.pi
-        pitch_metric = mean_absolute_error(angles_true[0, :], angles_pred[0, :])
-        yaw_metric = mean_absolute_error(angles_true[1, :], angles_pred[1, :])
-        roll_metric = mean_absolute_error(angles_true[2, :], angles_pred[2, :])
+        pitch_metric = reduce_mean(abs(angles_true[0, :] - angles_pred[0, :]))
+        yaw_metric = reduce_mean(abs(angles_true[1, :] - angles_pred[1, :]))
+        roll_metric = reduce_mean(abs(angles_true[2, :] - angles_pred[2, :]))
 
         self.pitch.assign_add(pitch_metric)
         self.yaw.assign_add(yaw_metric)
