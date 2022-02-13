@@ -1,6 +1,6 @@
 from metrics import OrientationMAE
 from model.synergy import Synergy
-from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger
+from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger, EarlyStopping 
 from losses import ParameterLoss, WingLoss
 from set_tensorflow_configs import set_GPU
 from utils.loading_data import loading_generators
@@ -73,10 +73,12 @@ model_checkpoint_h5 = ModelCheckpoint(
   save_best_only=True,
   verbose=0)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3,\
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5,\
    min_lr=0.00001, verbose=1)
 
 csv_logger = CSVLogger(model_path+'.csv', append=False)
+
+early_stop = EarlyStopping(monitor='val_loss', patience=20)
 
 print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
 print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
@@ -85,6 +87,6 @@ model_fit = model.fit(
   validation_data=validation_data_generator,
   epochs=100, 
   verbose=1,
-  callbacks=[model_checkpoint_tf, model_checkpoint_h5, reduce_lr, csv_logger, Pm_checkpoint_tf])
+  callbacks=[model_checkpoint_tf, Pm_checkpoint_tf, model_checkpoint_h5, reduce_lr, csv_logger, early_stop])
 print("Finished Training.")
 plot_history('Synergy')
