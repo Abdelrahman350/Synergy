@@ -139,18 +139,18 @@ def crop(image, lmks):
     y_min = np.min(lmks[:, :, 1])
     x_max = np.max(lmks[:, :, 0])
     y_max = np.max(lmks[:, :, 1])    
-    roi_box = np.array([x_min, y_min, x_max, y_max])
+    rect = np.array([x_min, y_min, x_max, y_max])
+    roi_box = rect.copy()
 
     # enlarge the bbox a little and do a square crop
-    HCenter = (roi_box[1] + roi_box[3])/2
-    WCenter = (roi_box[0] + roi_box[2])/2
+    HCenter = (rect[1] + rect[3])/2
+    WCenter = (rect[0] + rect[2])/2
     side_len = roi_box[3]-roi_box[1]
-    scale = np.random.uniform(low=1.6, high=2, size=None)
-    margin = side_len * scale // 2
-    roi_box[0] = x_min - margin*0.5
-    roi_box[1] = y_min - margin*0.5
-    roi_box[2] = x_max + margin*0.5
-    roi_box[3] = y_max + margin*0.5
+    margin = side_len * 1.2 // 2
+    roi_box[0] = WCenter-margin
+    roi_box[1] = HCenter-margin
+    roi_box[2] = WCenter+margin
+    roi_box[3] = HCenter+margin
 
     image = crop_img(image, roi_box)
     return image, roi_box
