@@ -1,6 +1,6 @@
 import tensorflow as tf
 from losses import ParameterLoss
-from model.backbone import create_MobileNetV2
+from model.backbone import create_backbone
 from model.morhaple_face_model import PCA, Reconstruct_Vertex
 from model.encoder import MAFA
 from model.decoder import Landmarks_to_3DMM
@@ -8,10 +8,12 @@ from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
 
 class Synergy(Model):
-      def __init__(self, input_shape, num_classes=62, num_points=68, morphable='pca', **kwargs):
+      def __init__(self, input_shape, num_points=68, backbone='mobileNetV2',\
+             weights='imagenet', morphable='PCA', **kwargs):
             super(Synergy, self).__init__(**kwargs, name="Synergy")
             self.input_shape_ = input_shape
-            self.mobileNet = create_MobileNetV2(input_shape=input_shape, classes=num_classes)
+            self.mobileNet = create_backbone(input_shape=input_shape,\
+                   backbone=backbone, weights=weights, pooling=None)
             self.GlobalAvgBooling = GlobalAveragePooling2D(name='Global_Avg_Pooling')
           
             self.dropOut_pose = Dropout(0.2, name='pose_dropout')

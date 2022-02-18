@@ -7,26 +7,32 @@ from utils.loading_data import loading_generators
 from tensorflow.keras.optimizers import Adam, Nadam, SGD
 import os
 from os import path
-
 from utils.plot_history import plot_history
 
 set_GPU()
 dataset = '300W_AFLW'
-param_loss = '_mse'
+param_loss = 'MSE'
+initial_lr = 0.08
+min_lr = 1e-4
+lr_reduce_factor = 0.5
+batch_size = 64
+patience = 20
+optimizer = 'Nestrov'
+
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
 load_model = False
 if not path.exists(f'checkpoints/'):
   os.makedirs(f'checkpoints/')
 model_path = 'checkpoints/' +'Synergy'
-morphable = 'DDFA' if dataset=='DDFA' else 'pca'
+morphable = 'DDFA' if dataset=='DDFA' else 'PCA'
 
 training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
-      input_shape=input_shape, batch_size=64, shuffle=True)
+      input_shape=input_shape, batch_size=batch_size, shuffle=True)
 training_data_generator.augmentation = True
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
-optimizer = SGD(learning_rate=0.08, momentum=0.9, nesterov=True)
+optimizer = SGD(learning_rate=initial_lr, momentum=0.9, nesterov=True)
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
@@ -36,12 +42,14 @@ losses = {
   }
 
 loss_weights = {'Pm':0.02, 'Pm*':0.02, 'Lc':0.05, 'Lr':0.05}
-metrics = {'Pm': [
-  OrientationMAE(mode='pitch', name='pitch'), 
-  OrientationMAE(mode='yaw', name='yaw'), 
-  OrientationMAE(mode='roll', name='roll'), 
-  OrientationMAE(mode='avg', name='avg')
-  ]}
+metrics = {
+  'Pm': [
+    OrientationMAE(mode='pitch', name='pitch'), 
+    OrientationMAE(mode='yaw', name='yaw'), 
+    OrientationMAE(mode='roll', name='roll'), 
+    OrientationMAE(mode='avg', name='avg')
+    ]
+  }
 model.compile(optimizer, losses, loss_weights=loss_weights, metrics=metrics)
 
 if load_model:
@@ -73,12 +81,12 @@ model_checkpoint_h5 = ModelCheckpoint(
   save_best_only=True,
   verbose=0)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5,\
-   min_lr=0.00001, verbose=1)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=lr_reduce_factor, patience=5,\
+   min_lr=min_lr, verbose=1)
 
 csv_logger = CSVLogger(model_path+'.csv', append=False)
 
-early_stop = EarlyStopping(monitor='val_loss', patience=20)
+early_stop = EarlyStopping(monitor='val_loss', patience=patience)
 
 print(f"\nThe training dataset has {len(training_data_generator.list_IDs)} training images.")
 print(f"The validation dataset has {len(validation_data_generator.list_IDs)} validation images.\n")
