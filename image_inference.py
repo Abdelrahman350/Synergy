@@ -22,7 +22,7 @@ def main(args):
     model_path = "checkpoints/Synergy"
     plot_bboxes = False
 
-    model = Synergy(input_shape=input_shape, morphable='pca')
+    model = Synergy(input_shape=input_shape, morphable='PCA')
     print(model.summary())
     model.load_weights(model_path).expect_partial()
     exec_net, input_key = openvino('640_640/model_int8/optimized/scrfd.bin')

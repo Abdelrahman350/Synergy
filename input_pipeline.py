@@ -9,7 +9,7 @@ from os import path
 dataset = 'AFLW'
 IMG_H = 128
 input_shape = (IMG_H, IMG_H, 3)
-morphable = 'DDFA' if dataset=='DDFA' else 'pca'
+morphable = 'DDFA' if dataset=='DDFA' else 'PCA'
 
 list_ids, training_data_generator, validation_data_generator = loading_test_examples(dataset, input_shape)
 training_data_generator.augmentation = False
