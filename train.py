@@ -8,6 +8,8 @@ from tensorflow.keras.optimizers import Adam, Nadam, SGD
 import os
 from os import path
 from utils.plot_history import plot_history
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 set_GPU()
 dataset = '300W_AFLW'

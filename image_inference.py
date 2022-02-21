@@ -1,7 +1,7 @@
 import glob
 import os
 from data_generator.image_preprocessing import crop_img, normalize_image, resize_image
-from data_generator.labels_preprocessing import denormalize_param, param3DMM_to_pose
+from data_generator.labels_preprocessing import denormalize_param, Param3D_to_Pose
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from model.synergy import Synergy
@@ -72,7 +72,7 @@ def main(args):
             lmks[:, 1] += roi_box[1]
 
             pose = denormalize_param(param_3DMM)
-            angels = param3DMM_to_pose(pose[:, :12])
+            angels = Param3D_to_Pose(pose[:, :12])
             vertices.append(lmks)
             poses.append(angels)
 

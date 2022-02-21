@@ -1,4 +1,3 @@
-from ast import Param
 import numpy as np
 from numpy import sin, cos, arctan2, arcsin
 import pickle

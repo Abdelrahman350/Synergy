@@ -1,5 +1,5 @@
 from data_generator.image_preprocessing import normalize_image
-from data_generator.labels_preprocessing import denormalize_param, denormalize_DDFA, param3DMM_to_pose
+from data_generator.labels_preprocessing import Param3D_to_Pose, denormalize_param, denormalize_DDFA
 from set_tensorflow_configs import set_GPU
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from model.synergy import Synergy
@@ -12,7 +12,7 @@ import os
 from os import path
 
 set_GPU()
-IMG_H = 128
+IMG_H = 160
 input_shape = (IMG_H, IMG_H, 3)
 model_path = "checkpoints/Synergy"
 test = '300W_AFLW'
@@ -71,8 +71,8 @@ for i in range(len(list_ids)):
     pose_gt = denormalize_param(param3DMM_gt[i])
     pose_pred = denormalize_param(param3DMM_pred[i])
   
-  theta_gt = param3DMM_to_pose(pose_gt)
-  theta_pred = param3DMM_to_pose(pose_pred)
+  theta_gt = Param3D_to_Pose(pose_gt)
+  theta_pred = Param3D_to_Pose(pose_pred)
   gt = plot_pose(images[i], theta_gt, vertices_gt[i])
   pred = plot_pose(images[i], theta_pred, vertices_pred[i])
   comb = np.concatenate((gt, pred), axis=1)
