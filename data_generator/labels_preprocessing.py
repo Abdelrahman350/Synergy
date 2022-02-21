@@ -1,22 +1,23 @@
+from ast import Param
 import numpy as np
 from numpy import sin, cos, arctan2, arcsin
 import pickle
 
 def label_loader(image_id, labels):
-    pose_3DMM = np.array(labels[image_id]['Pose'])
+    Pose_3DMM = np.array(labels[image_id]['Pose'])
     alpha_shp = np.ravel(np.array(labels[image_id]['Shape_Para']).T)
     alpha_exp = np.ravel(np.array(labels[image_id]['Exp_Para']).T)
-    parameters_3DMM = np.concatenate((pose_3DMM, alpha_shp, alpha_exp), axis=0)
-    return parameters_3DMM
+    Param_3D = np.concatenate((Pose_3DMM, alpha_shp, alpha_exp), axis=0)
+    return Param_3D
 
 def pose_to_3DMM(pose):
     R = eulerAngles_to_RotationMatrix(pose[:3])
     t = np.expand_dims([*pose[3:5], 0], -1)
     T = np.concatenate((R, t), axis=1)
     s = pose[-1]
-    pose_3DMM = T.reshape((-1, ))
-    pose_3DMM[-1] = s
-    return pose_3DMM
+    Pose_3DMM = T.reshape((-1, ))
+    Pose_3DMM[-1] = s
+    return Pose_3DMM
 
 # Calculates Rotation Matrix given euler angles.
 def eulerAngles_to_RotationMatrix(theta):
@@ -48,9 +49,9 @@ def P2sRt(P):
     R = np.concatenate((r1, r2, r3), 0)
     return s, R, t3d
 
-def param3DMM_to_pose(pose_3DMM):
-    pose_3DMM = np.array(pose_3DMM[:12])
-    P = pose_3DMM.reshape((3, 4))
+def Param3D_to_Pose(Param_3D):
+    Param_3D = np.array(Param_3D[:12])
+    P = Param_3D.reshape((3, 4))
     s, R, t3d = P2sRt(P)
     return rotationMatrix_to_EulerAngles(R)
     
@@ -89,23 +90,23 @@ def resize_landmarks(pt2d, aspect_ratio):
     pt2d[:, 1] = pt2d[:, 1] * aspect_ratio[1]
     return pt2d
 
-def normalize_param(parameters_3DMM):
+def normalize_param(Param_3D):
     param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
     param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
-    parameters_3DMM = (parameters_3DMM - param_mean) / param_std
-    return parameters_3DMM
+    Param_3D = (Param_3D - param_mean) / param_std
+    return Param_3D
 
-def denormalize_param(parameters_3DMM):
+def denormalize_param(Param_3D):
     param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')[:62]
     param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')[:62]
-    parameters_3DMM = parameters_3DMM*param_std + param_mean
-    return parameters_3DMM
+    Param_3D = Param_3D*param_std + param_mean
+    return Param_3D
 
-def denormalize_DDFA(parameters_3DMM):
+def denormalize_DDFA(Param_3D):
     param_mean = parsing_pkl('param_whitening.pkl').get('param_mean')[:62]
     param_std = parsing_pkl('param_whitening.pkl').get('param_std')[:62]
-    parameters_3DMM = parameters_3DMM*param_std + param_mean
-    return parameters_3DMM
+    Param_3D = Param_3D*param_std + param_mean
+    return Param_3D
 
 def parsing_pkl(file):
     pca_dir = '3dmm_data/'
@@ -114,9 +115,8 @@ def parsing_pkl(file):
 def normalize_dicts(labels):
     param_mean = parsing_pkl('param_300W_LP.pkl').get('param_mean')
     param_std = parsing_pkl('param_300W_LP.pkl').get('param_std')
-    for parameters_3DMM in labels.values():
-        parameters_3DMM['Pose'] = (parameters_3DMM['Pose'] - param_mean[:12]) / param_std[:12]
-        parameters_3DMM['Shape_Para'] = (parameters_3DMM['Shape_Para']\
-             - param_mean[12:52]) / param_std[12:52]
-        parameters_3DMM['Exp_Para'] = (parameters_3DMM['Exp_Para'] - param_mean[52:]) / param_std[52:]
+    for Param_3D in labels.values():
+        Param_3D['Pose'] = (Param_3D['Pose'] - param_mean[:12]) / param_std[:12]
+        Param_3D['Shape_Para'] = (Param_3D['Shape_Para'] - param_mean[12:52]) / param_std[12:52]
+        Param_3D['Exp_Para'] = (Param_3D['Exp_Para'] - param_mean[52:]) / param_std[52:]
     return labels

@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 from numpy import cos, sin
 from data_generator.image_preprocessing import denormalize_image
-from data_generator.labels_preprocessing import param3DMM_to_pose
 
 def draw_axis(image_original, pitch, yaw, roll, pt2d):
     # Referenced from HopeNet https://github.com/natanielruiz/deep-head-pose
