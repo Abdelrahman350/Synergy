@@ -17,9 +17,9 @@ min_lr = 1e-4
 lr_reduce_factor = 0.5
 batch_size = 64
 patience = 20
-optimizer = 'Nestrov'
+optimizer = 'Adam'
 
-IMG_H = 128
+IMG_H = 160
 input_shape = (IMG_H, IMG_H, 3)
 load_model = False
 if not path.exists(f'checkpoints/'):
@@ -32,11 +32,19 @@ training_data_generator, validation_data_generator = loading_generators(dataset=
 training_data_generator.augmentation = True
 
 model = Synergy(input_shape=input_shape, morphable=morphable)
-optimizer = SGD(learning_rate=initial_lr, momentum=0.9, nesterov=True)
+
+if optimizer == 'Nestrov':
+  optimizer = SGD(learning_rate=initial_lr, momentum=0.9, nesterov=True)
+elif optimizer == 'Adam':
+  optimizer = Adam(learning_rate=initial_lr)
+elif optimizer == 'Nadam':
+  optimizer = Nadam(learning_rate=initial_lr)
+
+print(f"\nThe algorithm used for optimization is {optimizer._name}")
 
 losses = {
   'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'Pm*': ParameterLoss(name='loss_Param_S2', mode='normal'),
+  'Pm*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
   'Lc': WingLoss(name='loss_LMK_f0'),
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }

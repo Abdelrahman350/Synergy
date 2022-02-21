@@ -7,7 +7,7 @@ import os
 from os import path
 
 dataset = 'AFLW'
-IMG_H = 128
+IMG_H = 160
 input_shape = (IMG_H, IMG_H, 3)
 morphable = 'DDFA' if dataset=='DDFA' else 'PCA'
 

@@ -146,11 +146,12 @@ def crop(image, lmks):
     HCenter = (rect[1] + rect[3])/2
     WCenter = (rect[0] + rect[2])/2
     side_len = roi_box[3]-roi_box[1]
-    margin = side_len * 1.2 // 2
+    scale = np.random.uniform(low=1, high=1.4)
+    margin = side_len * scale // 2
     roi_box[0] = WCenter-margin
     roi_box[1] = HCenter-margin
-    roi_box[2] = WCenter+margin
-    roi_box[3] = HCenter+margin
+    roi_box[2] = WCenter+margin*scale
+    roi_box[3] = HCenter+margin*scale
 
     image = crop_img(image, roi_box)
     return image, roi_box

@@ -51,7 +51,10 @@ class DataGenerator(Sequence):
             Param_3D = label_loader(image_id, self.labels)
 
             # Image roll rotation augmentation
-            roll_angle = np.random.randint(low=-360, high=360)
+            if np.random.rand() < 0.7:
+                roll_angle = np.random.randint(low=-360, high=360)
+            else:
+                roll_angle = 0
             theta_aug = np.array([0, 0, roll_angle]) * np.pi/180
             R_aug = eulerAngles_to_RotationMatrix(theta_aug)
             (h, w) = image.shape[:2]
