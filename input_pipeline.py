@@ -1,4 +1,4 @@
-from data_generator.labels_preprocessing import denormalize_param, denormalize_DDFA, param3DMM_to_pose
+from data_generator.labels_preprocessing import Param3D_to_Pose, denormalize_param, denormalize_DDFA
 from model.synergy import Synergy
 from utils.data_utils.plotting_data import plot_landmarks, plot_pose
 from utils.loading_data import loading_test_examples
@@ -48,7 +48,7 @@ for i in range(len(list_ids)):
   else:
     pose = denormalize_param(poses_gt[i])
   
-  theta = param3DMM_to_pose(pose)
+  theta = Param3D_to_Pose(pose)
   image = plot_pose(images_ori[i], theta, vertices[i])
   wfp = pose_output_path+list_ids[i].split('/')[-1]
   cv2.imwrite(wfp, image)
