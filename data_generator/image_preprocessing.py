@@ -22,7 +22,7 @@ def resize_image(image, input_shape=(224, 224)):
     return image, aspect_ratio
 
 def colorjitter(image):
-    cj_type = np.random.choice(['b', 's', 'c', 'None'])
+    cj_type = np.random.choice(['b', 's', 'c'])
     '''
     ### Different Color Jitter ###
     img: image
@@ -72,7 +72,7 @@ def colorjitter(image):
         return image
 
 def noisy(image_ori):
-    noise_type = np.random.choice(['gauss', 'sp', 'None'])
+    noise_type = np.random.choice(['gauss', 'sp'])
     '''
     ### Adding Noise ###
     image_ori: image
@@ -108,7 +108,7 @@ def noisy(image_ori):
         return image_ori
 
 def filters(image_ori):
-    f_type = np.random.choice(['blur', 'gaussian', 'median', 'None'])
+    f_type = np.random.choice(['blur', 'gaussian', 'median'])
     '''
     ### Filtering ###
     image_ori: image

@@ -91,9 +91,18 @@ class DataGenerator(Sequence):
             if self.augmentation:
                 aug_type = np.random.choice(['color', 'gray', 'None'])
                 if aug_type == 'color':
-                    image = colorjitter(image)
-                    image = noisy(image)
-                    image = filters(image)
+                    aug_color = np.random.choice(['colorjitter', 'noisy', 'filters', 'none'])
+                    if aug_color == 'colorjitter':
+                        image = colorjitter(image)
+                    elif aug_color == 'noisy':
+                        image = noisy(image)
+                    elif aug_color == 'filters':
+                        image = filters(image)
+                    else:
+                        image = colorjitter(image)
+                        image = noisy(image)
+                        image = filters(image)
+
                 elif aug_type == 'gray':
                     image = gray_img(image)
 
