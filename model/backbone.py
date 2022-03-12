@@ -7,4 +7,7 @@ def create_backbone(input_shape, backbone='mobileNetV2', weights='imagenet', poo
      elif backbone == 'efficientNet':
           backbone = EfficientNetB0(input_shape=input_shape, include_top=False,\
                weights=weights, pooling=pooling)
+     else:
+          backbone = None
+          print("This backbone is not implemented.")
      return backbone

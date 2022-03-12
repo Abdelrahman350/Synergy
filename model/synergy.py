@@ -12,7 +12,7 @@ class Synergy(Model):
              weights='imagenet', morphable='PCA', **kwargs):
             super(Synergy, self).__init__(**kwargs, name="Synergy")
             self.input_shape_ = input_shape
-            self.mobileNet = create_backbone(input_shape=input_shape,\
+            self.backbone = create_backbone(input_shape=input_shape,\
                    backbone=backbone, weights=weights, pooling=None)
             self.GlobalAvgBooling = GlobalAveragePooling2D(name='Global_Avg_Pooling')
           
@@ -33,7 +33,7 @@ class Synergy(Model):
             self.paramLoss = ParameterLoss(name='loss_Param_S1S2', mode='3dmm')
 
       def call(self, batch_images):
-            X = self.mobileNet(batch_images)
+            X = self.backbone(batch_images)
             X = self.GlobalAvgBooling(X)
             Z = tf.identity(X, name='Global_Average_Pooling')
 
@@ -66,7 +66,7 @@ class Synergy(Model):
             base_config = super(Synergy, self).get_config()
             return {**base_config, 
                         'input_shape': self.input_shape_,
-                        'backbone': self.mobileNet,
+                        'backbone': self.backbone,
                         'GlobalAvgBooling': self.GlobalAvgBooling,
                         'dropOut_pose': self.dropOut_pose,
                         'dense_pose': self.dense_pose,

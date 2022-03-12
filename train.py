@@ -12,31 +12,43 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 set_GPU()
+base_model_name = 'Synergy'
 dataset = '300W_AFLW'
 param_loss = 'MSE'
+backbone = 'mobileNetV2'
+model_name = backbone+'_'+param_loss
+
 initial_lr = 0.08
+momentum = 0.9
 min_lr = 1e-4
+patience_lr = 5
 lr_reduce_factor = 0.5
 batch_size = 64
 patience = 20
-optimizer = 'Adam'
+optimizer = 'Nestrov'
+epochs = 200
 
 IMG_H = 160
 input_shape = (IMG_H, IMG_H, 3)
 load_model = False
+model_path = os.path.join('checkpoints', base_model_name)
+
 if not path.exists(f'checkpoints/'):
   os.makedirs(f'checkpoints/')
-model_path = 'checkpoints/' +'Synergy'
+  os.makedirs(model_path)
+
 morphable = 'DDFA' if dataset=='DDFA' else 'PCA'
 
 training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
       input_shape=input_shape, batch_size=batch_size, shuffle=True)
 training_data_generator.augmentation = True
 
-model = Synergy(input_shape=input_shape, morphable=morphable)
+model = Synergy(input_shape=input_shape, backbone=backbone)
 
 if optimizer == 'Nestrov':
-  optimizer = SGD(learning_rate=initial_lr, momentum=0.9, nesterov=True)
+  optimizer = SGD(learning_rate=initial_lr, momentum=momentum, nesterov=True)
+elif optimizer == 'Momentum':
+  optimizer = SGD(learning_rate=initial_lr, momentum=momentum, nesterov=False)
 elif optimizer == 'Adam':
   optimizer = Adam(learning_rate=initial_lr)
 elif optimizer == 'Nadam':
@@ -45,8 +57,8 @@ elif optimizer == 'Nadam':
 print(f"\nThe algorithm used for optimization is {optimizer._name}")
 
 losses = {
-  'Pm': ParameterLoss(name='loss_Param_In', mode='normal'),
-  'Pm*': ParameterLoss(name='loss_Param_S2', mode='3dmm'),
+  'Pm': ParameterLoss(name='loss_Param_In', mode='normal', loss=param_loss),
+  'Pm*': ParameterLoss(name='loss_Param_S2', mode='3dmm', loss=param_loss),
   'Lc': WingLoss(name='loss_LMK_f0'),
   'Lr': WingLoss(name='loss_LMK_pointNet')
   }
@@ -68,7 +80,7 @@ if load_model:
 print(model.summary())
 
 model_checkpoint_tf = ModelCheckpoint(
-  filepath=model_path,
+  filepath=os.path.join(model_path, model_name),
   save_weights_only=True,
   monitor='val_loss',
   mode='min',
@@ -76,25 +88,17 @@ model_checkpoint_tf = ModelCheckpoint(
   verbose=1)
 
 Pm_checkpoint_tf = ModelCheckpoint(
-  filepath=model_path+'_Pm',
+  filepath=os.path.join(model_path, model_name)+'_Pm',
   save_weights_only=True,
   monitor='val_Pm_loss',
   mode='min',
   save_best_only=True,
   verbose=1)
 
-model_checkpoint_h5 = ModelCheckpoint(
-  filepath=model_path+'.h5',
-  save_weights_only=True,
-  monitor='val_loss',
-  mode='min',
-  save_best_only=True,
-  verbose=0)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=lr_reduce_factor,\
+   patience=patience_lr, min_lr=min_lr, verbose=1)
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=lr_reduce_factor, patience=5,\
-   min_lr=min_lr, verbose=1)
-
-csv_logger = CSVLogger(model_path+'.csv', append=False)
+csv_logger = CSVLogger(os.path.join(model_path, model_name)+'.csv', append=False)
 
 early_stop = EarlyStopping(monitor='val_loss', patience=patience)
 
@@ -103,8 +107,8 @@ print(f"The validation dataset has {len(validation_data_generator.list_IDs)} val
 model_fit = model.fit(
   x=training_data_generator,
   validation_data=validation_data_generator,
-  epochs=100, 
+  epochs=epochs, 
   verbose=1,
-  callbacks=[model_checkpoint_tf, Pm_checkpoint_tf, model_checkpoint_h5, reduce_lr, csv_logger, early_stop])
+  callbacks=[model_checkpoint_tf, Pm_checkpoint_tf, reduce_lr, csv_logger, early_stop])
 print("Finished Training.")
-plot_history('Synergy')
+plot_history(model_path, model_name)

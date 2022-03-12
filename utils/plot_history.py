@@ -3,7 +3,7 @@ from os import path
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_history(model_name):
+def plot_history(model_path, model_name):
     def plot_feature_loss(feature):
         fig = plt.figure()
         save_dir = os.path.join(model_plots_dir, feature)
@@ -22,7 +22,7 @@ def plot_history(model_name):
         plt.savefig(save_dir)
         plt.close()
         
-    csv_path = os.path.join('checkpoints', model_name.strip('.')+'.csv')
+    csv_path = os.path.join(model_path, model_name.strip('.')+'.csv')
     data = pd.read_csv(csv_path)
     history_dir = 'history'
     model_plots_dir = os.path.join(history_dir, model_name)

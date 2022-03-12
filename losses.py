@@ -1,19 +1,24 @@
 import tensorflow as tf
 from tensorflow import reduce_sum, abs, sqrt, divide
-from tensorflow.keras.losses import Loss, MeanSquaredError, Reduction
+from tensorflow.keras.losses import Loss, MeanSquaredError, Reduction, Huber
 
 class ParameterLoss(Loss):
-    def __init__(self, reduction=Reduction.NONE, name='Parameter_Loss', mode='3dmm'):
+    def __init__(self, reduction=Reduction.NONE, name='Parameter_Loss', mode='3dmm', loss='MSE'):
         super(ParameterLoss, self).__init__(name=name)
         self.mse = MeanSquaredError(reduction=reduction)
+        self.huber = Huber(reduction=reduction)
         self.mode = mode
+        if loss == 'MSE':
+            self.loss = self.mse
+        elif loss == 'Huber':
+            self.loss = self.huber
     
     def call(self, y_true, y_pred):
         if self.mode == 'normal':
-            loss = self.mse(y_true=y_true[:, :12], y_pred=y_pred[:, :12])\
-                 + self.mse(y_true=y_true[:, 12:], y_pred=y_pred[:, 12:])
+            loss = self.loss(y_true=y_true[:, :12], y_pred=y_pred[:, :12])\
+                + self.loss(y_true=y_true[:, 12:], y_pred=y_pred[:, 12:])
         elif self.mode == '3dmm':
-            loss = self.mse(y_true=y_true[:, 12:], y_pred=y_pred[:, 12:])
+            loss = self.loss(y_true=y_true[:, 12:], y_pred=y_pred[:, 12:])
         return sqrt(loss)
         
     def get_config(self):

@@ -14,7 +14,7 @@ from os import path
 set_GPU()
 IMG_H = 160
 input_shape = (IMG_H, IMG_H, 3)
-model_path = "checkpoints/Synergy"
+model_path = "checkpoints/Synergy/mobileNetV2_MSE"
 test = '300W_AFLW'
 dataset = "AFLW"
 morphable = 'DDFA' if test=='DDFA' else 'PCA'
