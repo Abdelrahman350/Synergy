@@ -39,7 +39,7 @@ if not path.exists(f'checkpoints/'):
 
 morphable = 'DDFA' if dataset=='DDFA' else 'PCA'
 
-training_data_generator, validation_data_generator = loading_generators(dataset=dataset,\
+training_data_generator, validation_data_generator, _ = loading_generators(dataset=dataset,\
       input_shape=input_shape, batch_size=batch_size, shuffle=True)
 training_data_generator.augmentation = True
 
