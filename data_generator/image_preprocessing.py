@@ -149,7 +149,7 @@ def crop(image, lmks):
     side_len = roi_box[3] - roi_box[1]
     scale = uniform(low=1.1, high=1.4)
     margin = side_len * scale // 2
-    offset = rand() * normal(0, 0.15)
+    offset = rand() * normal(0, 0.2)
     roi_box[0] = WCenter * (1+offset) - margin
     roi_box[1] = HCenter * (1+offset) - margin
     roi_box[2] = WCenter * (1+offset) + margin
