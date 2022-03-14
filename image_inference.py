@@ -19,7 +19,7 @@ set_GPU()
 def main(args):
     IMG_H = 128
     input_shape = (IMG_H, IMG_H, 3)
-    model_path = "checkpoints/Synergy"
+    model_path = "checkpoints/Synergy/mobileNetV2_MSE"
     plot_bboxes = False
 
     model = Synergy(input_shape=input_shape, morphable='PCA')
